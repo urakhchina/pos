@@ -109,15 +109,17 @@ const CategoryAnalytics = ({
     return map;
   }, [posData]);
 
-  // Aggregate currentData by category
+  // Aggregate by category — include ALL products so categories like Discontinued always appear
   const categoryData = useMemo(() => {
-    if (!currentData || Object.keys(productMap).length === 0) return {};
+    if (Object.keys(productMap).length === 0) return {};
 
     const cats = {};
-    Object.entries(currentData).forEach(([upc, data]) => {
-      const product = productMap[upc];
-      const category = product?.category || 'Unknown';
-      const subcategory = product?.subcategory || product?.sub_category || 'Other';
+
+    // First, register every product from posData.products
+    Object.values(productMap).forEach(product => {
+      const category = product.category || 'Unknown';
+      const subcategory = product.subcategory || product.sub_category || 'Other';
+      const upc = product.upc;
 
       if (!cats[category]) {
         cats[category] = {
@@ -130,14 +132,18 @@ const CategoryAnalytics = ({
         };
       }
 
-      cats[category].dollars += data.dollars || 0;
-      cats[category].units += data.units || 0;
+      const data = currentData?.[upc];
+      const dollars = data?.dollars || 0;
+      const units = data?.units || 0;
+
+      cats[category].dollars += dollars;
+      cats[category].units += units;
       cats[category].productCount += 1;
       cats[category].products.push({
         upc,
-        name: product?.product_name || upc,
-        dollars: data.dollars || 0,
-        units: data.units || 0,
+        name: product.product_name || upc,
+        dollars,
+        units,
         subcategory
       });
 
@@ -149,8 +155,8 @@ const CategoryAnalytics = ({
           productCount: 0
         };
       }
-      cats[category].subcategories[subcategory].dollars += data.dollars || 0;
-      cats[category].subcategories[subcategory].units += data.units || 0;
+      cats[category].subcategories[subcategory].dollars += dollars;
+      cats[category].subcategories[subcategory].units += units;
       cats[category].subcategories[subcategory].productCount += 1;
     });
 
