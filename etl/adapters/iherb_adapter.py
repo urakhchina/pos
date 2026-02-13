@@ -14,6 +14,7 @@ Notes:
     - Inventory (Quantity Available, Status Name) is extracted to inventory.json.
 """
 
+import json
 import os
 import re
 from datetime import datetime
@@ -26,6 +27,23 @@ from etl.base_adapter import BaseAdapter
 class IHerbAdapter(BaseAdapter):
     retailer_key = "iherb"
     display_name = "iHerb"
+
+    def _load_category_mapping(self):
+        """Load the IN brand category mapping from etl/category_mapping.json.
+
+        The mapping is built from the Irwin Naturals Promotional Calendar
+        and maps UPCs and iHerb SKUs (Part Numbers) to official IN categories.
+        """
+        mapping_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "category_mapping.json"
+        )
+        if os.path.exists(mapping_path):
+            with open(mapping_path, "r") as f:
+                data = json.load(f)
+            print(f"  [iHerb] Loaded category mapping: {len(data.get('by_upc', {}))} UPCs, {len(data.get('by_sku', {}))} SKUs")
+            return data
+        print("  [iHerb] WARNING: category_mapping.json not found, categories will be empty")
+        return {"by_upc": {}, "by_sku": {}}
 
     # ── extract ─────────────────────────────────────────────────────────
     def extract(self):
@@ -57,6 +75,10 @@ class IHerbAdapter(BaseAdapter):
 
     # ── transform ───────────────────────────────────────────────────────
     def transform(self):
+        cat_map = self._load_category_mapping()
+        upc_cats = cat_map.get("by_upc", {})
+        sku_cats = cat_map.get("by_sku", {})
+
         products_map = {}      # upc -> product dict
         units_timeline = {}    # (upc, YYYY-MM) -> units
         ltoos_records = []     # for ltoos_history.json
@@ -101,11 +123,14 @@ class IHerbAdapter(BaseAdapter):
                     continue
 
                 if upc not in products_map:
+                    # Look up category: try UPC first, then iHerb Part Number (SKU)
+                    part_num = str(row.get("Part Number", "")).strip()
+                    category = upc_cats.get(upc) or sku_cats.get(part_num, "")
                     products_map[upc] = {
                         "upc": upc,
                         "product_name": str(row.get("Product Description", "")).strip(),
                         "brand": str(row.get("Brand Name", "")).strip(),
-                        "category": "",
+                        "category": category,
                         "subcategory": "",
                     }
 

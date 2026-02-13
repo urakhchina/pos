@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-12T17:19:00",
+  "generated_at": "2026-02-12T17:36:50",
   "retailers": {
     "ngvc": {
       "display_name": "NGVC",
@@ -39,6 +39,7 @@
         "product_performance",
         "top_bottom_movers",
         "yoy_performance",
+        "category_analytics",
         "inventory_health",
         "ltoos_risk"
       ],
