@@ -256,6 +256,25 @@ const CategoryAnalytics = ({
     })).filter(d => d.value > 0);
   }, [categories]);
 
+  // Velocity bar chart data (avg value per SKU, sorted descending)
+  const velocityBarData = useMemo(() => {
+    return categories
+      .filter(c => c.primaryVal > 0 && c.productCount > 0)
+      .map((c, idx) => ({
+        name: c.name.length > 18 ? c.name.substring(0, 18) + '...' : c.name,
+        fullName: c.name,
+        velocity: parseFloat((c.primaryVal / c.productCount).toFixed(2)),
+        color: CHART_COLORS[idx % CHART_COLORS.length],
+        productCount: c.productCount,
+        primaryVal: c.primaryVal,
+        pyVal: c.pyVal,
+        yepVal: c.yepVal,
+        yoyChange: c.yoyChange,
+        pacePct: c.pacePct,
+      }))
+      .sort((a, b) => b.velocity - a.velocity);
+  }, [categories]);
+
   // YoY bar chart data
   const yoyBarData = useMemo(() => {
     return categories
@@ -809,6 +828,86 @@ const CategoryAnalytics = ({
           );
         })}
       </div>
+
+      {/* Velocity by Category — horizontal bar chart */}
+      {velocityBarData.length > 0 && (
+        <div style={{
+          backgroundColor: '#fff',
+          borderRadius: '12px',
+          border: '1px solid #e0e0e0',
+          padding: '24px'
+        }}>
+          <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
+            Avg {metricLabel} per SKU by Category
+          </h3>
+          <ResponsiveContainer width="100%" height={Math.max(280, velocityBarData.length * 40)}>
+            <BarChart data={velocityBarData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#eee" horizontal={false} />
+              <XAxis
+                type="number"
+                tick={{ fontSize: 12, fill: '#666' }}
+                axisLine={{ stroke: '#ccc' }}
+                tickFormatter={(val) => formatValue(val, useDollars)}
+              />
+              <YAxis
+                type="category"
+                dataKey="name"
+                tick={{ fontSize: 12, fill: '#444' }}
+                axisLine={{ stroke: '#ccc' }}
+                width={160}
+              />
+              <Tooltip content={({ active, payload }) => {
+                if (!active || !payload || payload.length === 0) return null;
+                const d = payload[0]?.payload;
+                if (!d) return null;
+                return (
+                  <div style={{
+                    backgroundColor: '#fff',
+                    border: `1px solid ${theme.colors.secondary}`,
+                    borderRadius: '8px',
+                    padding: '12px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    minWidth: '200px',
+                  }}>
+                    <p style={{ margin: '0 0 8px', fontWeight: 600, color: theme.colors.secondary, fontSize: '13px' }}>
+                      {d.fullName}
+                    </p>
+                    <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>
+                      Avg / SKU: <strong>{formatValue(d.velocity, useDollars)}</strong> ({d.productCount} SKUs)
+                    </p>
+                    <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>
+                      {curColLabel}: {formatValue(d.primaryVal, useDollars)}
+                    </p>
+                    {d.pyVal > 0 && (
+                      <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>
+                        {pyLabel}: {formatValue(d.pyVal, useDollars)}
+                      </p>
+                    )}
+                    <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>
+                      {yepLabel}: {formatValue(d.yepVal, useDollars)}
+                    </p>
+                    {hasComparison && (
+                      <p style={{ margin: '3px 0', fontSize: '12px', fontWeight: 600, color: pctColor(d.yoyChange) }}>
+                        YoY: {fmtPct(d.yoyChange)}
+                      </p>
+                    )}
+                    {d.pacePct != null && (
+                      <p style={{ margin: '3px 0', fontSize: '12px', fontWeight: 600, color: pctColor(d.pacePct) }}>
+                        Pace: {fmtPct(d.pacePct)}
+                      </p>
+                    )}
+                  </div>
+                );
+              }} />
+              <Bar dataKey="velocity" name="Avg / SKU" radius={[0, 4, 4, 0]}>
+                {velocityBarData.map((entry, idx) => (
+                  <Cell key={idx} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       {/* Charts Row: Pie + YoY Bar */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
