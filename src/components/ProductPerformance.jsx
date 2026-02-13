@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useCallback } from 'react';
+import { LineChart, Line, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import { Search, Filter, ChevronUp, ChevronDown } from 'lucide-react';
 import { theme } from '../styles/theme';
-import { formatValue, sumPeriod, periodToMonthName } from '../utils/timePeriodUtils';
+import { formatValue, sumPeriod, periodToMonthName, getSortedPeriods } from '../utils/timePeriodUtils';
 
 const thStyle = {
   padding: '10px 16px', textAlign: 'left', fontWeight: 600, color: '#555',
@@ -20,6 +21,41 @@ function fmtPct(val) {
   return `${val >= 0 ? '+' : ''}${val.toFixed(1)}%`;
 }
 
+function heatmapBg(momPct) {
+  if (momPct == null) return '#f5f5f5';
+  if (momPct >= 20) return '#c8e6c9';
+  if (momPct >= 5) return '#e8f5e9';
+  if (momPct > -5) return '#f5f5f5';
+  if (momPct > -20) return '#ffebee';
+  return '#ffcdd2';
+}
+
+const ProductSparkline = React.memo(({ data, trend, useDollars }) => {
+  if (!data || data.length < 2) return <span style={{ color: '#ccc', fontSize: '11px' }}>—</span>;
+  const color = trend === 'up' ? '#2e7d32' : trend === 'down' ? '#c62828' : '#999';
+  return (
+    <div style={{ width: 100, height: 28 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke={color}
+            strokeWidth={1.5}
+            dot={false}
+            isAnimationActive={false}
+          />
+          <RechartsTooltip
+            contentStyle={{ fontSize: '11px', padding: '4px 8px', borderRadius: '4px' }}
+            formatter={(v) => [formatValue(v, useDollars), null]}
+            labelFormatter={(label, payload) => payload?.[0]?.payload?.month || label}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
 const ProductPerformance = ({
   posData, currentData, comparisonData, trendData, periodLabel, timePeriod,
   primaryMetric, fullPrevYearData, comparableMonths,
@@ -32,6 +68,8 @@ const ProductPerformance = ({
   const [sortField, setSortField] = useState('primaryVal');
   const [sortDirection, setSortDirection] = useState('desc');
   const [showFilters, setShowFilters] = useState(false);
+  const [heatmapSortField, setHeatmapSortField] = useState('latestVal');
+  const [heatmapSortDir, setHeatmapSortDir] = useState('desc');
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
@@ -81,6 +119,106 @@ const ProductPerformance = ({
     }
     return map;
   }, [posData]);
+
+  /* ── Sparkline + Heatmap data ─────────────────────────────────────── */
+  const sortedMonthKeys = useMemo(() => {
+    if (!posData?.periods) return [];
+    const all = getSortedPeriods(posData.periods);
+    return all.slice(-12);
+  }, [posData]);
+
+  const sparklineDataMap = useMemo(() => {
+    if (!posData?.periods || sortedMonthKeys.length < 2) return {};
+    const map = {};
+    const allUPCs = new Set();
+    sortedMonthKeys.forEach(k => {
+      if (posData.periods[k]) Object.keys(posData.periods[k]).forEach(u => allUPCs.add(u));
+    });
+    allUPCs.forEach(upc => {
+      const data = sortedMonthKeys.map(k => ({
+        month: periodToMonthName(k) + ' \'' + k.slice(2, 4),
+        value: posData.periods[k]?.[upc]?.[metricKey] || 0,
+      }));
+      const half = Math.floor(data.length / 2);
+      const firstHalf = data.slice(0, half);
+      const secondHalf = data.slice(half);
+      const avgFirst = firstHalf.reduce((s, d) => s + d.value, 0) / (firstHalf.length || 1);
+      const avgSecond = secondHalf.reduce((s, d) => s + d.value, 0) / (secondHalf.length || 1);
+      const diff = avgSecond - avgFirst;
+      const trend = Math.abs(diff) < avgFirst * 0.02 ? 'flat' : diff > 0 ? 'up' : 'down';
+      map[upc] = { data, trend };
+    });
+    return map;
+  }, [posData, sortedMonthKeys, metricKey]);
+
+  const heatmapData = useMemo(() => {
+    if (activeSubTab !== 'heatmap' || !posData?.periods || sortedMonthKeys.length === 0) return [];
+    const allUPCs = new Set();
+    sortedMonthKeys.forEach(k => {
+      if (posData.periods[k]) Object.keys(posData.periods[k]).forEach(u => allUPCs.add(u));
+    });
+    const rows = [];
+    allUPCs.forEach(upc => {
+      const product = productMap[upc];
+      const name = product?.product_name || upc;
+      const category = product?.category || 'Unknown';
+      const brand = product?.brand || 'Unknown';
+      const monthValues = {};
+      const momChanges = {};
+      let prevVal = null;
+      let total = 0;
+      let count = 0;
+      sortedMonthKeys.forEach(k => {
+        const val = posData.periods[k]?.[upc]?.[metricKey] || 0;
+        monthValues[k] = val;
+        if (prevVal != null && prevVal > 0) {
+          momChanges[k] = ((val - prevVal) / prevVal) * 100;
+        } else {
+          momChanges[k] = null;
+        }
+        prevVal = val;
+        total += val;
+        count++;
+      });
+      const latestVal = monthValues[sortedMonthKeys[sortedMonthKeys.length - 1]] || 0;
+      const avgVal = count > 0 ? total / count : 0;
+      if (total === 0) return;
+      rows.push({ upc, name, category, brand, monthValues, momChanges, latestVal, avgVal });
+    });
+    return rows;
+  }, [activeSubTab, posData, sortedMonthKeys, productMap, metricKey]);
+
+  const filteredHeatmapData = useMemo(() => {
+    if (activeSubTab !== 'heatmap') return [];
+    let result = [...heatmapData];
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(term) || p.upc.toLowerCase().includes(term) ||
+        p.category.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term)
+      );
+    }
+    if (categoryFilter !== 'all') result = result.filter(p => p.category === categoryFilter);
+    if (brandFilter !== 'all') result = result.filter(p => p.brand === brandFilter);
+    result.sort((a, b) => {
+      let aVal, bVal;
+      if (heatmapSortField === 'name') {
+        aVal = a.name.toLowerCase();
+        bVal = b.name.toLowerCase();
+        return heatmapSortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+      if (heatmapSortField === 'avgVal' || heatmapSortField === 'latestVal') {
+        aVal = a[heatmapSortField] || 0;
+        bVal = b[heatmapSortField] || 0;
+      } else {
+        // month key sort
+        aVal = a.monthValues[heatmapSortField] || 0;
+        bVal = b.monthValues[heatmapSortField] || 0;
+      }
+      return heatmapSortDir === 'asc' ? aVal - bVal : bVal - aVal;
+    });
+    return result;
+  }, [activeSubTab, heatmapData, searchTerm, categoryFilter, brandFilter, heatmapSortField, heatmapSortDir]);
 
   const products = useMemo(() => {
     if (!currentData) return [];
@@ -202,13 +340,22 @@ const ProductPerformance = ({
     </th>
   );
 
-  // Count visible columns for colspan
-  const colCount = 3 + 1 + (useDollars ? 1 : 1)
+  // Count visible columns for colspan (+1 for sparkline Trend column)
+  const colCount = 4 + 1 + (useDollars ? 1 : 1)
     + (hasComparison ? 1 : 0)
     + (hasPY ? 1 : 0) + 1
     + (hasSeq && seqPctLabel ? 1 : 0)
     + (hasComparison ? 1 : 0)
     + (hasPY ? 1 : 0);
+
+  const handleHeatmapSort = useCallback((field) => {
+    if (heatmapSortField === field) {
+      setHeatmapSortDir(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setHeatmapSortField(field);
+      setHeatmapSortDir('desc');
+    }
+  }, [heatmapSortField]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -269,6 +416,7 @@ const ProductPerformance = ({
           { key: 'top', label: 'Top Sellers' },
           { key: 'growth', label: 'Growth' },
           { key: 'decline', label: 'Decline' },
+          { key: 'heatmap', label: 'Monthly Heatmap' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setActiveSubTab(tab.key)} style={{
             flex: 1, padding: '10px 16px', border: 'none', borderRadius: '6px',
@@ -282,87 +430,192 @@ const ProductPerformance = ({
         ))}
       </div>
 
-      {/* Product Table */}
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#f8f9fa' }}>
-                <SortHeader field="name" label="Product" />
-                <SortHeader field="category" label="Category" />
-                <SortHeader field="brand" label="Brand" />
-                {hasComparison && <SortHeader field="compPrimaryVal" label={yagoColLabel} align="right" />}
-                <SortHeader field="primaryVal" label={curColLabel} align="right" />
-                {useDollars && <SortHeader field="units" label="Units" align="right" />}
-                {hasPY && <SortHeader field="pyVal" label={pyColLabel} align="right" />}
-                <SortHeader field="yepVal" label={yepColLabel} align="right" />
-                {hasSeq && seqPctLabel && <SortHeader field="seqPct" label={seqPctLabel} align="right" />}
-                {hasComparison && <SortHeader field="yoyChange" label="YoY%" align="right" />}
-                {hasPY && <SortHeader field="pacePct" label="Pace%" align="right" />}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map((p, idx) => (
-                <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee', transition: 'background-color 0.15s' }}>
-                  <td style={{ ...tdStyle, maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
-                    {p.name}
-                  </td>
-                  <td style={tdStyle}>
-                    <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', backgroundColor: '#f0f0f0', fontSize: '12px' }}>
-                      {p.category}
+      {/* Product Table or Heatmap */}
+      {activeSubTab !== 'heatmap' ? (
+        <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#f8f9fa' }}>
+                  <SortHeader field="name" label="Product" />
+                  <SortHeader field="category" label="Category" />
+                  <SortHeader field="brand" label="Brand" />
+                  <th style={{ ...thStyle, cursor: 'default' }}>Trend</th>
+                  {hasComparison && <SortHeader field="compPrimaryVal" label={yagoColLabel} align="right" />}
+                  <SortHeader field="primaryVal" label={curColLabel} align="right" />
+                  {useDollars && <SortHeader field="units" label="Units" align="right" />}
+                  {hasPY && <SortHeader field="pyVal" label={pyColLabel} align="right" />}
+                  <SortHeader field="yepVal" label={yepColLabel} align="right" />
+                  {hasSeq && seqPctLabel && <SortHeader field="seqPct" label={seqPctLabel} align="right" />}
+                  {hasComparison && <SortHeader field="yoyChange" label="YoY%" align="right" />}
+                  {hasPY && <SortHeader field="pacePct" label="Pace%" align="right" />}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.map((p, idx) => (
+                  <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee', transition: 'background-color 0.15s' }}>
+                    <td style={{ ...tdStyle, maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
+                      {p.name}
+                    </td>
+                    <td style={tdStyle}>
+                      <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', backgroundColor: '#f0f0f0', fontSize: '12px' }}>
+                        {p.category}
+                      </span>
+                    </td>
+                    <td style={tdStyle}>{p.brand}</td>
+                    <td style={{ ...tdStyle, padding: '4px 8px' }}>
+                      <ProductSparkline
+                        data={sparklineDataMap[p.upc]?.data}
+                        trend={sparklineDataMap[p.upc]?.trend}
+                        useDollars={useDollars}
+                      />
+                    </td>
+                    {hasComparison && (
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compPrimaryVal, useDollars)}</td>
+                    )}
+                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.primaryVal, useDollars)}</td>
+                    {useDollars && (
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.units, false)}</td>
+                    )}
+                    {hasPY && (
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                        {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
+                      </td>
+                    )}
+                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
+                    {hasSeq && seqPctLabel && (
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
+                        {fmtPct(p.seqPct)}
+                      </td>
+                    )}
+                    {hasComparison && (
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: p.yoyChange >= 0 ? theme.colors.success : theme.colors.danger }}>
+                        {fmtPct(p.yoyChange)}
+                      </td>
+                    )}
+                    {hasPY && (
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
+                        {fmtPct(p.pacePct)}
+                      </td>
+                    )}
+                  </tr>
+                ))}
+                {filteredProducts.length === 0 && (
+                  <tr>
+                    <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
+                      {searchTerm || categoryFilter !== 'all' || brandFilter !== 'all'
+                        ? 'No products match the current filters.'
+                        : 'No product data available.'}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div style={{
+            padding: '12px 20px', borderTop: '1px solid #e0e0e0', backgroundColor: '#f8f9fa',
+            fontSize: '13px', color: '#666', display: 'flex', justifyContent: 'space-between',
+          }}>
+            <span>Showing {filteredProducts.length} of {products.length} products</span>
+            <span>{periodLabel}</span>
+          </div>
+        </div>
+      ) : (
+        /* ── Monthly Heatmap ──────────────────────────────────────────── */
+        <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#f8f9fa' }}>
+                  <th
+                    style={{ ...thStyle, position: 'sticky', left: 0, backgroundColor: '#f8f9fa', zIndex: 2, minWidth: '200px' }}
+                    onClick={() => handleHeatmapSort('name')}
+                  >
+                    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                      Product {heatmapSortField === 'name' ? (heatmapSortDir === 'asc' ? '▲' : '▼') : ''}
                     </span>
-                  </td>
-                  <td style={tdStyle}>{p.brand}</td>
-                  {hasComparison && (
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compPrimaryVal, useDollars)}</td>
-                  )}
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.primaryVal, useDollars)}</td>
-                  {useDollars && (
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.units, false)}</td>
-                  )}
-                  {hasPY && (
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>
-                      {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
-                    </td>
-                  )}
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
-                  {hasSeq && seqPctLabel && (
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
-                      {fmtPct(p.seqPct)}
-                    </td>
-                  )}
-                  {hasComparison && (
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: p.yoyChange >= 0 ? theme.colors.success : theme.colors.danger }}>
-                      {fmtPct(p.yoyChange)}
-                    </td>
-                  )}
-                  {hasPY && (
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
-                      {fmtPct(p.pacePct)}
-                    </td>
-                  )}
+                  </th>
+                  {sortedMonthKeys.map(k => (
+                    <th
+                      key={k}
+                      style={{ ...thStyle, textAlign: 'right', minWidth: '72px' }}
+                      onClick={() => handleHeatmapSort(k)}
+                    >
+                      <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        {periodToMonthName(k)} '{k.slice(2, 4)}
+                        {heatmapSortField === k ? (heatmapSortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+                      </span>
+                    </th>
+                  ))}
+                  <th
+                    style={{ ...thStyle, textAlign: 'right', minWidth: '72px' }}
+                    onClick={() => handleHeatmapSort('avgVal')}
+                  >
+                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                      Avg {heatmapSortField === 'avgVal' ? (heatmapSortDir === 'asc' ? '▲' : '▼') : ''}
+                    </span>
+                  </th>
                 </tr>
-              ))}
-              {filteredProducts.length === 0 && (
-                <tr>
-                  <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
-                    {searchTerm || categoryFilter !== 'all' || brandFilter !== 'all'
-                      ? 'No products match the current filters.'
-                      : 'No product data available.'}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredHeatmapData.map((row, idx) => (
+                  <tr key={row.upc} style={{ borderBottom: '1px solid #eee' }}>
+                    <td style={{
+                      ...tdStyle, position: 'sticky', left: 0, zIndex: 1,
+                      backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa',
+                      fontWeight: 500, maxWidth: '200px', overflow: 'hidden',
+                      textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>
+                      {row.name}
+                    </td>
+                    {sortedMonthKeys.map(k => (
+                      <td
+                        key={k}
+                        title={row.momChanges[k] != null ? `MoM: ${fmtPct(row.momChanges[k])}` : 'No prior month'}
+                        style={{
+                          ...tdStyle, textAlign: 'right', fontSize: '12px',
+                          backgroundColor: heatmapBg(row.momChanges[k]),
+                        }}
+                      >
+                        {formatValue(row.monthValues[k], useDollars)}
+                      </td>
+                    ))}
+                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, fontSize: '12px' }}>
+                      {formatValue(row.avgVal, useDollars)}
+                    </td>
+                  </tr>
+                ))}
+                {filteredHeatmapData.length === 0 && (
+                  <tr>
+                    <td colSpan={sortedMonthKeys.length + 2} style={{ ...tdStyle, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
+                      {searchTerm || categoryFilter !== 'all' || brandFilter !== 'all'
+                        ? 'No products match the current filters.'
+                        : 'No product data available.'}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div style={{
+            padding: '12px 20px', borderTop: '1px solid #e0e0e0', backgroundColor: '#f8f9fa',
+            fontSize: '13px', color: '#666', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          }}>
+            <span>{filteredHeatmapData.length} product{filteredHeatmapData.length !== 1 ? 's' : ''}</span>
+            <span style={{ display: 'flex', gap: '12px', alignItems: 'center', fontSize: '11px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ width: 12, height: 12, borderRadius: 2, backgroundColor: '#c8e6c9', display: 'inline-block' }} /> Growth
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ width: 12, height: 12, borderRadius: 2, backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', display: 'inline-block' }} /> Flat
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ width: 12, height: 12, borderRadius: 2, backgroundColor: '#ffcdd2', display: 'inline-block' }} /> Decline
+              </span>
+            </span>
+          </div>
         </div>
-        <div style={{
-          padding: '12px 20px', borderTop: '1px solid #e0e0e0', backgroundColor: '#f8f9fa',
-          fontSize: '13px', color: '#666', display: 'flex', justifyContent: 'space-between',
-        }}>
-          <span>Showing {filteredProducts.length} of {products.length} products</span>
-          <span>{periodLabel}</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
