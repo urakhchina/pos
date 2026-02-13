@@ -1,0 +1,4252 @@
+{
+  "retailer": "TVS",
+  "last_updated": "2026-02-12",
+  "time_grain": "monthly",
+  "products": [
+    {
+      "upc": "0710363594572",
+      "product_name": "2 IN 1 KIDNEY & LIVER SUPER CL",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363578299",
+      "product_name": "PROSTA-STRONG VALUE SIZE",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Prostate Support"
+    },
+    {
+      "upc": "0710363592059",
+      "product_name": "MACA ROOT AND ASHWAGANDHA",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Herbs"
+    },
+    {
+      "upc": "0710363581367",
+      "product_name": "STEEL LIBIDO RED VALUE SIZE",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Libido"
+    },
+    {
+      "upc": "0710363594404",
+      "product_name": "TESTOSTERONE MEGA-BOOST RED",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Testosterone Supplements"
+    },
+    {
+      "upc": "0710363578602",
+      "product_name": "STEEL LIBIDO RED",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Libido"
+    },
+    {
+      "upc": "0710363578268",
+      "product_name": "GINKGO SMART VP",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Solutions",
+      "subcategory": "Brain And Memory Support"
+    },
+    {
+      "upc": "0710363575472",
+      "product_name": "LIVING GREEN MENS MULTI",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0732391501339",
+      "product_name": "SUPER CLEANSE",
+      "brand": "Natures Secret",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363585495",
+      "product_name": "Milk Thistle Liver Detox",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363594619",
+      "product_name": "LIVER DETOX & BLOOD REFRESH",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363579791",
+      "product_name": "MEGA B COMPLEX",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Vitamins"
+    },
+    {
+      "upc": "0710363262426",
+      "product_name": "3-IN-1 JOINT FORMULA",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Joint Support"
+    },
+    {
+      "upc": "0732391500820",
+      "product_name": "ULTIMATE CLEANSE",
+      "brand": "Natures Secret",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363263225",
+      "product_name": "STEEL LIBIDO FOR WOMEN",
+      "brand": "Irwin Naturals",
+      "category": "Beauty & Women's Health",
+      "subcategory": "Women's Health"
+    },
+    {
+      "upc": "0710363597115",
+      "product_name": "2-IN-1 CLEANSE & FLUSH",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0710363592011",
+      "product_name": "VITAMIN D-3 & K-2 COMPLEX",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Vitamins"
+    },
+    {
+      "upc": "0840081410448",
+      "product_name": "Blood Sugar Balance Berberine",
+      "brand": "Irwin Naturals",
+      "category": "Weight Management & Acces",
+      "subcategory": "Stimulant Products"
+    },
+    {
+      "upc": "0710363575465",
+      "product_name": "LIVING GREEN MULTI WOMEN",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363568382",
+      "product_name": "POWER TO SLEEP PM",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Mood and Sleep Support"
+    },
+    {
+      "upc": "0710363585365",
+      "product_name": "POWER TO SLEEP PM MELATONIN",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Mood and Sleep Support"
+    },
+    {
+      "upc": "0840081404669",
+      "product_name": "Daily-Multi Testosterone UP",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363262372",
+      "product_name": "GINKGO SMART",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Solutions",
+      "subcategory": "Brain And Memory Support"
+    },
+    {
+      "upc": "0710363584214",
+      "product_name": "FORSKOLIN FAT-LOSS DIET",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Herbs"
+    },
+    {
+      "upc": "0840081405604",
+      "product_name": "Next Level Steel Libido X2",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Libido"
+    },
+    {
+      "upc": "0710363585990",
+      "product_name": "One Per Day Mega B-12",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Vitamins"
+    },
+    {
+      "upc": "0710363566890",
+      "product_name": "MEN'S LIVING GREEN MULTI",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363586355",
+      "product_name": "EXTRA STRENGTH COLON FLUSH",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0840081410400",
+      "product_name": "Rapid Acting Testosterone Up",
+      "brand": "Irwin Naturals",
+      "category": "Mens Health",
+      "subcategory": "Testosterone Supplements"
+    },
+    {
+      "upc": "0710363591328",
+      "product_name": "COQ10-RED",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Heart Health"
+    },
+    {
+      "upc": "0710363577384",
+      "product_name": "ONLY ONE MULTI WITH IRON",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363589226",
+      "product_name": "QUICK ENERGY RED MULTI",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363578275",
+      "product_name": "POWER TO SLEEP PM VP",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Mood and Sleep Support"
+    },
+    {
+      "upc": "0732391500936",
+      "product_name": "WOMEN'S 73 NUTRIENT MULTI",
+      "brand": "Natures Secret",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Multivitamins"
+    },
+    {
+      "upc": "0710363581343",
+      "product_name": "Longer Stronger Hair & Nails",
+      "brand": "Irwin Naturals",
+      "category": "Beauty & Women's Health",
+      "subcategory": "Hair, Skin And Nails"
+    },
+    {
+      "upc": "0710363262419",
+      "product_name": "IMMUNO-SHIELD",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Immune And Seasonal"
+    },
+    {
+      "upc": "0840081408490",
+      "product_name": "Weekend Colon Flush",
+      "brand": "Natures Secret",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0840081408582",
+      "product_name": "Gluten & Dairy Digestive Aid",
+      "brand": "Natures Secret",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Digestive Supplements"
+    },
+    {
+      "upc": "0840081412169",
+      "product_name": "Healthy Brain ALA & BacoMind",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Solutions",
+      "subcategory": "Brain And Memory Support"
+    },
+    {
+      "upc": "0840081408223",
+      "product_name": "Healthy Brain All Day Focus",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Solutions",
+      "subcategory": "Brain And Memory Support"
+    },
+    {
+      "upc": "0710363568320",
+      "product_name": "VISION SHARP MULTI-NUTRIENT EY",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Condition Specific"
+    },
+    {
+      "upc": "0840081404324",
+      "product_name": "TRIPLE SOURCE MAGNESIUM +ASHWA",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Minerals"
+    },
+    {
+      "upc": "0840081413128",
+      "product_name": "Magnesium Milk Thistle & Turm",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Minerals"
+    },
+    {
+      "upc": "0840081413081",
+      "product_name": "Magnesium + Beets & CoQ10",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Aging & Homeopath",
+      "subcategory": "Minerals"
+    },
+    {
+      "upc": "0840081413166",
+      "product_name": "Power to Sleep Magnesium PM",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Mood and Sleep Support"
+    },
+    {
+      "upc": "0710363591939",
+      "product_name": "Good Mood Sleep PM",
+      "brand": "Irwin Naturals",
+      "category": "Vitamins & Family Health",
+      "subcategory": "Mood and Sleep Support"
+    },
+    {
+      "upc": "0840081412268",
+      "product_name": "Female Balance KSM-66 Ashwagan",
+      "brand": "Irwin Naturals",
+      "category": "Beauty & Women's Health",
+      "subcategory": "Women's Health"
+    },
+    {
+      "upc": "0840081411599",
+      "product_name": "Hair Follicle Stimulator",
+      "brand": "Irwin Naturals",
+      "category": "Beauty & Women's Health",
+      "subcategory": "Hair, Skin And Nails"
+    },
+    {
+      "upc": "0710363583156",
+      "product_name": "MIGHTY MORINGA",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Whole Foods"
+    },
+    {
+      "upc": "0840081413265",
+      "product_name": "Milk Thistle Triple-Detox",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    },
+    {
+      "upc": "0840081413562",
+      "product_name": "Milk Thistle Liver Detox Gummy",
+      "brand": "Irwin Naturals",
+      "category": "Healthy Digestion & Whole",
+      "subcategory": "Cleansing Products"
+    }
+  ],
+  "periods": {
+    "2025-03": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 255.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 92.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 189.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 108.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 117.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578602": {
+        "dollars": 0,
+        "units": 153.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 120.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 93.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 108.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 122.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 100.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 109.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 75.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 75.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 81.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 101.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 92.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 63.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 45.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 99.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 79.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 48.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 38.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 61.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 42.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 64.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 46.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 51.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 37.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 33.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 38.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 24.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 10.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 3.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262419": {
+        "dollars": 0,
+        "units": 0.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 13.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 4.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412169": {
+        "dollars": 0,
+        "units": 2.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 0.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-04": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 262.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 113.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 170.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 108.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 134.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 126.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 89.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 112.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 135.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 102.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 126.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 67.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 71.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 62.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 89.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 106.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 88.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 49.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 93.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 71.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 64.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 45.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 75.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 58.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 71.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 43.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 54.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 41.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 38.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 36.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 26.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 7.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 102.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 27.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412169": {
+        "dollars": 0,
+        "units": 16.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 3.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 4.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 20.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 12.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262419": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 0.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-05": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 268.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 117.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 115.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 175.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 134.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 121.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 87.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 110.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 144.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 133.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 101.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 74.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 69.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 57.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 89.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 101.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 83.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 94.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 51.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 97.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 63.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 46.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 58.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 76.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 75.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 40.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 39.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 56.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 41.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 33.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 29.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 7.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 58.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 101.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412169": {
+        "dollars": 0,
+        "units": 18.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 22.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 24.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 2.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262419": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 0.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-06": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 230.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 100.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 116.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 159.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 119.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 99.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 69.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 105.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 118.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 125.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 88.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 72.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 61.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 54.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 82.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 79.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 105.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 86.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 42.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 77.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 55.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 42.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 53.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 59.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 28.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 61.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 31.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 45.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 37.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 28.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 23.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 62.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 6.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 101.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 29.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 23.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 17.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 1.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-07": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 218.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 101.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 125.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 138.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 115.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 96.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 68.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 103.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 104.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 133.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 93.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 86.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 69.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 58.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 59.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 71.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 93.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 120.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 41.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 72.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 53.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 41.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 54.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 27.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 57.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 61.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 33.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 47.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 35.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 28.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 22.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 70.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 105.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 7.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 34.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 20.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 33.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 3.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 2.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-08": {
+      "0710363594572": {
+        "dollars": 0,
+        "units": 241.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 102.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 134.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 120.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 133.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 104.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 77.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 96.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 115.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 142.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 92.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 109.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 67.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 59.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 59.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 73.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 155.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 79.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 40.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 72.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 60.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 39.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 29.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 59.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 65.38,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 58.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 40.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 51.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 38.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 28.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 87.5,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 25.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 101.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 8.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 32.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 35.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 21.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 3.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 3.62,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 0.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 0.25,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-09": {
+      "0710363578275": {
+        "dollars": 0,
+        "units": 7.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 85.47,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 34.02,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 98.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 139.14,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 129.93,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 24.56,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 115.68,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 130.18,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 90.02,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 100.33,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 55.02,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 87.19,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 115.81,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 48.26,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 23.7,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 68.28,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 60.05,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 111.51,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 11.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594572": {
+        "dollars": 0,
+        "units": 258.26,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 64.47,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 149.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 33.16,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 72.58,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 23.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 29.11,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 93.21,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 62.39,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 78.11,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 43.96,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 52.19,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 55.14,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 41.26,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 54.53,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 66.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 30.58,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 52.56,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 44.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 112.86,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412268": {
+        "dollars": 0,
+        "units": 2.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081411599": {
+        "dollars": 0,
+        "units": 0.52,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 3.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-10": {
+      "0732391500820": {
+        "dollars": 0,
+        "units": 66.93,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.54,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 112.86,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 68.4,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 52.81,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 85.96,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 47.4,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 69.51,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 147.61,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 24.68,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 131.65,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 91.37,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 30.82,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 118.26,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 6.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 44.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 137.05,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 53.18,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 68.04,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 66.56,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 24.56,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 34.14,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 4.05,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 127.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 76.51,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594572": {
+        "dollars": 0,
+        "units": 258.39,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 105.37,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 71.47,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 53.42,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 117.28,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 43.6,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 130.3,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 51.82,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 80.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 33.89,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 40.4,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 89.77,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 52.44,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 89.16,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 30.58,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 38.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 16.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081411599": {
+        "dollars": 0,
+        "units": 5.77,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412268": {
+        "dollars": 0,
+        "units": 5.42,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-11": {
+      "0710363566890": {
+        "dollars": 0,
+        "units": 39.79,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 39.42,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 39.79,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 112.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412268": {
+        "dollars": 0,
+        "units": 13.39,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 33.77,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081411599": {
+        "dollars": 0,
+        "units": 11.79,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 86.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 46.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594572": {
+        "dollars": 0,
+        "units": 248.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 73.81,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 36.84,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 32.54,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 99.6,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 66.93,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 19.16,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 30.7,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 56.37,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 78.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 33.89,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 67.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 64.23,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 51.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 76.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 81.3,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 54.16,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 34.02,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 113.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 44.7,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 25.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 87.81,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 132.51,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 79.7,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 27.02,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 127.23,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 113.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 110.4,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 121.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 20.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 88.42,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 122.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 77.98,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 5.89,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.91,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 4.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363583156": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2025-12": {
+      "0840081408223": {
+        "dollars": 0,
+        "units": 35.61,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412268": {
+        "dollars": 0,
+        "units": 13.88,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 83.63,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 49.12,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 36.72,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 101.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081411599": {
+        "dollars": 0,
+        "units": 17.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 34.51,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 44.21,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 18.18,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 35.98,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 22.96,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 67.91,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 70.74,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 66.68,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 44.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 107.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413128": {
+        "dollars": 0,
+        "units": 26.53,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 83.63,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 30.46,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 99.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 56.61,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594572": {
+        "dollars": 0,
+        "units": 208.04,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 104.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 84.61,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 47.16,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 111.14,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500820": {
+        "dollars": 0,
+        "units": 51.46,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 45.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 37.58,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 89.04,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413081": {
+        "dollars": 0,
+        "units": 30.95,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 64.6,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 88.54,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 32.3,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 24.93,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 49.98,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 116.54,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 54.04,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 92.84,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 100.82,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 109.18,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 5.65,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413265": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413562": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.79,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 3.44,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363583156": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    },
+    "2026-01": {
+      "0732391500820": {
+        "dollars": 0,
+        "units": 41.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391500936": {
+        "dollars": 0,
+        "units": 4.05,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0732391501339": {
+        "dollars": 0,
+        "units": 123.91,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262372": {
+        "dollars": 0,
+        "units": 46.05,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363262426": {
+        "dollars": 0,
+        "units": 47.53,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363263225": {
+        "dollars": 0,
+        "units": 63.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363566890": {
+        "dollars": 0,
+        "units": 35.86,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568382": {
+        "dollars": 0,
+        "units": 69.63,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363579791": {
+        "dollars": 0,
+        "units": 107.46,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363568320": {
+        "dollars": 0,
+        "units": 23.33,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578299": {
+        "dollars": 0,
+        "units": 95.42,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575472": {
+        "dollars": 0,
+        "units": 66.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363577384": {
+        "dollars": 0,
+        "units": 30.58,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578268": {
+        "dollars": 0,
+        "units": 82.89,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363578275": {
+        "dollars": 0,
+        "units": 5.4,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363575465": {
+        "dollars": 0,
+        "units": 36.23,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581367": {
+        "dollars": 0,
+        "units": 102.18,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363583156": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363584214": {
+        "dollars": 0,
+        "units": 42.49,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585365": {
+        "dollars": 0,
+        "units": 44.09,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585990": {
+        "dollars": 0,
+        "units": 53.3,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363589226": {
+        "dollars": 0,
+        "units": 21.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591328": {
+        "dollars": 0,
+        "units": 33.77,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363581343": {
+        "dollars": 0,
+        "units": 2.7,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592059": {
+        "dollars": 0,
+        "units": 101.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363592011": {
+        "dollars": 0,
+        "units": 67.3,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594572": {
+        "dollars": 0,
+        "units": 198.82,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594619": {
+        "dollars": 0,
+        "units": 62.75,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363597115": {
+        "dollars": 0,
+        "units": 60.54,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363586355": {
+        "dollars": 0,
+        "units": 43.96,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363594404": {
+        "dollars": 0,
+        "units": 95.67,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404669": {
+        "dollars": 0,
+        "units": 34.39,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363585495": {
+        "dollars": 0,
+        "units": 94.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410448": {
+        "dollars": 0,
+        "units": 43.6,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081405604": {
+        "dollars": 0,
+        "units": 87.07,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081410400": {
+        "dollars": 0,
+        "units": 31.32,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408223": {
+        "dollars": 0,
+        "units": 29.72,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408490": {
+        "dollars": 0,
+        "units": 82.28,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081408582": {
+        "dollars": 0,
+        "units": 22.47,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081404324": {
+        "dollars": 0,
+        "units": 63.61,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413166": {
+        "dollars": 0,
+        "units": 45.56,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0710363591939": {
+        "dollars": 0,
+        "units": 18.91,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081411599": {
+        "dollars": 0,
+        "units": 16.33,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081412268": {
+        "dollars": 0,
+        "units": 15.35,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413265": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      },
+      "0840081413562": {
+        "dollars": 0,
+        "units": 0.0,
+        "dollars_yago": 0,
+        "units_yago": 0,
+        "dollars_yoy_pct": 0.0,
+        "units_yoy_pct": 0.0
+      }
+    }
+  }
+}

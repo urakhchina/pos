@@ -1,0 +1,20 @@
+{
+  "retailer": "iHerb",
+  "last_updated": "2026-02-12",
+  "records": [
+    {
+      "upc": "0710363575472",
+      "product_name": "Men's Living Green Liquid-Gel Multi\u00ae, 120 Liquid Soft-Gels",
+      "ltoos": true,
+      "days_on_ltoos": 10,
+      "as_of": "2025-12"
+    },
+    {
+      "upc": "0840081408582",
+      "product_name": "Gluten & Dairy Digestive Aid\u2122, 50 Capsules",
+      "ltoos": true,
+      "days_on_ltoos": 9,
+      "as_of": "2025-12"
+    }
+  ]
+}

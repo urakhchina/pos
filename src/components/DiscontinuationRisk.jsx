@@ -1,0 +1,273 @@
+import React, { useMemo, useState } from 'react';
+import { theme } from '../styles/theme';
+import { getSortedPeriods } from '../utils/timePeriodUtils';
+import { XCircle, Shield, AlertTriangle } from 'lucide-react';
+
+const STATUS_CONFIG = {
+  CORE: { color: theme.colors.success, bg: '#e8f5e9', label: 'Core', icon: Shield },
+  'CORE SECONDARY': { color: theme.colors.chartColors[1], bg: '#e3f2fd', label: 'Core Secondary', icon: Shield },
+  'SELLABLE DISCO': { color: theme.colors.danger, bg: '#fce4ec', label: 'Sellable Disco', icon: XCircle },
+  DISCO: { color: '#880e4f', bg: '#fce4ec', label: 'Discontinued', icon: XCircle },
+  DISCONTINUED: { color: '#880e4f', bg: '#fce4ec', label: 'Discontinued', icon: XCircle },
+  'AT RISK': { color: theme.colors.warning, bg: '#fff3e0', label: 'At Risk', icon: AlertTriangle },
+};
+
+function getStatusConfig(status) {
+  if (!status) return { color: theme.colors.textLight, bg: theme.colors.backgroundAlt, label: 'Unknown', icon: AlertTriangle };
+  const upper = status.toUpperCase();
+  return STATUS_CONFIG[upper] || { color: theme.colors.textLight, bg: theme.colors.backgroundAlt, label: status, icon: AlertTriangle };
+}
+
+function formatDollar(val) {
+  if (val >= 1e6) return `$${(val / 1e6).toFixed(1)}M`;
+  if (val >= 1e3) return `$${(val / 1e3).toFixed(1)}K`;
+  return `$${val.toFixed(0)}`;
+}
+
+export default function DiscontinuationRisk({ posData }) {
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  const { products, statuses } = useMemo(() => {
+    if (!posData || !posData.products) return { products: [], statuses: [] };
+
+    const periods = posData.periods ? getSortedPeriods(posData.periods) : [];
+    const withStatus = posData.products.filter(p => p.set_status != null);
+
+    if (withStatus.length === 0) return { products: [], statuses: [] };
+
+    const prods = withStatus.map(p => {
+      let totalDollars = 0;
+      let totalUnits = 0;
+      periods.forEach(key => {
+        const m = posData.periods[key]?.[p.upc];
+        if (m) {
+          totalDollars += m.dollars || 0;
+          totalUnits += m.units || 0;
+        }
+      });
+
+      return {
+        upc: p.upc,
+        name: p.product_name || p.upc,
+        brand: p.brand || '',
+        category: p.category || '',
+        setStatus: p.set_status,
+        config: getStatusConfig(p.set_status),
+        totalDollars,
+        totalUnits,
+      };
+    });
+
+    // Sort: disco first, then at risk, then core
+    const riskOrder = { 'SELLABLE DISCO': 0, DISCO: 0, DISCONTINUED: 0, 'AT RISK': 1, 'CORE SECONDARY': 2, CORE: 3 };
+    prods.sort((a, b) => {
+      const aOrder = riskOrder[a.setStatus?.toUpperCase()] ?? 1;
+      const bOrder = riskOrder[b.setStatus?.toUpperCase()] ?? 1;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return b.totalDollars - a.totalDollars;
+    });
+
+    const stats = ['all', ...new Set(prods.map(p => p.setStatus))];
+    return { products: prods, statuses: stats };
+  }, [posData]);
+
+  const filtered = useMemo(() => {
+    if (statusFilter === 'all') return products;
+    return products.filter(p => p.setStatus === statusFilter);
+  }, [products, statusFilter]);
+
+  if (products.length === 0) {
+    return (
+      <div style={{ padding: theme.spacing.xl, textAlign: 'center', color: theme.colors.textLight }}>
+        No set_status / discontinuation data available for this retailer.
+      </div>
+    );
+  }
+
+  // Status counts
+  const statusCounts = {};
+  products.forEach(p => {
+    const s = p.setStatus || 'Unknown';
+    statusCounts[s] = (statusCounts[s] || 0) + 1;
+  });
+
+  const thStyle = {
+    textAlign: 'left',
+    padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
+    borderBottom: `2px solid ${theme.colors.border}`,
+    fontWeight: 600,
+    color: theme.colors.secondary,
+    fontSize: '0.72rem',
+    textTransform: 'uppercase',
+    letterSpacing: '0.03em',
+    fontFamily: theme.fonts.body,
+  };
+  const tdStyle = {
+    padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+    borderBottom: `1px solid ${theme.colors.border}`,
+    color: theme.colors.text,
+    fontFamily: theme.fonts.body,
+    fontSize: '0.82rem',
+  };
+
+  return (
+    <div>
+      <h2
+        style={{
+          fontFamily: theme.fonts.heading,
+          fontSize: '1.3rem',
+          color: theme.colors.secondary,
+          marginBottom: theme.spacing.lg,
+        }}
+      >
+        Discontinuation Risk
+      </h2>
+
+      {/* Status summary cards */}
+      <div
+        style={{
+          display: 'flex',
+          gap: theme.spacing.md,
+          marginBottom: theme.spacing.lg,
+          flexWrap: 'wrap',
+        }}
+      >
+        {Object.entries(statusCounts).map(([status, count]) => {
+          const cfg = getStatusConfig(status);
+          const Icon = cfg.icon;
+          return (
+            <div
+              key={status}
+              onClick={() => setStatusFilter(statusFilter === status ? 'all' : status)}
+              style={{
+                flex: '1 1 160px',
+                background: statusFilter === status ? cfg.bg : theme.colors.cardBg,
+                borderRadius: theme.borderRadius.md,
+                boxShadow: theme.shadows.sm,
+                padding: theme.spacing.lg,
+                borderTop: `3px solid ${cfg.color}`,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                border: statusFilter === status ? `2px solid ${cfg.color}` : `1px solid transparent`,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.xs, marginBottom: theme.spacing.xs }}>
+                <Icon size={16} style={{ color: cfg.color }} />
+                <span style={{ fontFamily: theme.fonts.body, fontSize: '0.72rem', color: cfg.color, fontWeight: 600, textTransform: 'uppercase' }}>
+                  {cfg.label}
+                </span>
+              </div>
+              <div style={{ fontFamily: theme.fonts.heading, fontSize: '1.5rem', fontWeight: 700, color: cfg.color }}>
+                {count}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Active filter indicator */}
+      {statusFilter !== 'all' && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: theme.spacing.sm,
+            marginBottom: theme.spacing.md,
+          }}
+        >
+          <span style={{ fontFamily: theme.fonts.body, fontSize: '0.82rem', color: theme.colors.textLight }}>
+            Showing: <strong>{statusFilter}</strong> ({filtered.length} products)
+          </span>
+          <button
+            onClick={() => setStatusFilter('all')}
+            style={{
+              padding: `2px 8px`,
+              border: `1px solid ${theme.colors.border}`,
+              borderRadius: theme.borderRadius.sm,
+              background: theme.colors.cardBg,
+              cursor: 'pointer',
+              fontFamily: theme.fonts.body,
+              fontSize: '0.75rem',
+              color: theme.colors.textLight,
+            }}
+          >
+            Clear filter
+          </button>
+        </div>
+      )}
+
+      {/* Table */}
+      <div
+        style={{
+          background: theme.colors.cardBg,
+          borderRadius: theme.borderRadius.lg,
+          boxShadow: theme.shadows.sm,
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={thStyle}>Product</th>
+                <th style={thStyle}>Category</th>
+                <th style={thStyle}>Status</th>
+                <th style={{ ...thStyle, textAlign: 'right' }}>Total $</th>
+                <th style={{ ...thStyle, textAlign: 'right' }}>Total Units</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={5} style={{ ...tdStyle, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
+                    No products match the current filter.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((p, i) => {
+                  const cfg = p.config;
+                  return (
+                    <tr key={p.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
+                      <td style={{ ...tdStyle, maxWidth: 280 }}>
+                        <div style={{ fontWeight: 500 }}>{p.name}</div>
+                        <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>
+                          {p.brand && <span>{p.brand} &middot; </span>}
+                          <span style={{ fontFamily: 'monospace', fontSize: '0.68rem' }}>{p.upc}</span>
+                        </div>
+                      </td>
+                      <td style={tdStyle}>{p.category || '--'}</td>
+                      <td style={tdStyle}>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            padding: '3px 10px',
+                            borderRadius: '12px',
+                            fontSize: '0.72rem',
+                            fontWeight: 600,
+                            background: cfg.bg,
+                            color: cfg.color,
+                          }}
+                        >
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.color }} />
+                          {cfg.label}
+                        </span>
+                      </td>
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
+                        {formatDollar(p.totalDollars)}
+                      </td>
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                        {p.totalUnits.toLocaleString()}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

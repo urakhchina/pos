@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-02-12T17:19:00",
+  "retailers": {
+    "ngvc": {
+      "display_name": "NGVC",
+      "data_files": [
+        "pos_data.json"
+      ],
+      "date_range": {
+        "start": "2023-12",
+        "end": "2026-01"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "category_analytics",
+        "discontinuation_risk"
+      ],
+      "product_count": 249,
+      "time_grain": "monthly"
+    },
+    "iherb": {
+      "display_name": "iHerb",
+      "data_files": [
+        "pos_data.json",
+        "ltoos_history.json",
+        "inventory.json"
+      ],
+      "date_range": {
+        "start": "2023-10",
+        "end": "2025-12"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "inventory_health",
+        "ltoos_risk"
+      ],
+      "product_count": 177,
+      "time_grain": "monthly"
+    },
+    "sprouts": {
+      "display_name": "Sprouts",
+      "data_files": [
+        "pos_data.json"
+      ],
+      "date_range": {
+        "start": "2023-02",
+        "end": "2026-01"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "category_analytics"
+      ],
+      "product_count": 213,
+      "time_grain": "monthly",
+      "has_weekly": true
+    },
+    "freshthyme": {
+      "display_name": "FreshThyme",
+      "data_files": [
+        "pos_data.json"
+      ],
+      "date_range": {
+        "start": "2025-03",
+        "end": "2025-10"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "category_analytics",
+        "distribution_acv"
+      ],
+      "product_count": 105,
+      "time_grain": "monthly"
+    },
+    "vitacost": {
+      "display_name": "Vitacost",
+      "data_files": [
+        "pos_data.json",
+        "inventory.json"
+      ],
+      "date_range": {
+        "start": "2023-12",
+        "end": "2025-12"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "category_analytics",
+        "inventory_health"
+      ],
+      "product_count": 170,
+      "time_grain": "monthly"
+    },
+    "tvs": {
+      "display_name": "TVS",
+      "data_files": [
+        "pos_data.json",
+        "inventory.json"
+      ],
+      "date_range": {
+        "start": "2025-03",
+        "end": "2026-01"
+      },
+      "features": [
+        "executive_summary",
+        "sales_overview",
+        "product_performance",
+        "top_bottom_movers",
+        "yoy_performance",
+        "category_analytics",
+        "inventory_health"
+      ],
+      "product_count": 51,
+      "time_grain": "monthly"
+    }
+  }
+}
