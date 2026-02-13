@@ -34,8 +34,19 @@ export default function YTDOverview({
     });
     const trend = Object.values(byMonth).sort((a, b) => a.mm.localeCompare(b.mm));
 
+    // Compute average velocity (value / active products) per month
+    // Leave undefined when no data exists so Recharts skips the point
+    trend.forEach(row => {
+      const curVal = useDollars ? row.curDollars : row.curUnits;
+      const prevVal = useDollars ? row.prevDollars : row.prevUnits;
+      row.curVelocity = row.curProducts > 0 && curVal != null
+        ? curVal / row.curProducts : undefined;
+      row.prevVelocity = row.prevProducts > 0 && prevVal != null
+        ? prevVal / row.prevProducts : undefined;
+    });
+
     return { currentTotals: cur, comparisonTotals: comp, fullPrevTotals: prev, monthlyTrend: trend };
-  }, [trendData, currentData, comparisonData, fullPrevYearData, yearA, yearB]);
+  }, [trendData, currentData, comparisonData, fullPrevYearData, yearA, yearB, useDollars]);
 
   const currentVal = useDollars ? currentTotals.dollars : currentTotals.units;
   const compVal = useDollars ? comparisonTotals.dollars : comparisonTotals.units;
@@ -142,6 +153,24 @@ export default function YTDOverview({
                 <Legend />
                 <Line type="monotone" dataKey="prevProducts" name={yearA} stroke={theme.colors.chartColors[1]} strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="curProducts" name={yearB} stroke={theme.colors.primary} strokeWidth={2} dot={{ r: 3 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Avg Velocity by Month */}
+          <div style={chartStyle}>
+            <h4 style={{ fontFamily: theme.fonts.heading, fontSize: '0.9rem', fontWeight: 600, marginBottom: theme.spacing.sm }}>
+              Avg {useDollars ? 'Revenue' : 'Units'} per SKU by Month
+            </h4>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={monthlyTrend}>
+                <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
+                <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+                <YAxis tick={{ fontSize: 11 }} tickFormatter={v => useDollars ? `$${(v/1000).toFixed(0)}K` : v.toLocaleString()} />
+                <Tooltip formatter={v => formatValue(v, useDollars)} />
+                <Legend />
+                <Line type="monotone" dataKey="prevVelocity" name={yearA} stroke={theme.colors.chartColors[1]} strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="curVelocity" name={yearB} stroke={theme.colors.primary} strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

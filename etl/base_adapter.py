@@ -147,6 +147,15 @@ class BaseAdapter(ABC):
         if has_category:
             features.append("category_analytics")
 
+        # Check products for brand
+        has_brand = False
+        for prod in self.pos_data.get("products", []):
+            if prod.get("brand"):
+                has_brand = True
+                break
+        if has_brand:
+            features.append("brand_performance")
+
         # Supplemental file features
         if "inventory" in self.supplemental:
             features.append("inventory_health")

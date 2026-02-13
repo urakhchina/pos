@@ -16,7 +16,7 @@ import {
 } from 'recharts';
 import { ArrowLeft } from 'lucide-react';
 import { theme } from '../styles/theme';
-import { formatValue, sumPeriod, periodToMonthName } from '../utils/timePeriodUtils';
+import { formatValue, periodToMonthName } from '../utils/timePeriodUtils';
 
 const CHART_COLORS = [
   theme.colors.primary,
@@ -33,6 +33,16 @@ const CHART_COLORS = [
   '#14b8a6'
 ];
 
+const normalizeBrand = (raw) => {
+  const u = (raw || '').trim().toUpperCase();
+  if (u.includes('IRWIN')) return 'Irwin Naturals';
+  if (u.includes('APPLIED')) return 'Applied Nutrition';
+  if (u.includes('SECRET') || u.includes('NATURES')) return "Nature's Secret";
+  if (u.includes('INHOLTRA')) return 'Inholtra';
+  if (!u || u === 'NAN') return 'Other';
+  return raw.trim();
+};
+
 function sortItems(items, field, dir) {
   return [...items].sort((a, b) => {
     let aVal = a[field], bVal = b[field];
@@ -41,7 +51,12 @@ function sortItems(items, field, dir) {
   });
 }
 
-const CategoryAnalytics = ({
+const SortIndicator = ({ field, sortState }) => {
+  if (sortState.field !== field) return null;
+  return <span style={{ marginLeft: '4px' }}>{sortState.dir === 'asc' ? '\u25B2' : '\u25BC'}</span>;
+};
+
+const BrandPerformance = ({
   posData,
   currentData,
   comparisonData,
@@ -60,19 +75,25 @@ const CategoryAnalytics = ({
   forecast,
   ecommerce
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [subcatSort, setSubcatSort] = useState({ field: 'curVal', dir: 'desc' });
-  const [catProdSort, setCatProdSort] = useState({ field: 'curVal', dir: 'desc' });
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [brandCatSort, setBrandCatSort] = useState({ field: 'curVal', dir: 'desc' });
+  const [brandProdSort, setBrandProdSort] = useState({ field: 'curVal', dir: 'desc' });
+
+  const toggleSort = (setter, current, field) => {
+    if (current.field === field) {
+      setter({ field, dir: current.dir === 'asc' ? 'desc' : 'asc' });
+    } else {
+      setter({ field, dir: 'desc' });
+    }
+  };
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
   const metricLabel = useDollars ? 'Dollars' : 'Units';
 
-  /* ── Helpers ───────────────────────────────────────────────────── */
   const pctColor = (val) => val == null ? '#999' : val >= 0 ? '#2e7d32' : '#c62828';
-  const fmtPct = (val) => val == null ? '—' : `${val >= 0 ? '+' : ''}${val.toFixed(1)}%`;
+  const fmtPct = (val) => val == null ? '\u2014' : `${val >= 0 ? '+' : ''}${val.toFixed(1)}%`;
 
-  /* ── Column header labels ─────────────────────────────────────── */
   const currentYear = selectedPeriodKey
     ? selectedPeriodKey.slice(0, 4)
     : (posData?.periods ? [...new Set(Object.keys(posData.periods).map(k => k.slice(0, 4)))].sort().pop() : null);
@@ -110,34 +131,34 @@ const CategoryAnalytics = ({
   const hasSeq = priorSequentialData && Object.keys(priorSequentialData).length > 0;
   const hasPY = fullPriorYearProductData && Object.keys(fullPriorYearProductData).length > 0;
 
-  // Build product lookup map from array
+  // Build product lookup map with normalized brand
   const productMap = useMemo(() => {
     const map = {};
     if (posData?.products) {
-      posData.products.forEach(p => { map[p.upc] = p; });
+      posData.products.forEach(p => {
+        map[p.upc] = { ...p, normalizedBrand: normalizeBrand(p.brand) };
+      });
     }
     return map;
   }, [posData]);
 
-  // Aggregate by category — include ALL products so categories like Discontinued always appear
-  const categoryData = useMemo(() => {
+  // Aggregate by brand — include ALL products
+  const brandData = useMemo(() => {
     if (Object.keys(productMap).length === 0) return {};
 
-    const cats = {};
+    const brands = {};
 
-    // First, register every product from posData.products
     Object.values(productMap).forEach(product => {
-      const category = product.category || 'Unknown';
-      const subcategory = product.subcategory || product.sub_category || 'Other';
+      const brand = product.normalizedBrand;
       const upc = product.upc;
 
-      if (!cats[category]) {
-        cats[category] = {
-          name: category,
+      if (!brands[brand]) {
+        brands[brand] = {
+          name: brand,
           dollars: 0,
           units: 0,
           productCount: 0,
-          subcategories: {},
+          categories: {},
           products: []
         };
       }
@@ -146,92 +167,93 @@ const CategoryAnalytics = ({
       const dollars = data?.dollars || 0;
       const units = data?.units || 0;
 
-      cats[category].dollars += dollars;
-      cats[category].units += units;
-      cats[category].productCount += 1;
-      cats[category].products.push({
+      brands[brand].dollars += dollars;
+      brands[brand].units += units;
+      brands[brand].productCount += 1;
+      brands[brand].products.push({
         upc,
         name: product.product_name || upc,
         dollars,
         units,
-        subcategory
+        category: product.category || 'Unknown'
       });
 
-      if (!cats[category].subcategories[subcategory]) {
-        cats[category].subcategories[subcategory] = {
-          name: subcategory,
+      const category = product.category || 'Unknown';
+      if (!brands[brand].categories[category]) {
+        brands[brand].categories[category] = {
+          name: category,
           dollars: 0,
           units: 0,
           productCount: 0
         };
       }
-      cats[category].subcategories[subcategory].dollars += dollars;
-      cats[category].subcategories[subcategory].units += units;
-      cats[category].subcategories[subcategory].productCount += 1;
+      brands[brand].categories[category].dollars += dollars;
+      brands[brand].categories[category].units += units;
+      brands[brand].categories[category].productCount += 1;
     });
 
-    return cats;
+    return brands;
   }, [currentData, productMap]);
 
-  // Aggregate comparisonData by category for YoY
-  const categoryCompData = useMemo(() => {
+  // Aggregate comparisonData by brand for YoY
+  const brandCompData = useMemo(() => {
     if (!comparisonData || Object.keys(productMap).length === 0) return {};
 
-    const cats = {};
+    const brands = {};
     Object.entries(comparisonData).forEach(([upc, data]) => {
       const product = productMap[upc];
-      const category = product?.category || 'Unknown';
+      const brand = product?.normalizedBrand || 'Other';
 
-      if (!cats[category]) {
-        cats[category] = { dollars: 0, units: 0 };
+      if (!brands[brand]) {
+        brands[brand] = { dollars: 0, units: 0 };
       }
-      cats[category].dollars += data.dollars || 0;
-      cats[category].units += data.units || 0;
+      brands[brand].dollars += data.dollars || 0;
+      brands[brand].units += data.units || 0;
     });
 
-    return cats;
+    return brands;
   }, [comparisonData, productMap]);
 
-  // Aggregate priorSequentialData by category
-  const categorySeqData = useMemo(() => {
+  // Aggregate priorSequentialData by brand
+  const brandSeqData = useMemo(() => {
     if (!priorSequentialData || Object.keys(productMap).length === 0) return {};
-    const cats = {};
+    const brands = {};
     Object.entries(priorSequentialData).forEach(([upc, data]) => {
       const product = productMap[upc];
-      const category = product?.category || 'Unknown';
-      if (!cats[category]) cats[category] = { dollars: 0, units: 0 };
-      cats[category].dollars += data.dollars || 0;
-      cats[category].units += data.units || 0;
+      const brand = product?.normalizedBrand || 'Other';
+      if (!brands[brand]) brands[brand] = { dollars: 0, units: 0 };
+      brands[brand].dollars += data.dollars || 0;
+      brands[brand].units += data.units || 0;
     });
-    return cats;
+    return brands;
   }, [priorSequentialData, productMap]);
 
-  // Aggregate fullPriorYearProductData by category
-  const categoryPYData = useMemo(() => {
+  // Aggregate fullPriorYearProductData by brand
+  const brandPYData = useMemo(() => {
     if (!fullPriorYearProductData || Object.keys(productMap).length === 0) return {};
-    const cats = {};
+    const brands = {};
     Object.entries(fullPriorYearProductData).forEach(([upc, data]) => {
       const product = productMap[upc];
-      const category = product?.category || 'Unknown';
-      if (!cats[category]) cats[category] = { dollars: 0, units: 0 };
-      cats[category].dollars += data.dollars || 0;
-      cats[category].units += data.units || 0;
+      const brand = product?.normalizedBrand || 'Other';
+      if (!brands[brand]) brands[brand] = { dollars: 0, units: 0 };
+      brands[brand].dollars += data.dollars || 0;
+      brands[brand].units += data.units || 0;
     });
-    return cats;
+    return brands;
   }, [fullPriorYearProductData, productMap]);
 
-  // Build category list with YoY
-  const categories = useMemo(() => {
-    const allCats = new Set([
-      ...Object.keys(categoryData),
-      ...Object.keys(categoryCompData)
+  // Build brand list with YoY, seq%, pace%
+  const brands = useMemo(() => {
+    const allBrands = new Set([
+      ...Object.keys(brandData),
+      ...Object.keys(brandCompData)
     ]);
 
-    return Array.from(allCats).map(cat => {
-      const current = categoryData[cat] || { dollars: 0, units: 0, productCount: 0, subcategories: {}, products: [] };
-      const comp = categoryCompData[cat] || { dollars: 0, units: 0 };
-      const seq = categorySeqData[cat] || { dollars: 0, units: 0 };
-      const py = categoryPYData[cat] || { dollars: 0, units: 0 };
+    return Array.from(allBrands).map(brand => {
+      const current = brandData[brand] || { dollars: 0, units: 0, productCount: 0, categories: {}, products: [] };
+      const comp = brandCompData[brand] || { dollars: 0, units: 0 };
+      const seq = brandSeqData[brand] || { dollars: 0, units: 0 };
+      const py = brandPYData[brand] || { dollars: 0, units: 0 };
 
       const currentVal = current[metricKey] || 0;
       const compVal = comp[metricKey] || 0;
@@ -245,7 +267,7 @@ const CategoryAnalytics = ({
       const pacePct = pyVal > 0 ? ((yepVal - pyVal) / pyVal) * 100 : null;
 
       return {
-        name: cat,
+        name: brand,
         dollars: current.dollars,
         units: current.units,
         primaryVal: currentVal,
@@ -257,74 +279,72 @@ const CategoryAnalytics = ({
         seqPct,
         pacePct,
         productCount: current.productCount,
-        subcategories: current.subcategories,
+        categories: current.categories,
         products: current.products
       };
     }).sort((a, b) => b.primaryVal - a.primaryVal);
-  }, [categoryData, categoryCompData, categorySeqData, categoryPYData, metricKey, yepMultiplier]);
+  }, [brandData, brandCompData, brandSeqData, brandPYData, metricKey, yepMultiplier]);
+
+  // Velocity bar chart data
+  const velocityBarData = useMemo(() => {
+    return brands
+      .filter(b => b.primaryVal > 0 && b.productCount > 0)
+      .map((b, idx) => ({
+        name: b.name.length > 18 ? b.name.substring(0, 18) + '...' : b.name,
+        fullName: b.name,
+        velocity: parseFloat((b.primaryVal / b.productCount).toFixed(2)),
+        color: CHART_COLORS[idx % CHART_COLORS.length],
+        productCount: b.productCount,
+        primaryVal: b.primaryVal,
+        pyVal: b.pyVal,
+        yepVal: b.yepVal,
+        yoyChange: b.yoyChange,
+        pacePct: b.pacePct,
+      }))
+      .sort((a, b) => b.velocity - a.velocity);
+  }, [brands]);
 
   // Pie chart data
   const pieData = useMemo(() => {
-    return categories.map((cat, idx) => ({
-      name: cat.name,
-      value: cat.primaryVal,
+    return brands.map((b, idx) => ({
+      name: b.name,
+      value: b.primaryVal,
       color: CHART_COLORS[idx % CHART_COLORS.length]
     })).filter(d => d.value > 0);
-  }, [categories]);
-
-  // Velocity bar chart data (avg value per SKU, sorted descending)
-  const velocityBarData = useMemo(() => {
-    return categories
-      .filter(c => c.primaryVal > 0 && c.productCount > 0)
-      .map((c, idx) => ({
-        name: c.name.length > 18 ? c.name.substring(0, 18) + '...' : c.name,
-        fullName: c.name,
-        velocity: parseFloat((c.primaryVal / c.productCount).toFixed(2)),
-        color: CHART_COLORS[idx % CHART_COLORS.length],
-        productCount: c.productCount,
-        primaryVal: c.primaryVal,
-        pyVal: c.pyVal,
-        yepVal: c.yepVal,
-        yoyChange: c.yoyChange,
-        pacePct: c.pacePct,
-      }))
-      .sort((a, b) => b.velocity - a.velocity);
-  }, [categories]);
+  }, [brands]);
 
   // YoY bar chart data
   const yoyBarData = useMemo(() => {
-    return categories
-      .filter(c => c.compVal > 0 || c.primaryVal > 0)
-      .map(c => ({
-        name: c.name.length > 18 ? c.name.substring(0, 18) + '...' : c.name,
-        fullName: c.name,
-        yoy: parseFloat(c.yoyChange.toFixed(1))
+    return brands
+      .filter(b => b.compVal > 0 || b.primaryVal > 0)
+      .map(b => ({
+        name: b.name.length > 18 ? b.name.substring(0, 18) + '...' : b.name,
+        fullName: b.name,
+        yoy: parseFloat(b.yoyChange.toFixed(1))
       }));
-  }, [categories]);
+  }, [brands]);
 
-  // Stacked area trends: use trendData period keys to look up posData.periods, group by category
+  // Stacked area trend data
   const trendChartData = useMemo(() => {
     if (!trendData || trendData.length === 0 || !posData?.periods || Object.keys(productMap).length === 0) return [];
 
-    const catNames = categories.map(c => c.name);
+    const brandNames = brands.map(b => b.name);
 
-    // For each trendData entry, look up the posData.periods for that period and aggregate by category
     const rows = trendData.map(entry => {
       const periodKey = entry.period;
       const periodData = posData.periods?.[periodKey];
       const row = { label: entry.label || periodKey, period: periodKey };
 
-      // Initialize all categories to 0
-      catNames.forEach(cat => { row[cat] = 0; });
+      brandNames.forEach(brand => { row[brand] = 0; });
 
       if (periodData) {
         Object.entries(periodData).forEach(([upc, data]) => {
           const product = productMap[upc];
-          const category = product?.category || 'Unknown';
-          if (row[category] !== undefined) {
-            row[category] += data[metricKey] || 0;
+          const brand = product?.normalizedBrand || 'Other';
+          if (row[brand] !== undefined) {
+            row[brand] += data[metricKey] || 0;
           } else {
-            row[category] = data[metricKey] || 0;
+            row[brand] = data[metricKey] || 0;
           }
         });
       }
@@ -332,58 +352,56 @@ const CategoryAnalytics = ({
       return row;
     });
 
-    // Sort by period key for chronological order
     rows.sort((a, b) => String(a.period).localeCompare(String(b.period)));
-
     return rows;
-  }, [trendData, posData, productMap, categories, metricKey]);
+  }, [trendData, posData, productMap, brands, metricKey]);
 
-  // Categories actually present in the trend data (with non-zero values)
-  const trendCategories = useMemo(() => {
+  // Brands actually present in trend data
+  const trendBrands = useMemo(() => {
     if (trendChartData.length === 0) return [];
-    const catNames = categories.map(c => c.name);
-    return catNames.filter(cat =>
-      trendChartData.some(row => (row[cat] || 0) > 0)
+    const brandNames = brands.map(b => b.name);
+    return brandNames.filter(brand =>
+      trendChartData.some(row => (row[brand] || 0) > 0)
     );
-  }, [trendChartData, categories]);
+  }, [trendChartData, brands]);
 
-  // Enriched subcategory + product data for drilldown (with comp/seq/PY)
+  // Drilldown: categories + products within selected brand
   const drilldownEnrichedData = useMemo(() => {
-    if (!selectedCategory) return { subcats: [], products: [] };
-    const cat = categories.find(c => c.name === selectedCategory);
-    if (!cat) return { subcats: [], products: [] };
+    if (!selectedBrand) return { cats: [], products: [] };
+    const brand = brands.find(b => b.name === selectedBrand);
+    if (!brand) return { cats: [], products: [] };
 
-    const aggregateBySubcat = (upcData) => {
+    const aggregateByCat = (upcData) => {
       const result = {};
       if (!upcData) return result;
       Object.entries(upcData).forEach(([upc, data]) => {
         const product = productMap[upc];
-        if (!product || product.category !== selectedCategory) return;
-        const sub = product.subcategory || product.sub_category || 'Other';
-        if (!result[sub]) result[sub] = { dollars: 0, units: 0 };
-        result[sub].dollars += data.dollars || 0;
-        result[sub].units += data.units || 0;
+        if (!product || product.normalizedBrand !== selectedBrand) return;
+        const cat = product.category || 'Unknown';
+        if (!result[cat]) result[cat] = { dollars: 0, units: 0 };
+        result[cat].dollars += data.dollars || 0;
+        result[cat].units += data.units || 0;
       });
       return result;
     };
 
-    const compBySub = aggregateBySubcat(comparisonData);
-    const seqBySub = aggregateBySubcat(priorSequentialData);
-    const pyBySub = aggregateBySubcat(fullPriorYearProductData);
+    const compByCat = aggregateByCat(comparisonData);
+    const seqByCat = aggregateByCat(priorSequentialData);
+    const pyByCat = aggregateByCat(fullPriorYearProductData);
 
-    const subcats = Object.values(cat.subcategories).map(sub => {
-      const curVal = sub[metricKey] || 0;
-      const compVal = compBySub[sub.name]?.[metricKey] || 0;
-      const seqVal = seqBySub[sub.name]?.[metricKey] || 0;
-      const pyVal = pyBySub[sub.name]?.[metricKey] || 0;
+    const cats = Object.values(brand.categories).map(cat => {
+      const curVal = cat[metricKey] || 0;
+      const compVal = compByCat[cat.name]?.[metricKey] || 0;
+      const seqVal = seqByCat[cat.name]?.[metricKey] || 0;
+      const pyVal = pyByCat[cat.name]?.[metricKey] || 0;
       const yepVal = curVal * yepMultiplier;
       const yoyPct = compVal > 0 ? ((curVal - compVal) / compVal) * 100 : (curVal > 0 ? 100 : 0);
       const seqPct = seqVal > 0 ? ((curVal - seqVal) / seqVal) * 100 : null;
       const pacePct = pyVal > 0 ? ((yepVal - pyVal) / pyVal) * 100 : null;
-      return { ...sub, curVal, compVal, seqVal, pyVal, yepVal, seqPct, yoyPct, pacePct };
+      return { ...cat, curVal, compVal, seqVal, pyVal, yepVal, seqPct, yoyPct, pacePct };
     }).sort((a, b) => b.curVal - a.curVal);
 
-    const products = [...cat.products].map(p => {
+    const products = [...brand.products].map(p => {
       const curVal = useDollars ? p.dollars : p.units;
       const comp = comparisonData?.[p.upc];
       const compVal = comp ? (useDollars ? (comp.dollars || 0) : (comp.units || 0)) : 0;
@@ -398,14 +416,13 @@ const CategoryAnalytics = ({
       return { ...p, curVal, compVal, seqVal, pyVal, yepVal, seqPct, yoyPct, pacePct };
     }).sort((a, b) => b.curVal - a.curVal);
 
-    return { subcats, products };
-  }, [selectedCategory, categories, comparisonData, priorSequentialData, fullPriorYearProductData, productMap, metricKey, useDollars, yepMultiplier]);
+    return { cats, products };
+  }, [selectedBrand, brands, comparisonData, priorSequentialData, fullPriorYearProductData, productMap, metricKey, useDollars, yepMultiplier]);
 
-  const totalPrimaryVal = categories.reduce((sum, c) => sum + c.primaryVal, 0);
-
+  const totalPrimaryVal = brands.reduce((sum, b) => sum + b.primaryVal, 0);
   const hasComparison = comparisonData && Object.keys(comparisonData).length > 0;
 
-  // Custom tooltip for charts
+  // Tooltips
   const ChartTooltip = ({ active, payload, label }) => {
     if (!active || !payload || payload.length === 0) return null;
     return (
@@ -475,32 +492,21 @@ const CategoryAnalytics = ({
     );
   };
 
-  // Subcategory drilldown view
-  if (selectedCategory) {
-    const cat = categories.find(c => c.name === selectedCategory);
-    if (!cat) {
-      setSelectedCategory(null);
+  // ── Drilldown View ────────────────────────────────────────────────
+  if (selectedBrand) {
+    const brand = brands.find(b => b.name === selectedBrand);
+    if (!brand) {
+      setSelectedBrand(null);
       return null;
     }
 
-    const { subcats: rawSubcats, products: rawCatProducts } = drilldownEnrichedData;
-
-    const toggleSubcatSort = (field) => {
-      setSubcatSort(prev => prev.field === field ? { field, dir: prev.dir === 'asc' ? 'desc' : 'asc' } : { field, dir: 'desc' });
-    };
-    const toggleCatProdSort = (field) => {
-      setCatProdSort(prev => prev.field === field ? { field, dir: prev.dir === 'asc' ? 'desc' : 'asc' } : { field, dir: 'desc' });
-    };
-    const sortIndicator = (sortState, field) => sortState.field === field ? (sortState.dir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-
-    const subcats = sortItems(rawSubcats, subcatSort.field, subcatSort.dir);
-    const catProducts = sortItems(rawCatProducts, catProdSort.field, catProdSort.dir);
+    const { cats, products: brandProducts } = drilldownEnrichedData;
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {/* Back button */}
         <button
-          onClick={() => setSelectedCategory(null)}
+          onClick={() => setSelectedBrand(null)}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -517,10 +523,10 @@ const CategoryAnalytics = ({
           }}
         >
           <ArrowLeft size={16} />
-          Back to All Categories
+          Back to All Brands
         </button>
 
-        {/* Category header */}
+        {/* Brand header */}
         <div style={{
           backgroundColor: '#fff',
           borderRadius: '12px',
@@ -528,7 +534,7 @@ const CategoryAnalytics = ({
           padding: '24px'
         }}>
           <h2 style={{ margin: '0 0 8px', color: theme.colors.secondary, fontSize: '22px' }}>
-            {cat.name}
+            {brand.name}
           </h2>
           <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
             <div>
@@ -536,7 +542,7 @@ const CategoryAnalytics = ({
                 {curColLabel}
               </span>
               <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.primary }}>
-                {formatValue(cat.primaryVal, useDollars)}
+                {formatValue(brand.primaryVal, useDollars)}
               </p>
             </div>
             <div>
@@ -544,7 +550,7 @@ const CategoryAnalytics = ({
                 Products
               </span>
               <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
-                {cat.productCount}
+                {brand.productCount}
               </p>
             </div>
             {hasPY && (
@@ -553,7 +559,7 @@ const CategoryAnalytics = ({
                   {pyLabel}
                 </span>
                 <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
-                  {formatValue(cat.pyVal, useDollars)}
+                  {formatValue(brand.pyVal, useDollars)}
                 </p>
               </div>
             )}
@@ -562,7 +568,7 @@ const CategoryAnalytics = ({
                 {yepLabel}
               </span>
               <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
-                {formatValue(cat.yepVal, useDollars)}
+                {formatValue(brand.yepVal, useDollars)}
               </p>
             </div>
             {hasComparison && (
@@ -574,9 +580,9 @@ const CategoryAnalytics = ({
                   margin: '4px 0 0',
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: cat.yoyChange >= 0 ? theme.colors.success : theme.colors.danger
+                  color: brand.yoyChange >= 0 ? theme.colors.success : theme.colors.danger
                 }}>
-                  {fmtPct(cat.yoyChange)}
+                  {fmtPct(brand.yoyChange)}
                 </p>
               </div>
             )}
@@ -589,17 +595,17 @@ const CategoryAnalytics = ({
                   margin: '4px 0 0',
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: pctColor(cat.pacePct)
+                  color: pctColor(brand.pacePct)
                 }}>
-                  {fmtPct(cat.pacePct)}
+                  {fmtPct(brand.pacePct)}
                 </p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Subcategories */}
-        {subcats.length > 0 && (
+        {/* Categories within brand */}
+        {cats.length > 0 && (
           <div style={{
             backgroundColor: '#fff',
             borderRadius: '12px',
@@ -612,51 +618,51 @@ const CategoryAnalytics = ({
               backgroundColor: '#f8f9fa'
             }}>
               <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>
-                Subcategories
+                Categories
               </h3>
             </div>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                 <thead>
                   <tr style={{ backgroundColor: '#f8f9fa' }}>
-                    <th style={thStyle} onClick={() => toggleSubcatSort('name')}>Subcategory{sortIndicator(subcatSort, 'name')}</th>
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('compVal')}>{yagoColLabel}{sortIndicator(subcatSort, 'compVal')}</th>
-                    {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('seqVal')}>{seqColLabel}{sortIndicator(subcatSort, 'seqVal')}</th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('curVal')}>{curColLabel}{sortIndicator(subcatSort, 'curVal')}</th>
-                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('pyVal')}>{pyLabel}{sortIndicator(subcatSort, 'pyVal')}</th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('yepVal')}>{yepLabel}{sortIndicator(subcatSort, 'yepVal')}</th>
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('productCount')}>Products{sortIndicator(subcatSort, 'productCount')}</th>
-                    {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('seqPct')}>{seqPctLabel}{sortIndicator(subcatSort, 'seqPct')}</th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('yoyPct')}>YoY%{sortIndicator(subcatSort, 'yoyPct')}</th>
-                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSubcatSort('pacePct')}>Pace%{sortIndicator(subcatSort, 'pacePct')}</th>}
+                    <th style={thStyle} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'name')}>Category<SortIndicator field="name" sortState={brandCatSort} /></th>
+                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandCatSort} /></th>
+                    {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandCatSort} /></th>
+                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandCatSort} /></th>
+                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'productCount')}>Products<SortIndicator field="productCount" sortState={brandCatSort} /></th>
+                    {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandCatSort} /></th>
+                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandCatSort} /></th>}
                   </tr>
                 </thead>
                 <tbody>
-                  {subcats.map((sub, idx) => (
-                    <tr key={sub.name} style={{
+                  {sortItems(cats, brandCatSort.field, brandCatSort.dir).map((cat, idx) => (
+                    <tr key={cat.name} style={{
                       backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa',
                       borderBottom: '1px solid #eee'
                     }}>
-                      <td style={tdStyle}>{sub.name}</td>
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(sub.compVal, useDollars)}</td>
+                      <td style={tdStyle}>{cat.name}</td>
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.compVal, useDollars)}</td>
                       {hasSeq && seqColLabel && (
-                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(sub.seqVal, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.seqVal, useDollars)}</td>
                       )}
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(sub.curVal, useDollars)}</td>
-                      {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{sub.pyVal > 0 ? formatValue(sub.pyVal, useDollars) : '—'}</td>}
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(sub.yepVal, useDollars)}</td>
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{sub.productCount}</td>
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(cat.curVal, useDollars)}</td>
+                      {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{cat.pyVal > 0 ? formatValue(cat.pyVal, useDollars) : '\u2014'}</td>}
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.yepVal, useDollars)}</td>
+                      <td style={{ ...tdStyle, textAlign: 'right' }}>{cat.productCount}</td>
                       {hasSeq && seqPctLabel && (
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(sub.seqPct) }}>
-                          {fmtPct(sub.seqPct)}
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.seqPct) }}>
+                          {fmtPct(cat.seqPct)}
                         </td>
                       )}
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(sub.yoyPct) }}>
-                        {fmtPct(sub.yoyPct)}
+                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.yoyPct) }}>
+                        {fmtPct(cat.yoyPct)}
                       </td>
                       {hasPY && (
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(sub.pacePct) }}>
-                          {fmtPct(sub.pacePct)}
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.pacePct) }}>
+                          {fmtPct(cat.pacePct)}
                         </td>
                       )}
                     </tr>
@@ -667,7 +673,7 @@ const CategoryAnalytics = ({
           </div>
         )}
 
-        {/* Products in category */}
+        {/* Products in brand */}
         <div style={{
           backgroundColor: '#fff',
           borderRadius: '12px',
@@ -680,27 +686,27 @@ const CategoryAnalytics = ({
             backgroundColor: '#f8f9fa'
           }}>
             <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>
-              Products ({catProducts.length})
+              Products ({brandProducts.length})
             </h3>
           </div>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f8f9fa' }}>
-                  <th style={thStyle} onClick={() => toggleCatProdSort('name')}>Product{sortIndicator(catProdSort, 'name')}</th>
-                  <th style={thStyle} onClick={() => toggleCatProdSort('subcategory')}>Subcategory{sortIndicator(catProdSort, 'subcategory')}</th>
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('compVal')}>{yagoColLabel}{sortIndicator(catProdSort, 'compVal')}</th>
-                  {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('seqVal')}>{seqColLabel}{sortIndicator(catProdSort, 'seqVal')}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('curVal')}>{curColLabel}{sortIndicator(catProdSort, 'curVal')}</th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('pyVal')}>{pyLabel}{sortIndicator(catProdSort, 'pyVal')}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('yepVal')}>{yepLabel}{sortIndicator(catProdSort, 'yepVal')}</th>
-                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('seqPct')}>{seqPctLabel}{sortIndicator(catProdSort, 'seqPct')}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('yoyPct')}>YoY%{sortIndicator(catProdSort, 'yoyPct')}</th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleCatProdSort('pacePct')}>Pace%{sortIndicator(catProdSort, 'pacePct')}</th>}
+                  <th style={thStyle} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'name')}>Product<SortIndicator field="name" sortState={brandProdSort} /></th>
+                  <th style={thStyle} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'category')}>Category<SortIndicator field="category" sortState={brandProdSort} /></th>
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandProdSort} /></th>
+                  {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandProdSort} /></th>
+                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandProdSort} /></th>
+                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandProdSort} /></th>
+                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandProdSort} /></th>}
                 </tr>
               </thead>
               <tbody>
-                {catProducts.map((p, idx) => (
+                {sortItems(brandProducts, brandProdSort.field, brandProdSort.dir).map((p, idx) => (
                   <tr key={p.upc} style={{
                     backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa',
                     borderBottom: '1px solid #eee'
@@ -723,7 +729,7 @@ const CategoryAnalytics = ({
                         backgroundColor: '#f0f0f0',
                         fontSize: '12px'
                       }}>
-                        {p.subcategory}
+                        {p.category}
                       </span>
                     </td>
                     <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
@@ -731,7 +737,7 @@ const CategoryAnalytics = ({
                       <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.seqVal, useDollars)}</td>
                     )}
                     <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.curVal, useDollars)}</td>
-                    {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{p.pyVal > 0 ? formatValue(p.pyVal, useDollars) : '—'}</td>}
+                    {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{p.pyVal > 0 ? formatValue(p.pyVal, useDollars) : '\u2014'}</td>}
                     <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
                     {hasSeq && seqPctLabel && (
                       <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
@@ -756,23 +762,23 @@ const CategoryAnalytics = ({
     );
   }
 
-  // Main category overview
+  // ── Main brand overview ───────────────────────────────────────────
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Category Cards Grid */}
+      {/* Brand Cards Grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
         gap: '16px'
       }}>
-        {categories.map((cat, idx) => {
+        {brands.map((brand, idx) => {
           const share = totalPrimaryVal > 0
-            ? ((cat.primaryVal / totalPrimaryVal) * 100).toFixed(1)
+            ? ((brand.primaryVal / totalPrimaryVal) * 100).toFixed(1)
             : '0.0';
           return (
             <div
-              key={cat.name}
-              onClick={() => setSelectedCategory(cat.name)}
+              key={brand.name}
+              onClick={() => setSelectedBrand(brand.name)}
               style={{
                 backgroundColor: '#fff',
                 borderRadius: '12px',
@@ -797,7 +803,7 @@ const CategoryAnalytics = ({
                 fontSize: '15px',
                 fontWeight: 600
               }}>
-                {cat.name}
+                {brand.name}
               </h4>
               <p style={{
                 margin: '0 0 8px',
@@ -805,16 +811,16 @@ const CategoryAnalytics = ({
                 fontWeight: 700,
                 color: theme.colors.primary
               }}>
-                {formatValue(cat.primaryVal, useDollars)}
+                {formatValue(brand.primaryVal, useDollars)}
               </p>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#666' }}>
-                <span>{cat.productCount} product{cat.productCount !== 1 ? 's' : ''}</span>
+                <span>{brand.productCount} product{brand.productCount !== 1 ? 's' : ''}</span>
                 <span>{share}% share</span>
               </div>
-              {(hasPY || cat.yepVal > 0) && (
+              {(hasPY || brand.yepVal > 0) && (
                 <div style={{ display: 'flex', gap: '16px', marginTop: '8px', fontSize: '11px', color: '#666' }}>
-                  {hasPY && <span>{pyLabel}: {formatValue(cat.pyVal, useDollars)}</span>}
-                  <span>{yepLabel}: {formatValue(cat.yepVal, useDollars)}</span>
+                  {hasPY && <span>{pyLabel}: {formatValue(brand.pyVal, useDollars)}</span>}
+                  <span>{yepLabel}: {formatValue(brand.yepVal, useDollars)}</span>
                 </div>
               )}
               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '8px' }}>
@@ -822,31 +828,31 @@ const CategoryAnalytics = ({
                   <div style={{
                     padding: '4px 8px',
                     borderRadius: '6px',
-                    backgroundColor: cat.yoyChange >= 0 ? `${theme.colors.success}15` : `${theme.colors.danger}15`,
+                    backgroundColor: brand.yoyChange >= 0 ? `${theme.colors.success}15` : `${theme.colors.danger}15`,
                     display: 'inline-block'
                   }}>
                     <span style={{
                       fontSize: '12px',
                       fontWeight: 600,
-                      color: cat.yoyChange >= 0 ? theme.colors.success : theme.colors.danger
+                      color: brand.yoyChange >= 0 ? theme.colors.success : theme.colors.danger
                     }}>
-                      {fmtPct(cat.yoyChange)} YoY
+                      {fmtPct(brand.yoyChange)} YoY
                     </span>
                   </div>
                 )}
-                {hasPY && cat.pacePct != null && (
+                {hasPY && brand.pacePct != null && (
                   <div style={{
                     padding: '4px 8px',
                     borderRadius: '6px',
-                    backgroundColor: cat.pacePct >= 0 ? `${theme.colors.success}15` : `${theme.colors.danger}15`,
+                    backgroundColor: brand.pacePct >= 0 ? `${theme.colors.success}15` : `${theme.colors.danger}15`,
                     display: 'inline-block'
                   }}>
                     <span style={{
                       fontSize: '12px',
                       fontWeight: 600,
-                      color: pctColor(cat.pacePct)
+                      color: pctColor(brand.pacePct)
                     }}>
-                      {fmtPct(cat.pacePct)} Pace
+                      {fmtPct(brand.pacePct)} Pace
                     </span>
                   </div>
                 )}
@@ -856,7 +862,7 @@ const CategoryAnalytics = ({
         })}
       </div>
 
-      {/* Velocity by Category — horizontal bar chart */}
+      {/* Velocity by Brand — horizontal bar chart */}
       {velocityBarData.length > 0 && (
         <div style={{
           backgroundColor: '#fff',
@@ -865,7 +871,7 @@ const CategoryAnalytics = ({
           padding: '24px'
         }}>
           <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
-            Avg {metricLabel} per SKU by Category
+            Avg {metricLabel} per SKU by Brand
           </h3>
           <ResponsiveContainer width="100%" height={Math.max(280, velocityBarData.length * 40)}>
             <BarChart data={velocityBarData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
@@ -946,7 +952,7 @@ const CategoryAnalytics = ({
           padding: '24px'
         }}>
           <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
-            {metricLabel} Share by Category
+            {metricLabel} Share by Brand
           </h3>
           {pieData.length > 0 ? (
             <ResponsiveContainer width="100%" height={320}>
@@ -985,7 +991,7 @@ const CategoryAnalytics = ({
           padding: '24px'
         }}>
           <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
-            Year-over-Year Change by Category
+            Year-over-Year Change by Brand
           </h3>
           {hasComparison && yoyBarData.length > 0 ? (
             <ResponsiveContainer width="100%" height={320}>
@@ -1025,7 +1031,7 @@ const CategoryAnalytics = ({
       </div>
 
       {/* Stacked Area Trend Chart */}
-      {trendChartData.length > 0 && trendCategories.length > 0 && (
+      {trendChartData.length > 0 && trendBrands.length > 0 && (
         <div style={{
           backgroundColor: '#fff',
           borderRadius: '12px',
@@ -1033,7 +1039,7 @@ const CategoryAnalytics = ({
           padding: '24px'
         }}>
           <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
-            Category {metricLabel} Trends Over Time
+            Brand {metricLabel} Trends Over Time
           </h3>
           <ResponsiveContainer width="100%" height={400}>
             <AreaChart data={trendChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -1050,12 +1056,12 @@ const CategoryAnalytics = ({
               />
               <Tooltip content={<ChartTooltip />} />
               <Legend />
-              {trendCategories.map((cat, idx) => (
+              {trendBrands.map((brand, idx) => (
                 <Area
-                  key={cat}
+                  key={brand}
                   type="monotone"
-                  dataKey={cat}
-                  name={cat}
+                  dataKey={brand}
+                  name={brand}
                   stackId="1"
                   stroke={CHART_COLORS[idx % CHART_COLORS.length]}
                   fill={CHART_COLORS[idx % CHART_COLORS.length]}
@@ -1089,4 +1095,4 @@ const tdStyle = {
   fontSize: '13px'
 };
 
-export default CategoryAnalytics;
+export default BrandPerformance;

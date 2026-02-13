@@ -18,6 +18,7 @@ import SalesOverview from './components/SalesOverview';
 import YoYPerformance from './components/YoYPerformance';
 import ProductPerformance from './components/ProductPerformance';
 import CategoryAnalytics from './components/CategoryAnalytics';
+import BrandPerformance from './components/BrandPerformance';
 import TopBottomMovers from './components/TopBottomMovers';
 import InventoryHealth from './components/InventoryHealth';
 import LTOOSRisk from './components/LTOOSRisk';
@@ -32,6 +33,7 @@ const COMPONENT_MAP = {
   YoYPerformance,
   ProductPerformance,
   CategoryAnalytics,
+  BrandPerformance,
   TopBottomMovers,
   InventoryHealth,
   LTOOSRisk,
@@ -43,7 +45,7 @@ const COMPONENT_MAP = {
 
 const POS_AWARE_COMPONENTS = new Set([
   'ExecutiveSummary', 'SalesOverview', 'YoYPerformance',
-  'ProductPerformance', 'CategoryAnalytics', 'TopBottomMovers',
+  'ProductPerformance', 'CategoryAnalytics', 'BrandPerformance', 'TopBottomMovers',
 ]);
 
 const globalStyles = `

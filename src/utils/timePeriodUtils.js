@@ -244,20 +244,21 @@ function buildTrendData(periods, periodKeys) {
  * Compute monthly time slice for a selected month.
  */
 export function computeMonthlySlice(periods, monthKey) {
-  const [yearA, yearB] = getYearPair(periods);
+  const selectedYear = monthKey.slice(0, 4);
   const mm = monthKey.slice(5, 7);
-  const comparisonKey = `${yearA}-${mm}`;
+  const comparisonYear = String(Number(selectedYear) - 1);
+  const comparisonKey = `${comparisonYear}-${mm}`;
 
   const currentData = periods[monthKey] || {};
-  // Use year-ago period if different years exist; otherwise empty
-  const comparisonData = (yearA !== yearB && periods[comparisonKey]) ? periods[comparisonKey] : {};
+  // Use same month from the prior year for YoY comparison
+  const comparisonData = periods[comparisonKey] ? periods[comparisonKey] : {};
 
   // Trend: all sorted periods for the full timeline chart
   const sorted = getSortedPeriods(periods);
   const trendData = buildTrendData(periods, sorted);
 
   // Full previous year for Pace % baseline
-  const prevYearKeys = sorted.filter(k => k.startsWith(yearA));
+  const prevYearKeys = sorted.filter(k => k.startsWith(comparisonYear));
   const fullPrevYearData = aggregateProductData(periods, prevYearKeys);
 
   const periodLabel = `${periodToMonthName(monthKey)} ${monthKey.slice(0, 4)}`;

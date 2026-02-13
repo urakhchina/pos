@@ -17,6 +17,7 @@
         "top_bottom_movers",
         "yoy_performance",
         "category_analytics",
+        "brand_performance",
         "discontinuation_risk"
       ],
       "product_count": 249,
@@ -40,6 +41,7 @@
         "top_bottom_movers",
         "yoy_performance",
         "category_analytics",
+        "brand_performance",
         "inventory_health",
         "ltoos_risk"
       ],
@@ -61,7 +63,8 @@
         "product_performance",
         "top_bottom_movers",
         "yoy_performance",
-        "category_analytics"
+        "category_analytics",
+        "brand_performance"
       ],
       "product_count": 213,
       "time_grain": "monthly",
@@ -83,6 +86,7 @@
         "top_bottom_movers",
         "yoy_performance",
         "category_analytics",
+        "brand_performance",
         "distribution_acv"
       ],
       "product_count": 105,
@@ -105,6 +109,7 @@
         "top_bottom_movers",
         "yoy_performance",
         "category_analytics",
+        "brand_performance",
         "inventory_health"
       ],
       "product_count": 170,
@@ -127,6 +132,7 @@
         "top_bottom_movers",
         "yoy_performance",
         "category_analytics",
+        "brand_performance",
         "inventory_health"
       ],
       "product_count": 51,

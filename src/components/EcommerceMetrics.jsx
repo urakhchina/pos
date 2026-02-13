@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
 import { ShoppingCart, DollarSign, Target, Users, TrendingUp, Package } from 'lucide-react';
 import {
@@ -79,6 +79,27 @@ export default function EcommerceMetrics({ ecommerce }) {
       </div>
     );
   }
+
+  /* ── Product sort state ────────────────────────────────────────── */
+  const [ecomSort, setEcomSort] = useState({ field: 'revenue', dir: 'desc' });
+
+  const handleEcomSort = (field) => {
+    setEcomSort(prev =>
+      prev.field === field
+        ? { field, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
+        : { field, dir: 'desc' }
+    );
+  };
+
+  function sortItems(items, field, dir) {
+    return [...items].sort((a, b) => {
+      let aVal = a[field], bVal = b[field];
+      if (typeof aVal === 'string') { aVal = aVal.toLowerCase(); bVal = (bVal || '').toLowerCase(); return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal); }
+      return dir === 'asc' ? (aVal || 0) - (bVal || 0) : (bVal || 0) - (aVal || 0);
+    });
+  }
+
+  const ecomSortIndicator = (field) => ecomSort.field === field ? (ecomSort.dir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
 
   const kpiCards = [
     {
@@ -297,11 +318,18 @@ export default function EcommerceMetrics({ ecommerce }) {
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  {['Product', 'Revenue', 'Units', 'Orders', 'ASP'].map(col => (
+                  {[
+                    { label: 'Product', field: 'name', align: 'left' },
+                    { label: 'Revenue', field: 'revenue', align: 'right' },
+                    { label: 'Units', field: 'units', align: 'right' },
+                    { label: 'Orders', field: 'orders', align: 'right' },
+                    { label: 'ASP', field: 'asp', align: 'right' },
+                  ].map(col => (
                     <th
-                      key={col}
+                      key={col.field}
+                      onClick={() => handleEcomSort(col.field)}
                       style={{
-                        textAlign: col === 'Product' ? 'left' : 'right',
+                        textAlign: col.align,
                         padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
                         borderBottom: `2px solid ${theme.colors.border}`,
                         fontWeight: 600,
@@ -310,50 +338,56 @@ export default function EcommerceMetrics({ ecommerce }) {
                         textTransform: 'uppercase',
                         letterSpacing: '0.03em',
                         fontFamily: theme.fonts.body,
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        whiteSpace: 'nowrap',
                       }}
                     >
-                      {col}
+                      {col.label}{ecomSortIndicator(col.field)}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {ecommerce.products
-                  .sort((a, b) => (b.revenue || b.dollars || 0) - (a.revenue || a.dollars || 0))
-                  .slice(0, 25)
-                  .map((p, i) => {
+                {sortItems(
+                  ecommerce.products.map(p => {
                     const rev = p.revenue || p.dollars || 0;
                     const units = p.units || 0;
                     const orders = p.orders || 0;
                     const asp = units > 0 ? rev / units : 0;
-                    return (
-                      <tr key={p.upc || i} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                        <td
-                          style={{
-                            padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
-                            borderBottom: `1px solid ${theme.colors.border}`,
-                            fontFamily: theme.fonts.body,
-                            fontSize: '0.82rem',
-                            maxWidth: 280,
-                          }}
-                        >
-                          <div style={{ fontWeight: 500 }}>{p.product_name || p.name || p.upc || 'Unknown'}</div>
-                        </td>
-                        <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem', fontWeight: 600 }}>
-                          ${rev.toLocaleString()}
-                        </td>
-                        <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
-                          {units.toLocaleString()}
-                        </td>
-                        <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
-                          {orders.toLocaleString()}
-                        </td>
-                        <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
-                          ${asp.toFixed(2)}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                    return { ...p, name: p.product_name || p.name || p.upc || 'Unknown', revenue: rev, units, orders, asp };
+                  }),
+                  ecomSort.field,
+                  ecomSort.dir
+                )
+                  .slice(0, 25)
+                  .map((p, i) => (
+                    <tr key={p.upc || i} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
+                      <td
+                        style={{
+                          padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+                          borderBottom: `1px solid ${theme.colors.border}`,
+                          fontFamily: theme.fonts.body,
+                          fontSize: '0.82rem',
+                          maxWidth: 280,
+                        }}
+                      >
+                        <div style={{ fontWeight: 500 }}>{p.name}</div>
+                      </td>
+                      <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem', fontWeight: 600 }}>
+                        ${p.revenue.toLocaleString()}
+                      </td>
+                      <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
+                        {p.units.toLocaleString()}
+                      </td>
+                      <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
+                        {p.orders.toLocaleString()}
+                      </td>
+                      <td style={{ padding: `${theme.spacing.xs} ${theme.spacing.sm}`, borderBottom: `1px solid ${theme.colors.border}`, textAlign: 'right', fontFamily: theme.fonts.body, fontSize: '0.82rem' }}>
+                        ${p.asp.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

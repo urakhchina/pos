@@ -265,15 +265,25 @@ const ProductPerformance = ({
 
       if (primaryVal === 0 && compPrimaryVal === 0) return;
 
+      // Trend score from sparkline data (second-half avg minus first-half avg)
+      const spark = sparklineDataMap[upc];
+      let trendVal = 0;
+      if (spark?.data?.length >= 2) {
+        const half = Math.floor(spark.data.length / 2);
+        const avgFirst = spark.data.slice(0, half).reduce((s, d) => s + d.value, 0) / half;
+        const avgSecond = spark.data.slice(half).reduce((s, d) => s + d.value, 0) / (spark.data.length - half);
+        trendVal = avgFirst > 0 ? ((avgSecond - avgFirst) / avgFirst) * 100 : avgSecond;
+      }
+
       list.push({
         upc, name, category, brand, dollars, units,
         primaryVal, compPrimaryVal, yoyChange,
-        seqPct, pyVal, yepVal, pacePct,
+        seqPct, pyVal, yepVal, pacePct, trendVal,
       });
     });
 
     return list;
-  }, [currentData, comparisonData, priorSequentialData, fullPriorYearProductData, productMap, metricKey, yepMultiplier]);
+  }, [currentData, comparisonData, priorSequentialData, fullPriorYearProductData, productMap, metricKey, yepMultiplier, sparklineDataMap]);
 
   const categories = useMemo(() => {
     const set = new Set(products.map(p => p.category));
@@ -440,7 +450,7 @@ const ProductPerformance = ({
                   <SortHeader field="name" label="Product" />
                   <SortHeader field="category" label="Category" />
                   <SortHeader field="brand" label="Brand" />
-                  <th style={{ ...thStyle, cursor: 'default' }}>Trend</th>
+                  <SortHeader field="trendVal" label="Trend" align="right" />
                   {hasComparison && <SortHeader field="compPrimaryVal" label={yagoColLabel} align="right" />}
                   <SortHeader field="primaryVal" label={curColLabel} align="right" />
                   {useDollars && <SortHeader field="units" label="Units" align="right" />}

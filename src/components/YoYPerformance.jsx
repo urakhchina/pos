@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import {
-  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  ComposedChart, BarChart, Bar, Cell, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
-import { TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, ChevronUp, ChevronDown } from 'lucide-react';
 import { theme } from '../styles/theme';
 import { formatValue, sumPeriod, periodToMonthName, MONTH_NAMES } from '../utils/timePeriodUtils';
 
@@ -11,6 +11,7 @@ const thStyle = {
   padding: '10px 16px', textAlign: 'left', fontWeight: 600, color: '#555',
   borderBottom: '2px solid #e0e0e0', fontSize: '12px',
   textTransform: 'uppercase', letterSpacing: '0.5px',
+  cursor: 'pointer', userSelect: 'none',
 };
 const tdStyle = { padding: '10px 16px', color: '#333' };
 
@@ -22,6 +23,33 @@ function fmtPct(val) {
   if (val == null) return '—';
   return `${val >= 0 ? '+' : ''}${val.toFixed(1)}%`;
 }
+
+function sortItems(items, field, dir) {
+  return [...items].sort((a, b) => {
+    let aVal = a[field], bVal = b[field];
+    if (typeof aVal === 'string') {
+      aVal = aVal.toLowerCase();
+      bVal = (bVal || '').toLowerCase();
+      return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    }
+    return dir === 'asc' ? (aVal || 0) - (bVal || 0) : (bVal || 0) - (aVal || 0);
+  });
+}
+
+function toggleSort(sortState, setSortState, field) {
+  setSortState(prev =>
+    prev.field === field
+      ? { field, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
+      : { field, dir: 'desc' }
+  );
+}
+
+const SortIndicator = ({ field, sortState }) => {
+  if (sortState.field !== field) return null;
+  return sortState.dir === 'asc'
+    ? <ChevronUp size={12} style={{ marginLeft: '2px', verticalAlign: 'middle' }} />
+    : <ChevronDown size={12} style={{ marginLeft: '2px', verticalAlign: 'middle' }} />;
+};
 
 const SummaryCard = ({ label, value, color, subtext, icon }) => (
   <div style={{
@@ -43,6 +71,10 @@ const YoYPerformance = ({
   selectedPeriodKey, priorSequentialData, fullPriorYearProductData, monthsWithData,
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [growthSort, setGrowthSort] = useState({ field: 'changePercent', dir: 'desc' });
+  const [declineSort, setDeclineSort] = useState({ field: 'changePercent', dir: 'asc' });
+  const [catGrowSort, setCatGrowSort] = useState({ field: 'changePct', dir: 'desc' });
+  const [catDecSort, setCatDecSort] = useState({ field: 'changePct', dir: 'asc' });
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
@@ -223,6 +255,55 @@ const YoYPerformance = ({
       .sort((a, b) => a.changePercent - b.changePercent).slice(0, 10);
   }, [productYoY]);
 
+  // Category-level YoY aggregation
+  const categoryYoY = useMemo(() => {
+    if (!currentData || !comparisonData) return [];
+
+    const cats = {};
+    const allUPCs = new Set([
+      ...Object.keys(currentData || {}),
+      ...Object.keys(comparisonData || {}),
+    ]);
+
+    allUPCs.forEach(upc => {
+      const product = productMap[upc];
+      const category = product?.category || 'Unknown';
+      if (!cats[category]) cats[category] = { name: category, current: 0, comp: 0, productCount: 0 };
+
+      const cur = currentData?.[upc]?.[metricKey] || 0;
+      const comp = comparisonData?.[upc]?.[metricKey] || 0;
+      cats[category].current += cur;
+      cats[category].comp += comp;
+      if (cur > 0) cats[category].productCount += 1;
+    });
+
+    return Object.values(cats)
+      .filter(c => c.current > 0 || c.comp > 0)
+      .map(c => {
+        const change = c.current - c.comp;
+        const changePct = c.comp > 0
+          ? ((c.current - c.comp) / c.comp) * 100
+          : c.current > 0 ? 100 : 0;
+        return { ...c, change, changePct };
+      })
+      .sort((a, b) => b.changePct - a.changePct);
+  }, [currentData, comparisonData, productMap, metricKey]);
+
+  const categoryChartData = useMemo(() => {
+    return categoryYoY.map(c => ({
+      name: c.name.length > 22 ? c.name.substring(0, 22) + '...' : c.name,
+      fullName: c.name,
+      yoy: parseFloat(c.changePct.toFixed(1)),
+      current: c.current,
+      comp: c.comp,
+      change: c.change,
+      productCount: c.productCount,
+    }));
+  }, [categoryYoY]);
+
+  const topGrowingCats = useMemo(() => categoryYoY.filter(c => c.changePct > 0).slice(0, 5), [categoryYoY]);
+  const topDecliningCats = useMemo(() => [...categoryYoY].filter(c => c.changePct < 0).sort((a, b) => a.changePct - b.changePct).slice(0, 5), [categoryYoY]);
+
   const hasComparisonData = comparisonData && Object.keys(comparisonData).length > 0;
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -246,77 +327,81 @@ const YoYPerformance = ({
 
   const colCount = 3 + (hasPY ? 1 : 0) + 1 + (hasSeq && seqPctLabel ? 1 : 0) + 1 + (hasPY ? 1 : 0);
 
-  const renderProductTable = (products, title, icon) => (
-    <div style={{
-      backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0',
-      overflow: 'hidden', flex: 1,
-    }}>
+  const renderProductTable = (products, title, icon, sortState, setSortState) => {
+    const sorted = sortItems(products, sortState.field, sortState.dir);
+    const handleSort = (field) => toggleSort(sortState, setSortState, field);
+    return (
       <div style={{
-        padding: '16px 20px', borderBottom: '1px solid #e0e0e0',
-        display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f8f9fa',
+        backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0',
+        overflow: 'hidden', flex: 1,
       }}>
-        {icon}
-        <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>{title}</h3>
-      </div>
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
-              <th style={thStyle}>Product</th>
-              <th style={{ ...thStyle, textAlign: 'right' }}>{yagoColLabel}</th>
-              <th style={{ ...thStyle, textAlign: 'right' }}>{curColLabel}</th>
-              {hasPY && <th style={{ ...thStyle, textAlign: 'right' }}>{pyLabel}</th>}
-              <th style={{ ...thStyle, textAlign: 'right' }}>{yepLabel}</th>
-              {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }}>{seqPctLabel}</th>}
-              <th style={{ ...thStyle, textAlign: 'right' }}>YoY%</th>
-              {hasPY && <th style={{ ...thStyle, textAlign: 'right' }}>Pace%</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((p, idx) => (
-              <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
-                <td style={{ ...tdStyle, maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  <div style={{ fontWeight: 500 }}>{p.name}</div>
-                  {p.brand && <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{p.brand}</div>}
-                </td>
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
-                <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.currentVal, useDollars)}</td>
-                {hasPY && (
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
-                    {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
-                  </td>
-                )}
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
-                {hasSeq && seqPctLabel && (
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
-                    {fmtPct(p.seqPct)}
-                  </td>
-                )}
-                <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: p.changePercent >= 0 ? theme.colors.success : theme.colors.danger }}>
-                    {p.changePercent >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                    {fmtPct(p.changePercent)}
-                  </span>
-                </td>
-                {hasPY && (
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
-                    {fmtPct(p.pacePct)}
-                  </td>
-                )}
+        <div style={{
+          padding: '16px 20px', borderBottom: '1px solid #e0e0e0',
+          display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#f8f9fa',
+        }}>
+          {icon}
+          <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>{title}</h3>
+        </div>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+            <thead>
+              <tr style={{ backgroundColor: '#f8f9fa' }}>
+                <th style={thStyle} onClick={() => handleSort('name')}>Product<SortIndicator field="name" sortState={sortState} /></th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={sortState} /></th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('currentVal')}>{curColLabel}<SortIndicator field="currentVal" sortState={sortState} /></th>
+                {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={sortState} /></th>}
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={sortState} /></th>
+                {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={sortState} /></th>}
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('changePercent')}>YoY%<SortIndicator field="changePercent" sortState={sortState} /></th>
+                {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pacePct')}>Pace%<SortIndicator field="pacePct" sortState={sortState} /></th>}
               </tr>
-            ))}
-            {products.length === 0 && (
-              <tr>
-                <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>
-                  No data available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sorted.map((p, idx) => (
+                <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
+                  <td style={{ ...tdStyle, maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div style={{ fontWeight: 500 }}>{p.name}</div>
+                    {p.brand && <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{p.brand}</div>}
+                  </td>
+                  <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
+                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.currentVal, useDollars)}</td>
+                  {hasPY && (
+                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
+                    </td>
+                  )}
+                  <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
+                  {hasSeq && seqPctLabel && (
+                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
+                      {fmtPct(p.seqPct)}
+                    </td>
+                  )}
+                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: p.changePercent >= 0 ? theme.colors.success : theme.colors.danger }}>
+                      {p.changePercent >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                      {fmtPct(p.changePercent)}
+                    </span>
+                  </td>
+                  {hasPY && (
+                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
+                      {fmtPct(p.pacePct)}
+                    </td>
+                  )}
+                </tr>
+              ))}
+              {sorted.length === 0 && (
+                <tr>
+                  <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>
+                    No data available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (!hasComparisonData) {
     return (
@@ -354,6 +439,7 @@ const YoYPerformance = ({
       <div style={{ display: 'flex', gap: '4px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '4px' }}>
         {[
           { key: 'overview', label: 'Overview Chart' },
+          { key: 'categories', label: 'Categories' },
           { key: 'growth', label: 'Top Growth' },
           { key: 'decline', label: 'Top Decline' },
         ].map(tab => (
@@ -397,8 +483,143 @@ const YoYPerformance = ({
         </div>
       )}
 
-      {activeTab === 'growth' && renderProductTable(top10Growth, 'Top 10 Growth Products', <TrendingUp size={18} color={theme.colors.success} />)}
-      {activeTab === 'decline' && renderProductTable(top10Decline, 'Top 10 Declining Products', <TrendingDown size={18} color={theme.colors.danger} />)}
+      {/* Category YoY */}
+      {activeTab === 'categories' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Horizontal bar chart */}
+          {categoryChartData.length > 0 && (
+            <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', padding: '24px' }}>
+              <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
+                Category Year-over-Year Growth
+              </h3>
+              <ResponsiveContainer width="100%" height={Math.max(280, categoryChartData.length * 38)}>
+                <BarChart data={categoryChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={true} horizontal={false} />
+                  <XAxis type="number" tick={{ fontSize: 12, fill: '#666' }} axisLine={{ stroke: '#ccc' }} tickFormatter={val => `${val}%`} />
+                  <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: '#444' }} axisLine={{ stroke: '#ccc' }} width={180} />
+                  <Tooltip content={({ active, payload }) => {
+                    if (!active || !payload || payload.length === 0) return null;
+                    const d = payload[0]?.payload;
+                    if (!d) return null;
+                    return (
+                      <div style={{
+                        backgroundColor: '#fff', border: `1px solid ${theme.colors.secondary}`,
+                        borderRadius: '8px', padding: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minWidth: '200px',
+                      }}>
+                        <p style={{ margin: '0 0 8px', fontWeight: 600, color: theme.colors.secondary, fontSize: '13px' }}>{d.fullName}</p>
+                        <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>{yagoColLabel}: {formatValue(d.comp, useDollars)}</p>
+                        <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>{curColLabel}: {formatValue(d.current, useDollars)}</p>
+                        <p style={{ margin: '3px 0', fontSize: '12px', color: '#444' }}>Change: {formatValue(d.change, useDollars)}</p>
+                        <p style={{ margin: '3px 0', fontSize: '12px', fontWeight: 600, color: d.yoy >= 0 ? theme.colors.success : theme.colors.danger }}>
+                          {d.yoy >= 0 ? '+' : ''}{d.yoy}% YoY
+                        </p>
+                        <p style={{ margin: '3px 0', fontSize: '11px', color: '#999' }}>{d.productCount} active products</p>
+                      </div>
+                    );
+                  }} />
+                  <Bar dataKey="yoy" name="YoY %" radius={[0, 4, 4, 0]}>
+                    {categoryChartData.map((entry, idx) => (
+                      <Cell key={idx} fill={entry.yoy >= 0 ? theme.colors.success : theme.colors.danger} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* Top Growing / Declining side by side */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            {/* Top Growing */}
+            <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+              <div style={{
+                padding: '16px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#f8f9fa',
+                display: 'flex', alignItems: 'center', gap: '8px',
+              }}>
+                <TrendingUp size={18} color={theme.colors.success} />
+                <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>Top Growing Categories</h3>
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ backgroundColor: '#f8f9fa' }}>
+                      <th style={thStyle} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'name')}>Category<SortIndicator field="name" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'change')}>Change<SortIndicator field="change" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catGrowSort} /></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sortItems(topGrowingCats, catGrowSort.field, catGrowSort.dir).map((c, idx) => (
+                      <tr key={c.name} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
+                        <td style={{ ...tdStyle, fontWeight: 500 }}>{c.name}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', color: theme.colors.success }}>{formatValue(c.change, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: theme.colors.success }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <ArrowUpRight size={14} />
+                            {fmtPct(c.changePct)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                    {topGrowingCats.length === 0 && (
+                      <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>No growing categories</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Top Declining */}
+            <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
+              <div style={{
+                padding: '16px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#f8f9fa',
+                display: 'flex', alignItems: 'center', gap: '8px',
+              }}>
+                <TrendingDown size={18} color={theme.colors.danger} />
+                <h3 style={{ margin: 0, fontSize: '16px', color: theme.colors.secondary }}>Top Declining Categories</h3>
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ backgroundColor: '#f8f9fa' }}>
+                      <th style={thStyle} onClick={() => toggleSort(catDecSort, setCatDecSort, 'name')}>Category<SortIndicator field="name" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'change')}>Change<SortIndicator field="change" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catDecSort} /></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sortItems(topDecliningCats, catDecSort.field, catDecSort.dir).map((c, idx) => (
+                      <tr key={c.name} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
+                        <td style={{ ...tdStyle, fontWeight: 500 }}>{c.name}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', color: theme.colors.danger }}>{formatValue(c.change, useDollars)}</td>
+                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: theme.colors.danger }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <ArrowDownRight size={14} />
+                            {fmtPct(c.changePct)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                    {topDecliningCats.length === 0 && (
+                      <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>No declining categories</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'growth' && renderProductTable(top10Growth, 'Top 10 Growth Products', <TrendingUp size={18} color={theme.colors.success} />, growthSort, setGrowthSort)}
+      {activeTab === 'decline' && renderProductTable(top10Decline, 'Top 10 Declining Products', <TrendingDown size={18} color={theme.colors.danger} />, declineSort, setDeclineSort)}
     </div>
   );
 };

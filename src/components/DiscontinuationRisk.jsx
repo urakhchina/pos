@@ -91,6 +91,27 @@ export default function DiscontinuationRisk({ posData }) {
     statusCounts[s] = (statusCounts[s] || 0) + 1;
   });
 
+  /* ── Sort state ───────────────────────────────────────────────── */
+  const [sortField, setSortField] = useState('totalDollars');
+  const [sortDir, setSortDir] = useState('desc');
+
+  const handleSort = (field) => {
+    if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    else { setSortField(field); setSortDir('desc'); }
+  };
+
+  function sortItems(items, field, dir) {
+    return [...items].sort((a, b) => {
+      let aVal = a[field], bVal = b[field];
+      if (typeof aVal === 'string') { aVal = aVal.toLowerCase(); bVal = (bVal || '').toLowerCase(); return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal); }
+      return dir === 'asc' ? (aVal || 0) - (bVal || 0) : (bVal || 0) - (aVal || 0);
+    });
+  }
+
+  const sortIndicator = (field) => sortField === field ? (sortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
+
+  const sorted = sortItems(filtered, sortField, sortDir);
+
   const thStyle = {
     textAlign: 'left',
     padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
@@ -101,6 +122,9 @@ export default function DiscontinuationRisk({ posData }) {
     textTransform: 'uppercase',
     letterSpacing: '0.03em',
     fontFamily: theme.fonts.body,
+    cursor: 'pointer',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
   };
   const tdStyle = {
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
@@ -209,22 +233,22 @@ export default function DiscontinuationRisk({ posData }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={thStyle}>Product</th>
-                <th style={thStyle}>Category</th>
-                <th style={thStyle}>Status</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Total $</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Total Units</th>
+                <th style={thStyle} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
+                <th style={thStyle} onClick={() => handleSort('category')}>Category{sortIndicator('category')}</th>
+                <th style={thStyle} onClick={() => handleSort('setStatus')}>Status{sortIndicator('setStatus')}</th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('totalDollars')}>Total ${sortIndicator('totalDollars')}</th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('totalUnits')}>Total Units{sortIndicator('totalUnits')}</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.length === 0 ? (
+              {sorted.length === 0 ? (
                 <tr>
                   <td colSpan={5} style={{ ...tdStyle, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
                     No products match the current filter.
                   </td>
                 </tr>
               ) : (
-                filtered.map((p, i) => {
+                sorted.map((p, i) => {
                   const cfg = p.config;
                   return (
                     <tr key={p.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>

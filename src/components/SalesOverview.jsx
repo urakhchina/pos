@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
 import {
   sumPeriod, formatValue, MONTH_NAMES, periodToMonthName,
@@ -237,6 +237,29 @@ export default function SalesOverview({
     return products.sort((a, b) => b.curVal - a.curVal).slice(0, 15);
   }, [currentData, comparisonData, priorSequentialData, fullPriorYearProductData, posData, timePeriod, useDollars, yepMultiplier]);
 
+  /* ── Product sort state ────────────────────────────────────────── */
+  const [prodSort, setProdSort] = useState({ field: 'curVal', dir: 'desc' });
+
+  const handleProdSort = (field) => {
+    setProdSort(prev =>
+      prev.field === field
+        ? { field, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
+        : { field, dir: 'desc' }
+    );
+  };
+
+  function sortItems(items, field, dir) {
+    return [...items].sort((a, b) => {
+      let aVal = a[field], bVal = b[field];
+      if (typeof aVal === 'string') { aVal = aVal.toLowerCase(); bVal = (bVal || '').toLowerCase(); return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal); }
+      return dir === 'asc' ? (aVal || 0) - (bVal || 0) : (bVal || 0) - (aVal || 0);
+    });
+  }
+
+  const sortedProducts = leadingProducts ? sortItems(leadingProducts, prodSort.field, prodSort.dir) : null;
+
+  const prodSortIndicator = (field) => prodSort.field === field ? (prodSort.dir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
+
   /* ── Early return ───────────────────────────────────────────────── */
   if (!summaryStats) {
     return (
@@ -301,6 +324,7 @@ export default function SalesOverview({
     textAlign: 'left', padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
     borderBottom: `2px solid ${theme.colors.border}`, fontWeight: 600,
     color: theme.colors.secondary, fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.03em',
+    cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap',
   };
   const tdStyle = {
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
@@ -373,7 +397,7 @@ export default function SalesOverview({
       )}
 
       {/* ── Leading Products Table ─────────────────────────────────── */}
-      {leadingProducts && leadingProducts.length > 0 && (
+      {sortedProducts && sortedProducts.length > 0 && (
         <div style={{
           background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
           boxShadow: theme.shadows.sm, padding: theme.spacing.xl, marginBottom: theme.spacing.lg,
@@ -389,19 +413,19 @@ export default function SalesOverview({
             <table style={tableStyle}>
               <thead>
                 <tr>
-                  <th style={thStyle}>#</th>
-                  <th style={thStyle}>Product</th>
-                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }}>{yagoColLabel}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }}>{curColLabel}</th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }}>{pyLabel}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }}>{yepLabel}</th>
-                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }}>{seqPctLabel}</th>}
-                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }}>YoY%</th>}
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }}>Pace%</th>}
+                  <th style={{ ...thStyle, cursor: 'default' }}>#</th>
+                  <th style={thStyle} onClick={() => handleProdSort('name')}>Product{prodSortIndicator('name')}</th>
+                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yagoVal')}>{yagoColLabel}{prodSortIndicator('yagoVal')}</th>}
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('curVal')}>{curColLabel}{prodSortIndicator('curVal')}</th>
+                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('pyVal')}>{pyLabel}{prodSortIndicator('pyVal')}</th>}
+                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yepVal')}>{yepLabel}{prodSortIndicator('yepVal')}</th>
+                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('seqPct')}>{seqPctLabel}{prodSortIndicator('seqPct')}</th>}
+                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yoyPct')}>YoY%{prodSortIndicator('yoyPct')}</th>}
+                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('pacePct')}>Pace%{prodSortIndicator('pacePct')}</th>}
                 </tr>
               </thead>
               <tbody>
-                {leadingProducts.map((item, i) => (
+                {sortedProducts.map((item, i) => (
                   <tr key={item.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
                     <td style={tdStyle}>{i + 1}</td>
                     <td style={{ ...tdStyle, maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

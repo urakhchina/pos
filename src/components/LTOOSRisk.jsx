@@ -37,10 +37,29 @@ export default function LTOOSRisk({ ltoos }) {
     if (statusFilter !== 'all') {
       result = result.filter(i => i.status === statusFilter);
     }
-    // Sort by days descending (worst first)
-    result.sort((a, b) => (b.days || 0) - (a.days || 0));
     return result;
   }, [items, statusFilter]);
+
+  /* ── Sort state ───────────────────────────────────────────────── */
+  const [sortField, setSortField] = useState('days');
+  const [sortDir, setSortDir] = useState('desc');
+
+  const handleSort = (field) => {
+    if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    else { setSortField(field); setSortDir('desc'); }
+  };
+
+  function sortItems(items, field, dir) {
+    return [...items].sort((a, b) => {
+      let aVal = a[field], bVal = b[field];
+      if (typeof aVal === 'string') { aVal = aVal.toLowerCase(); bVal = (bVal || '').toLowerCase(); return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal); }
+      return dir === 'asc' ? (aVal || 0) - (bVal || 0) : (bVal || 0) - (aVal || 0);
+    });
+  }
+
+  const sortIndicator = (field) => sortField === field ? (sortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
+
+  const sorted = sortItems(filtered, sortField, sortDir);
 
   if (!ltoos) {
     return (
@@ -66,6 +85,9 @@ export default function LTOOSRisk({ ltoos }) {
     textTransform: 'uppercase',
     letterSpacing: '0.03em',
     fontFamily: theme.fonts.body,
+    cursor: 'pointer',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
   };
   const tdStyle = {
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
@@ -180,22 +202,22 @@ export default function LTOOSRisk({ ltoos }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={thStyle}>Product</th>
-                <th style={thStyle}>Status</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Days LTOOS</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Qty Available</th>
-                <th style={thStyle}>Severity</th>
+                <th style={thStyle} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
+                <th style={thStyle} onClick={() => handleSort('status')}>Status{sortIndicator('status')}</th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('days')}>Days LTOOS{sortIndicator('days')}</th>
+                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('qtyAvailable')}>Qty Available{sortIndicator('qtyAvailable')}</th>
+                <th style={thStyle} onClick={() => handleSort('days')}>Severity{sortIndicator('days')}</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.length === 0 ? (
+              {sorted.length === 0 ? (
                 <tr>
                   <td colSpan={5} style={{ ...tdStyle, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
                     No LTOOS items match the current filter.
                   </td>
                 </tr>
               ) : (
-                filtered.map((item, i) => (
+                sorted.map((item, i) => (
                   <tr key={item.upc + '-' + i} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
                     <td style={{ ...tdStyle, maxWidth: 250 }}>
                       <div style={{ fontWeight: 500 }}>{item.name}</div>
