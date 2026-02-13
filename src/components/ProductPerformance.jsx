@@ -3,6 +3,7 @@ import { LineChart, Line, Tooltip as RechartsTooltip, ResponsiveContainer } from
 import { Search, Filter, ChevronUp, ChevronDown } from 'lucide-react';
 import { theme } from '../styles/theme';
 import { formatValue, sumPeriod, periodToMonthName, getSortedPeriods } from '../utils/timePeriodUtils';
+import { useResponsive } from '../hooks/useResponsive';
 
 const thStyle = {
   padding: '10px 16px', textAlign: 'left', fontWeight: 600, color: '#555',
@@ -70,6 +71,10 @@ const ProductPerformance = ({
   const [showFilters, setShowFilters] = useState(false);
   const [heatmapSortField, setHeatmapSortField] = useState('latestVal');
   const [heatmapSortDir, setHeatmapSortDir] = useState('desc');
+
+  const { isMobile } = useResponsive();
+  const thStyleR = { ...thStyle, padding: isMobile ? '6px 8px' : '10px 16px', fontSize: isMobile ? '11px' : '12px' };
+  const tdStyleR = { ...tdStyle, padding: isMobile ? '6px 8px' : '10px 16px', fontSize: isMobile ? '12px' : '13px' };
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
@@ -343,7 +348,7 @@ const ProductPerformance = ({
   };
 
   const SortHeader = ({ field, label, align }) => (
-    <th style={{ ...thStyle, textAlign: align || 'left' }} onClick={() => handleSort(field)}>
+    <th style={{ ...thStyleR, textAlign: align || 'left' }} onClick={() => handleSort(field)}>
       <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: align === 'right' ? 'flex-end' : 'flex-start' }}>
         {label} <SortIcon field={field} />
       </span>
@@ -375,7 +380,7 @@ const ProductPerformance = ({
           <div style={{
             display: 'flex', alignItems: 'center', gap: '8px',
             backgroundColor: '#f8f9fa', borderRadius: '8px', padding: '8px 14px',
-            flex: '1 1 300px', minWidth: '200px', border: '1px solid #e0e0e0',
+            flex: isMobile ? '1 1 100%' : '1 1 300px', minWidth: '200px', border: '1px solid #e0e0e0',
           }}>
             <Search size={16} color="#999" />
             <input type="text" placeholder="Search products by name, UPC, category, or brand..."
@@ -429,10 +434,10 @@ const ProductPerformance = ({
           { key: 'heatmap', label: 'Monthly Heatmap' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setActiveSubTab(tab.key)} style={{
-            flex: 1, padding: '10px 16px', border: 'none', borderRadius: '6px',
+            flex: 1, padding: isMobile ? '8px 8px' : '10px 16px', border: 'none', borderRadius: '6px',
             backgroundColor: activeSubTab === tab.key ? '#fff' : 'transparent',
             color: activeSubTab === tab.key ? theme.colors.primary : '#666',
-            fontWeight: activeSubTab === tab.key ? 600 : 400, cursor: 'pointer', fontSize: '14px',
+            fontWeight: activeSubTab === tab.key ? 600 : 400, cursor: 'pointer', fontSize: isMobile ? '12px' : '14px',
             boxShadow: activeSubTab === tab.key ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.2s',
           }}>
             {tab.label}
@@ -448,14 +453,14 @@ const ProductPerformance = ({
               <thead>
                 <tr style={{ backgroundColor: '#f8f9fa' }}>
                   <SortHeader field="name" label="Product" />
-                  <SortHeader field="category" label="Category" />
-                  <SortHeader field="brand" label="Brand" />
-                  <SortHeader field="trendVal" label="Trend" align="right" />
+                  {!isMobile && <SortHeader field="category" label="Category" />}
+                  {!isMobile && <SortHeader field="brand" label="Brand" />}
+                  {!isMobile && <SortHeader field="trendVal" label="Trend" align="right" />}
                   {hasComparison && <SortHeader field="compPrimaryVal" label={yagoColLabel} align="right" />}
                   <SortHeader field="primaryVal" label={curColLabel} align="right" />
                   {useDollars && <SortHeader field="units" label="Units" align="right" />}
-                  {hasPY && <SortHeader field="pyVal" label={pyColLabel} align="right" />}
-                  <SortHeader field="yepVal" label={yepColLabel} align="right" />
+                  {!isMobile && hasPY && <SortHeader field="pyVal" label={pyColLabel} align="right" />}
+                  {!isMobile && <SortHeader field="yepVal" label={yepColLabel} align="right" />}
                   {hasSeq && seqPctLabel && <SortHeader field="seqPct" label={seqPctLabel} align="right" />}
                   {hasComparison && <SortHeader field="yoyChange" label="YoY%" align="right" />}
                   {hasPY && <SortHeader field="pacePct" label="Pace%" align="right" />}
@@ -464,47 +469,47 @@ const ProductPerformance = ({
               <tbody>
                 {filteredProducts.map((p, idx) => (
                   <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee', transition: 'background-color 0.15s' }}>
-                    <td style={{ ...tdStyle, maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
+                    <td style={{ ...tdStyleR, maxWidth: isMobile ? '160px' : '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
                       {p.name}
                     </td>
-                    <td style={tdStyle}>
+                    {!isMobile && <td style={tdStyleR}>
                       <span style={{ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', backgroundColor: '#f0f0f0', fontSize: '12px' }}>
                         {p.category}
                       </span>
-                    </td>
-                    <td style={tdStyle}>{p.brand}</td>
-                    <td style={{ ...tdStyle, padding: '4px 8px' }}>
+                    </td>}
+                    {!isMobile && <td style={tdStyleR}>{p.brand}</td>}
+                    {!isMobile && <td style={{ ...tdStyleR, padding: '4px 8px' }}>
                       <ProductSparkline
                         data={sparklineDataMap[p.upc]?.data}
                         trend={sparklineDataMap[p.upc]?.trend}
                         useDollars={useDollars}
                       />
-                    </td>
+                    </td>}
                     {hasComparison && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compPrimaryVal, useDollars)}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.compPrimaryVal, useDollars)}</td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.primaryVal, useDollars)}</td>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.primaryVal, useDollars)}</td>
                     {useDollars && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.units, false)}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.units, false)}</td>
                     )}
-                    {hasPY && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                    {!isMobile && hasPY && (
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>
                         {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
                       </td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
+                    {!isMobile && <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>}
                     {hasSeq && seqPctLabel && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
                         {fmtPct(p.seqPct)}
                       </td>
                     )}
                     {hasComparison && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: p.yoyChange >= 0 ? theme.colors.success : theme.colors.danger }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: p.yoyChange >= 0 ? theme.colors.success : theme.colors.danger }}>
                         {fmtPct(p.yoyChange)}
                       </td>
                     )}
                     {hasPY && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
                         {fmtPct(p.pacePct)}
                       </td>
                     )}
@@ -512,7 +517,7 @@ const ProductPerformance = ({
                 ))}
                 {filteredProducts.length === 0 && (
                   <tr>
-                    <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
+                    <td colSpan={colCount} style={{ ...tdStyleR, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
                       {searchTerm || categoryFilter !== 'all' || brandFilter !== 'all'
                         ? 'No products match the current filters.'
                         : 'No product data available.'}
@@ -538,7 +543,7 @@ const ProductPerformance = ({
               <thead>
                 <tr style={{ backgroundColor: '#f8f9fa' }}>
                   <th
-                    style={{ ...thStyle, position: 'sticky', left: 0, backgroundColor: '#f8f9fa', zIndex: 2, minWidth: '200px' }}
+                    style={{ ...thStyleR, position: 'sticky', left: 0, backgroundColor: '#f8f9fa', zIndex: 2, minWidth: isMobile ? '140px' : '200px' }}
                     onClick={() => handleHeatmapSort('name')}
                   >
                     <span style={{ display: 'inline-flex', alignItems: 'center' }}>
@@ -548,7 +553,7 @@ const ProductPerformance = ({
                   {sortedMonthKeys.map(k => (
                     <th
                       key={k}
-                      style={{ ...thStyle, textAlign: 'right', minWidth: '72px' }}
+                      style={{ ...thStyleR, textAlign: 'right', minWidth: '72px' }}
                       onClick={() => handleHeatmapSort(k)}
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -558,7 +563,7 @@ const ProductPerformance = ({
                     </th>
                   ))}
                   <th
-                    style={{ ...thStyle, textAlign: 'right', minWidth: '72px' }}
+                    style={{ ...thStyleR, textAlign: 'right', minWidth: '72px' }}
                     onClick={() => handleHeatmapSort('avgVal')}
                   >
                     <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -571,7 +576,7 @@ const ProductPerformance = ({
                 {filteredHeatmapData.map((row, idx) => (
                   <tr key={row.upc} style={{ borderBottom: '1px solid #eee' }}>
                     <td style={{
-                      ...tdStyle, position: 'sticky', left: 0, zIndex: 1,
+                      ...tdStyleR, position: 'sticky', left: 0, zIndex: 1,
                       backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa',
                       fontWeight: 500, maxWidth: '200px', overflow: 'hidden',
                       textOverflow: 'ellipsis', whiteSpace: 'nowrap',
@@ -583,21 +588,21 @@ const ProductPerformance = ({
                         key={k}
                         title={row.momChanges[k] != null ? `MoM: ${fmtPct(row.momChanges[k])}` : 'No prior month'}
                         style={{
-                          ...tdStyle, textAlign: 'right', fontSize: '12px',
+                          ...tdStyleR, textAlign: 'right', fontSize: '12px',
                           backgroundColor: heatmapBg(row.momChanges[k]),
                         }}
                       >
                         {formatValue(row.monthValues[k], useDollars)}
                       </td>
                     ))}
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, fontSize: '12px' }}>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, fontSize: '12px' }}>
                       {formatValue(row.avgVal, useDollars)}
                     </td>
                   </tr>
                 ))}
                 {filteredHeatmapData.length === 0 && (
                   <tr>
-                    <td colSpan={sortedMonthKeys.length + 2} style={{ ...tdStyle, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
+                    <td colSpan={sortedMonthKeys.length + 2} style={{ ...tdStyleR, textAlign: 'center', color: '#999', padding: '40px 16px' }}>
                       {searchTerm || categoryFilter !== 'all' || brandFilter !== 'all'
                         ? 'No products match the current filters.'
                         : 'No product data available.'}

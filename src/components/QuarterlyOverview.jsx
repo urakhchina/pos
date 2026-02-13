@@ -1,22 +1,24 @@
 import React from 'react';
 import { theme } from '../styles/theme';
 import { formatValue } from '../utils/timePeriodUtils';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function QuarterlyOverview({ quarters, selectedQuarter, setSelectedQuarter, primaryMetric }) {
   if (!quarters || quarters.length === 0) return null;
   const useDollars = primaryMetric === 'dollars';
+  const { isMobile } = useResponsive();
 
   return (
     <div style={{ marginBottom: theme.spacing.lg }}>
       <h3 style={{
-        fontFamily: theme.fonts.heading, fontSize: '1.1rem',
+        fontFamily: theme.fonts.heading, fontSize: isMobile ? '0.9rem' : '1.1rem',
         fontWeight: 600, marginBottom: theme.spacing.md, color: theme.colors.text,
       }}>
         Quarter-over-Quarter Overview
       </h3>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: `repeat(${Math.min(quarters.length, 4)}, 1fr)`,
+        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : `repeat(${Math.min(quarters.length, 4)}, 1fr)`,
         gap: theme.spacing.md,
       }}>
         {quarters.map(q => {
@@ -28,7 +30,7 @@ export default function QuarterlyOverview({ quarters, selectedQuarter, setSelect
               style={{
                 background: theme.colors.cardBg,
                 borderRadius: theme.borderRadius.lg,
-                padding: theme.spacing.lg,
+                padding: isMobile ? theme.spacing.md : theme.spacing.lg,
                 border: isSelected
                   ? `2px solid ${theme.colors.primary}`
                   : `1px solid ${theme.colors.border}`,
@@ -43,7 +45,7 @@ export default function QuarterlyOverview({ quarters, selectedQuarter, setSelect
               }}>
                 <span style={{
                   fontFamily: theme.fonts.heading, fontWeight: 700,
-                  fontSize: '1.1rem', color: theme.colors.text,
+                  fontSize: isMobile ? '0.9rem' : '1.1rem', color: theme.colors.text,
                 }}>
                   {q.displayLabel || q.quarter}
                 </span>
@@ -56,7 +58,7 @@ export default function QuarterlyOverview({ quarters, selectedQuarter, setSelect
               </div>
 
               {/* Current total */}
-              <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: theme.fonts.heading, color: theme.colors.text }}>
+              <div style={{ fontSize: isMobile ? '1.1rem' : '1.4rem', fontWeight: 700, fontFamily: theme.fonts.heading, color: theme.colors.text }}>
                 {formatValue(q.currentTotal, useDollars)}
               </div>
 

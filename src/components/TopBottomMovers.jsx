@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
 import { formatValue, periodToMonthName } from '../utils/timePeriodUtils';
 import { TrendingUp, TrendingDown, ChevronUp, ChevronDown } from 'lucide-react';
+import { useResponsive } from '../hooks/useResponsive';
 
 function pctColor(val) {
   if (val == null) return theme.colors.textLight;
@@ -18,6 +19,7 @@ export default function TopBottomMovers({
   monthsWithData, comparableMonths,
 }) {
   const useDollars = primaryMetric === 'dollars';
+  const { isMobile } = useResponsive();
 
   const [gainerSort, setGainerSort] = useState({ field: 'unitChange', dir: 'desc' });
   const [declinerSort, setDeclinerSort] = useState({ field: 'unitChange', dir: 'asc' });
@@ -161,6 +163,8 @@ export default function TopBottomMovers({
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderBottom: `1px solid ${theme.colors.border}`, color: theme.colors.text,
   };
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 6px', fontSize: '0.65rem' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '4px 6px' } : tdStyle;
 
   const renderTable = (items, isGainer, sortState, setSortState) => {
     const handleSort = (field) => {
@@ -185,47 +189,47 @@ export default function TopBottomMovers({
         <table style={tableStyle}>
           <thead>
             <tr>
-              <th style={{ ...thStyle, cursor: 'default' }}>#</th>
-              <th style={thStyle} onClick={() => handleSort('name')}>Product<SortIcon field="name" /></th>
-              <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('unitChange')}>Unit Chg<SortIcon field="unitChange" /></th>
-              <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('compVal')}>{yagoColLabel}<SortIcon field="compVal" /></th>
-              <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('curVal')}>{curColLabel}<SortIcon field="curVal" /></th>
-              {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pyVal')}>{pyLabel}<SortIcon field="pyVal" /></th>}
-              <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('yepVal')}>{yepLabel}<SortIcon field="yepVal" /></th>
-              {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('seqPct')}>{seqPctLabel}<SortIcon field="seqPct" /></th>}
-              <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('yoyPct')}>YoY%<SortIcon field="yoyPct" /></th>
-              {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pacePct')}>Pace%<SortIcon field="pacePct" /></th>}
+              <th style={{ ...thStyleR, cursor: 'default' }}>#</th>
+              <th style={thStyleR} onClick={() => handleSort('name')}>Product<SortIcon field="name" /></th>
+              <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('unitChange')}>Unit Chg<SortIcon field="unitChange" /></th>
+              <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('compVal')}>{yagoColLabel}<SortIcon field="compVal" /></th>
+              <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('curVal')}>{curColLabel}<SortIcon field="curVal" /></th>
+              {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('pyVal')}>{pyLabel}<SortIcon field="pyVal" /></th>}
+              {!isMobile && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('yepVal')}>{yepLabel}<SortIcon field="yepVal" /></th>}
+              {hasSeq && seqPctLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('seqPct')}>{seqPctLabel}<SortIcon field="seqPct" /></th>}
+              <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('yoyPct')}>YoY%<SortIcon field="yoyPct" /></th>
+              {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('pacePct')}>Pace%<SortIcon field="pacePct" /></th>}
             </tr>
           </thead>
           <tbody>
             {sortedItems.map((item, i) => (
               <tr key={item.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                <td style={tdStyle}>{i + 1}</td>
-                <td style={{ ...tdStyle, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td style={tdStyleR}>{i + 1}</td>
+                <td style={{ ...tdStyleR, maxWidth: isMobile ? 140 : 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   <div style={{ fontWeight: 500 }}>{item.name}</div>
                   {item.brand && <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{item.brand}</div>}
                 </td>
-                <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: isGainer ? '#2e7d32' : '#c62828' }}>
+                <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: isGainer ? '#2e7d32' : '#c62828' }}>
                   {item.unitChange >= 0 ? '+' : ''}{item.unitChange.toLocaleString()}
                 </td>
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(item.compVal, useDollars)}</td>
-                <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(item.curVal, useDollars)}</td>
-                {hasPY && (
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
+                <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(item.compVal, useDollars)}</td>
+                <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(item.curVal, useDollars)}</td>
+                {!isMobile && hasPY && (
+                  <td style={{ ...tdStyleR, textAlign: 'right' }}>
                     {item.pyVal != null ? formatValue(item.pyVal, useDollars) : '---'}
                   </td>
                 )}
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(item.yepVal, useDollars)}</td>
+                {!isMobile && <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(item.yepVal, useDollars)}</td>}
                 {hasSeq && seqPctLabel && (
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(item.seqPct) }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(item.seqPct) }}>
                     {fmtPct(item.seqPct)}
                   </td>
                 )}
-                <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: isGainer ? '#2e7d32' : '#c62828' }}>
+                <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: isGainer ? '#2e7d32' : '#c62828' }}>
                   {fmtPct(item.yoyPct)}
                 </td>
-                {hasPY && (
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(item.pacePct) }}>
+                {!isMobile && hasPY && (
+                  <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(item.pacePct) }}>
                     {fmtPct(item.pacePct)}
                   </td>
                 )}
@@ -239,17 +243,17 @@ export default function TopBottomMovers({
 
   return (
     <div>
-      <h2 style={{ fontFamily: theme.fonts.heading, fontSize: '1.3rem', color: theme.colors.secondary, marginBottom: theme.spacing.sm }}>
+      <h2 style={{ fontFamily: theme.fonts.heading, fontSize: isMobile ? '1.1rem' : '1.3rem', color: theme.colors.secondary, marginBottom: theme.spacing.sm }}>
         Top / Bottom Movers
       </h2>
       <p style={{ fontFamily: theme.fonts.body, fontSize: '0.82rem', color: theme.colors.textLight, marginBottom: theme.spacing.lg }}>
         YoY {useDollars ? 'dollar' : 'unit'} change for {periodLabel}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: theme.spacing.lg }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(420px, 1fr))', gap: theme.spacing.lg }}>
         <div style={{
           background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
-          boxShadow: theme.shadows.sm, padding: theme.spacing.xl, borderTop: `3px solid ${theme.colors.success}`,
+          boxShadow: theme.shadows.sm, padding: isMobile ? theme.spacing.md : theme.spacing.xl, borderTop: `3px solid ${theme.colors.success}`,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.sm, marginBottom: theme.spacing.md }}>
             <TrendingUp size={18} style={{ color: '#2e7d32' }} />
@@ -264,7 +268,7 @@ export default function TopBottomMovers({
 
         <div style={{
           background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
-          boxShadow: theme.shadows.sm, padding: theme.spacing.xl, borderTop: `3px solid ${theme.colors.danger}`,
+          boxShadow: theme.shadows.sm, padding: isMobile ? theme.spacing.md : theme.spacing.xl, borderTop: `3px solid ${theme.colors.danger}`,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.sm, marginBottom: theme.spacing.md }}>
             <TrendingDown size={18} style={{ color: '#c62828' }} />

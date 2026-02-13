@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { theme } from './styles/theme';
+import { useResponsive } from './hooks/useResponsive';
 import { loadManifest, loadRetailerData } from './utils/dataLoader';
 import { getAvailableFeatures } from './config/featureRegistry';
 import {
@@ -60,6 +61,10 @@ const globalStyles = `
   ::-webkit-scrollbar-track { background: ${theme.colors.backgroundAlt}; }
   ::-webkit-scrollbar-thumb { background: ${theme.colors.border}; border-radius: 3px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar { display: none; }
+    body { -webkit-overflow-scrolling: touch; }
+  }
 `;
 
 export default function App() {
@@ -77,6 +82,8 @@ export default function App() {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState(null);
+
+  const { isMobile, isTablet } = useResponsive();
 
   // Load manifest on mount
   useEffect(() => {
@@ -313,7 +320,7 @@ export default function App() {
         {/* Header */}
         <header style={{
           background: theme.colors.secondary,
-          padding: `${theme.spacing.md} ${theme.spacing.xl}`,
+          padding: isMobile ? '0.5rem 1rem' : '1rem 2rem',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           boxShadow: theme.shadows.md, position: 'sticky', top: 0, zIndex: 100,
         }}>
@@ -321,16 +328,16 @@ export default function App() {
             <img
               src="/irwin_logo.png"
               alt="Irwin Naturals"
-              style={{ height: 40, objectFit: 'contain' }}
+              style={{ height: isMobile ? 28 : 40, objectFit: 'contain' }}
             />
             <h1 style={{
               fontFamily: theme.fonts.heading, color: '#ffffff',
-              fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.02em',
+              fontSize: isMobile ? '1.1rem' : '1.5rem', fontWeight: 700, letterSpacing: '-0.02em',
             }}>
               POS Dashboard
             </h1>
           </div>
-          {manifest && (
+          {!isMobile && manifest && (
             <span style={{
               color: 'rgba(255,255,255,0.6)', fontFamily: theme.fonts.body, fontSize: '0.8rem',
             }}>
@@ -362,8 +369,9 @@ export default function App() {
           <div style={{
             background: theme.colors.cardBg,
             borderBottom: `1px solid ${theme.colors.border}`,
-            padding: `${theme.spacing.sm} ${theme.spacing.xl}`,
+            padding: isMobile ? '0.5rem 1rem' : '0.5rem 2rem',
             display: 'flex', alignItems: 'center', gap: theme.spacing.md, flexWrap: 'wrap',
+            flexDirection: isMobile ? 'column' : 'row',
           }}>
             <TimePeriodSelector timePeriod={timePeriod} setTimePeriod={handleTimePeriodChange} hasWeekly={hasWeekly} />
 
@@ -375,7 +383,7 @@ export default function App() {
               return (
                 <div style={{
                   display: 'flex', gap: '4px', alignItems: 'center',
-                  overflowX: 'auto', maxWidth: '800px', paddingBottom: '2px',
+                  overflowX: 'auto', maxWidth: isMobile ? '100%' : '800px', paddingBottom: '2px',
                 }}>
                   {displayWeeks.map(wk => (
                     <button
@@ -474,7 +482,8 @@ export default function App() {
             {/* Metric toggle ($ / Units) */}
             {hasBothMetrics && (
               <div style={{
-                display: 'flex', marginLeft: 'auto',
+                display: 'flex',
+                ...(isMobile ? { marginLeft: 0, width: '100%', justifyContent: 'center' } : { marginLeft: 'auto' }),
                 border: `1px solid ${theme.colors.border}`, borderRadius: theme.borderRadius.sm,
                 overflow: 'hidden',
               }}>
@@ -512,7 +521,7 @@ export default function App() {
 
         {/* Main content */}
         <main style={{
-          flex: 1, padding: theme.spacing.xl,
+          flex: 1, padding: isMobile ? theme.spacing.md : theme.spacing.xl,
           maxWidth: '1440px', width: '100%', margin: '0 auto',
         }}>
           {loading && (
@@ -582,7 +591,7 @@ export default function App() {
         {/* Footer */}
         <footer style={{
           background: theme.colors.secondary,
-          padding: `${theme.spacing.sm} ${theme.spacing.xl}`,
+          padding: isMobile ? '0.5rem 1rem' : '0.5rem 2rem',
           textAlign: 'center', color: 'rgba(255,255,255,0.5)',
           fontFamily: theme.fonts.body, fontSize: '0.75rem',
         }}>

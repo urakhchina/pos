@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import {
   sumPeriod, formatValue, MONTH_NAMES, periodToMonthName,
 } from '../utils/timePeriodUtils';
@@ -52,6 +53,7 @@ export default function SalesOverview({
   fullPriorYearProductData, monthsWithData, comparableMonths,
 }) {
   const useDollars = primaryMetric === 'dollars';
+  const { isMobile } = useResponsive();
 
   /* ── Derive year & column header labels ─────────────────────────── */
   const currentYear = selectedPeriodKey
@@ -330,10 +332,12 @@ export default function SalesOverview({
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderBottom: `1px solid ${theme.colors.border}`, color: theme.colors.text,
   };
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 8px', fontSize: '0.65rem' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '4px 8px' } : tdStyle;
 
   return (
     <div>
-      <h2 style={{ fontFamily: theme.fonts.heading, fontSize: '1.3rem', color: theme.colors.secondary, marginBottom: theme.spacing.lg }}>
+      <h2 style={{ fontFamily: theme.fonts.heading, fontSize: isMobile ? '1.1rem' : '1.3rem', color: theme.colors.secondary, marginBottom: theme.spacing.lg }}>
         Sales Overview
       </h2>
 
@@ -341,7 +345,7 @@ export default function SalesOverview({
       {kpiCards.length > 0 && (
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gridTemplateColumns: isMobile ? 'repeat(auto-fit, minmax(150px, 1fr))' : 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: theme.spacing.lg, marginBottom: theme.spacing.lg,
         }}>
           {kpiCards.map((card, i) => {
@@ -349,7 +353,7 @@ export default function SalesOverview({
             return (
               <div key={i} style={{
                 background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
-                boxShadow: theme.shadows.sm, padding: theme.spacing.xl,
+                boxShadow: theme.shadows.sm, padding: isMobile ? theme.spacing.md : theme.spacing.xl,
                 display: 'flex', flexDirection: 'column', gap: theme.spacing.sm,
                 borderTop: `3px solid ${card.color}`,
               }}>
@@ -368,7 +372,7 @@ export default function SalesOverview({
                   </div>
                 </div>
                 <div style={{
-                  fontFamily: theme.fonts.heading, fontSize: '1.8rem',
+                  fontFamily: theme.fonts.heading, fontSize: isMobile ? '1.3rem' : '1.8rem',
                   fontWeight: 700, color: theme.colors.text,
                 }}>
                   {card.value}
@@ -413,53 +417,55 @@ export default function SalesOverview({
             <table style={tableStyle}>
               <thead>
                 <tr>
-                  <th style={{ ...thStyle, cursor: 'default' }}>#</th>
-                  <th style={thStyle} onClick={() => handleProdSort('name')}>Product{prodSortIndicator('name')}</th>
-                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yagoVal')}>{yagoColLabel}{prodSortIndicator('yagoVal')}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('curVal')}>{curColLabel}{prodSortIndicator('curVal')}</th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('pyVal')}>{pyLabel}{prodSortIndicator('pyVal')}</th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yepVal')}>{yepLabel}{prodSortIndicator('yepVal')}</th>
-                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('seqPct')}>{seqPctLabel}{prodSortIndicator('seqPct')}</th>}
-                  {hasYoY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('yoyPct')}>YoY%{prodSortIndicator('yoyPct')}</th>}
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleProdSort('pacePct')}>Pace%{prodSortIndicator('pacePct')}</th>}
+                  <th style={{ ...thStyleR, cursor: 'default' }}>#</th>
+                  <th style={thStyleR} onClick={() => handleProdSort('name')}>Product{prodSortIndicator('name')}</th>
+                  {hasYoY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('yagoVal')}>{yagoColLabel}{prodSortIndicator('yagoVal')}</th>}
+                  <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('curVal')}>{curColLabel}{prodSortIndicator('curVal')}</th>
+                  {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('pyVal')}>{pyLabel}{prodSortIndicator('pyVal')}</th>}
+                  {!isMobile && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('yepVal')}>{yepLabel}{prodSortIndicator('yepVal')}</th>}
+                  {hasSeq && seqPctLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('seqPct')}>{seqPctLabel}{prodSortIndicator('seqPct')}</th>}
+                  {hasYoY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('yoyPct')}>YoY%{prodSortIndicator('yoyPct')}</th>}
+                  {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleProdSort('pacePct')}>Pace%{prodSortIndicator('pacePct')}</th>}
                 </tr>
               </thead>
               <tbody>
                 {sortedProducts.map((item, i) => (
                   <tr key={item.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                    <td style={tdStyle}>{i + 1}</td>
-                    <td style={{ ...tdStyle, maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <td style={tdStyleR}>{i + 1}</td>
+                    <td style={{ ...tdStyleR, maxWidth: isMobile ? 160 : 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       <div style={{ fontWeight: 500 }}>{item.name}</div>
                       {item.brand && <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{item.brand}</div>}
                     </td>
                     {hasYoY && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>
                         {item.yagoVal != null ? formatValue(item.yagoVal, useDollars) : '—'}
                       </td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>
                       {formatValue(item.curVal, useDollars)}
                     </td>
-                    {hasPY && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                    {!isMobile && hasPY && (
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>
                         {item.pyVal != null ? formatValue(item.pyVal, useDollars) : '—'}
                       </td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>
-                      {formatValue(item.yepVal, useDollars)}
-                    </td>
+                    {!isMobile && (
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>
+                        {formatValue(item.yepVal, useDollars)}
+                      </td>
+                    )}
                     {hasSeq && seqPctLabel && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(item.seqPct, item.isNewSeq) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(item.seqPct, item.isNewSeq) }}>
                         {fmtPct(item.seqPct, item.isNewSeq)}
                       </td>
                     )}
                     {hasYoY && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(item.yoyPct, item.isNewYoY) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(item.yoyPct, item.isNewYoY) }}>
                         {fmtPct(item.yoyPct, item.isNewYoY)}
                       </td>
                     )}
-                    {hasPY && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(item.pacePct, false) }}>
+                    {!isMobile && hasPY && (
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(item.pacePct, false) }}>
                         {fmtPct(item.pacePct, false)}
                       </td>
                     )}
@@ -480,7 +486,7 @@ export default function SalesOverview({
           <h3 style={{ fontFamily: theme.fonts.heading, fontSize: '1rem', color: theme.colors.secondary, marginBottom: theme.spacing.md }}>
             {useDollars ? 'Revenue' : 'Units'} by Month — {summaryStats.yearA} vs {summaryStats.yearB}
           </h3>
-          <ResponsiveContainer width="100%" height={380}>
+          <ResponsiveContainer width="100%" height={isMobile ? 250 : 380}>
             <LineChart data={ytdChartData} margin={{ top: 10, right: 20, left: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
               <XAxis dataKey="month" tick={{ fontFamily: theme.fonts.body, fontSize: 11, fill: theme.colors.textLight }} tickLine={false} />
@@ -501,7 +507,7 @@ export default function SalesOverview({
           background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
           boxShadow: theme.shadows.sm, padding: theme.spacing.xl,
         }}>
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={isMobile ? 280 : 400}>
             <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
               <XAxis dataKey="period" tick={{ fontFamily: theme.fonts.body, fontSize: 11, fill: theme.colors.textLight }} tickLine={false} />

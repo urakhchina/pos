@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { getSortedPeriods } from '../utils/timePeriodUtils';
 import { XCircle, Shield, AlertTriangle } from 'lucide-react';
 
@@ -26,6 +27,7 @@ function formatDollar(val) {
 
 export default function DiscontinuationRisk({ posData }) {
   const [statusFilter, setStatusFilter] = useState('all');
+  const { isMobile } = useResponsive();
 
   const { products, statuses } = useMemo(() => {
     if (!posData || !posData.products) return { products: [], statuses: [] };
@@ -133,13 +135,15 @@ export default function DiscontinuationRisk({ posData }) {
     fontFamily: theme.fonts.body,
     fontSize: '0.82rem',
   };
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 6px', fontSize: '0.65rem' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '4px 6px' } : tdStyle;
 
   return (
     <div>
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -168,7 +172,7 @@ export default function DiscontinuationRisk({ posData }) {
                 background: statusFilter === status ? cfg.bg : theme.colors.cardBg,
                 borderRadius: theme.borderRadius.md,
                 boxShadow: theme.shadows.sm,
-                padding: theme.spacing.lg,
+                padding: isMobile ? theme.spacing.md : theme.spacing.lg,
                 borderTop: `3px solid ${cfg.color}`,
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
@@ -233,17 +237,17 @@ export default function DiscontinuationRisk({ posData }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={thStyle} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
-                <th style={thStyle} onClick={() => handleSort('category')}>Category{sortIndicator('category')}</th>
-                <th style={thStyle} onClick={() => handleSort('setStatus')}>Status{sortIndicator('setStatus')}</th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('totalDollars')}>Total ${sortIndicator('totalDollars')}</th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('totalUnits')}>Total Units{sortIndicator('totalUnits')}</th>
+                <th style={thStyleR} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
+                {!isMobile && <th style={thStyleR} onClick={() => handleSort('category')}>Category{sortIndicator('category')}</th>}
+                <th style={thStyleR} onClick={() => handleSort('setStatus')}>Status{sortIndicator('setStatus')}</th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('totalDollars')}>Total ${sortIndicator('totalDollars')}</th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('totalUnits')}>Total Units{sortIndicator('totalUnits')}</th>
               </tr>
             </thead>
             <tbody>
               {sorted.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ ...tdStyle, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
+                  <td colSpan={isMobile ? 4 : 5} style={{ ...tdStyleR, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
                     No products match the current filter.
                   </td>
                 </tr>
@@ -252,15 +256,15 @@ export default function DiscontinuationRisk({ posData }) {
                   const cfg = p.config;
                   return (
                     <tr key={p.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                      <td style={{ ...tdStyle, maxWidth: 280 }}>
+                      <td style={{ ...tdStyleR, maxWidth: 280 }}>
                         <div style={{ fontWeight: 500 }}>{p.name}</div>
                         <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>
                           {p.brand && <span>{p.brand} &middot; </span>}
                           <span style={{ fontFamily: 'monospace', fontSize: '0.68rem' }}>{p.upc}</span>
                         </div>
                       </td>
-                      <td style={tdStyle}>{p.category || '--'}</td>
-                      <td style={tdStyle}>
+                      {!isMobile && <td style={tdStyleR}>{p.category || '--'}</td>}
+                      <td style={tdStyleR}>
                         <span
                           style={{
                             display: 'inline-flex',
@@ -278,10 +282,10 @@ export default function DiscontinuationRisk({ posData }) {
                           {cfg.label}
                         </span>
                       </td>
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>
                         {formatDollar(p.totalDollars)}
                       </td>
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>
                         {p.totalUnits.toLocaleString()}
                       </td>
                     </tr>

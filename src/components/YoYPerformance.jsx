@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, ChevronUp, ChevronDown } from 'lucide-react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { formatValue, sumPeriod, periodToMonthName, MONTH_NAMES } from '../utils/timePeriodUtils';
 
 const thStyle = {
@@ -75,6 +76,10 @@ const YoYPerformance = ({
   const [declineSort, setDeclineSort] = useState({ field: 'changePercent', dir: 'asc' });
   const [catGrowSort, setCatGrowSort] = useState({ field: 'changePct', dir: 'desc' });
   const [catDecSort, setCatDecSort] = useState({ field: 'changePct', dir: 'asc' });
+
+  const { isMobile } = useResponsive();
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 8px', fontSize: '11px' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '6px 8px' } : tdStyle;
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
@@ -346,44 +351,44 @@ const YoYPerformance = ({
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
             <thead>
               <tr style={{ backgroundColor: '#f8f9fa' }}>
-                <th style={thStyle} onClick={() => handleSort('name')}>Product<SortIndicator field="name" sortState={sortState} /></th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={sortState} /></th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('currentVal')}>{curColLabel}<SortIndicator field="currentVal" sortState={sortState} /></th>
-                {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={sortState} /></th>}
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={sortState} /></th>
-                {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={sortState} /></th>}
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('changePercent')}>YoY%<SortIndicator field="changePercent" sortState={sortState} /></th>
-                {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('pacePct')}>Pace%<SortIndicator field="pacePct" sortState={sortState} /></th>}
+                <th style={thStyleR} onClick={() => handleSort('name')}>Product<SortIndicator field="name" sortState={sortState} /></th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={sortState} /></th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('currentVal')}>{curColLabel}<SortIndicator field="currentVal" sortState={sortState} /></th>
+                {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={sortState} /></th>}
+                {!isMobile && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={sortState} /></th>}
+                {hasSeq && seqPctLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={sortState} /></th>}
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('changePercent')}>YoY%<SortIndicator field="changePercent" sortState={sortState} /></th>
+                {!isMobile && hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('pacePct')}>Pace%<SortIndicator field="pacePct" sortState={sortState} /></th>}
               </tr>
             </thead>
             <tbody>
               {sorted.map((p, idx) => (
                 <tr key={p.upc} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
-                  <td style={{ ...tdStyle, maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <td style={{ ...tdStyleR, maxWidth: isMobile ? '150px' : '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     <div style={{ fontWeight: 500 }}>{p.name}</div>
                     {p.brand && <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{p.brand}</div>}
                   </td>
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.currentVal, useDollars)}</td>
-                  {hasPY && (
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
+                  <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.currentVal, useDollars)}</td>
+                  {!isMobile && hasPY && (
+                    <td style={{ ...tdStyleR, textAlign: 'right' }}>
                       {p.pyVal != null ? formatValue(p.pyVal, useDollars) : '—'}
                     </td>
                   )}
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
+                  {!isMobile && <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>}
                   {hasSeq && seqPctLabel && (
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
                       {fmtPct(p.seqPct)}
                     </td>
                   )}
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: p.changePercent >= 0 ? theme.colors.success : theme.colors.danger }}>
                       {p.changePercent >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                       {fmtPct(p.changePercent)}
                     </span>
                   </td>
-                  {hasPY && (
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
+                  {!isMobile && hasPY && (
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
                       {fmtPct(p.pacePct)}
                     </td>
                   )}
@@ -391,7 +396,7 @@ const YoYPerformance = ({
               ))}
               {sorted.length === 0 && (
                 <tr>
-                  <td colSpan={colCount} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>
+                  <td colSpan={colCount} style={{ ...tdStyleR, textAlign: 'center', color: '#999' }}>
                     No data available
                   </td>
                 </tr>
@@ -421,7 +426,7 @@ const YoYPerformance = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Summary Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         <SummaryCard
           label="Overall YoY Change"
           value={`${summaryStats.overallChange >= 0 ? '+' : ''}${summaryStats.overallChange.toFixed(1)}%`}
@@ -444,10 +449,10 @@ const YoYPerformance = ({
           { key: 'decline', label: 'Top Decline' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-            flex: 1, padding: '10px 16px', border: 'none', borderRadius: '6px',
+            flex: 1, padding: isMobile ? '8px 8px' : '10px 16px', border: 'none', borderRadius: '6px',
             backgroundColor: activeTab === tab.key ? '#fff' : 'transparent',
             color: activeTab === tab.key ? theme.colors.primary : '#666',
-            fontWeight: activeTab === tab.key ? 600 : 400, cursor: 'pointer', fontSize: '14px',
+            fontWeight: activeTab === tab.key ? 600 : 400, cursor: 'pointer', fontSize: isMobile ? '12px' : '14px',
             boxShadow: activeTab === tab.key ? '0 1px 3px rgba(0,0,0,0.1)' : 'none', transition: 'all 0.2s',
           }}>
             {tab.label}
@@ -462,7 +467,7 @@ const YoYPerformance = ({
             {metricLabel} Trend: {chartYearPY || 'Prior Year'} vs {chartYearCY || 'Current Year'}
           </h3>
           {chartData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={isMobile ? 280 : 400}>
               <ComposedChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                 <XAxis dataKey="label" tick={{ fontSize: 12, fill: '#666' }} axisLine={{ stroke: '#ccc' }} />
@@ -496,7 +501,7 @@ const YoYPerformance = ({
                 <BarChart data={categoryChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={true} horizontal={false} />
                   <XAxis type="number" tick={{ fontSize: 12, fill: '#666' }} axisLine={{ stroke: '#ccc' }} tickFormatter={val => `${val}%`} />
-                  <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: '#444' }} axisLine={{ stroke: '#ccc' }} width={180} />
+                  <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: '#444' }} axisLine={{ stroke: '#ccc' }} width={isMobile ? 100 : 180} />
                   <Tooltip content={({ active, payload }) => {
                     if (!active || !payload || payload.length === 0) return null;
                     const d = payload[0]?.payload;
@@ -528,7 +533,7 @@ const YoYPerformance = ({
           )}
 
           {/* Top Growing / Declining side by side */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '24px' }}>
             {/* Top Growing */}
             <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
               <div style={{
@@ -542,21 +547,21 @@ const YoYPerformance = ({
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
                     <tr style={{ backgroundColor: '#f8f9fa' }}>
-                      <th style={thStyle} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'name')}>Category<SortIndicator field="name" sortState={catGrowSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catGrowSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catGrowSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'change')}>Change<SortIndicator field="change" sortState={catGrowSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catGrowSort} /></th>
+                      <th style={thStyleR} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'name')}>Category<SortIndicator field="name" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'change')}>Change<SortIndicator field="change" sortState={catGrowSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catGrowSort, setCatGrowSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catGrowSort} /></th>
                     </tr>
                   </thead>
                   <tbody>
                     {sortItems(topGrowingCats, catGrowSort.field, catGrowSort.dir).map((c, idx) => (
                       <tr key={c.name} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
-                        <td style={{ ...tdStyle, fontWeight: 500 }}>{c.name}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', color: theme.colors.success }}>{formatValue(c.change, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: theme.colors.success }}>
+                        <td style={{ ...tdStyleR, fontWeight: 500 }}>{c.name}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', color: theme.colors.success }}>{formatValue(c.change, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: theme.colors.success }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                             <ArrowUpRight size={14} />
                             {fmtPct(c.changePct)}
@@ -565,7 +570,7 @@ const YoYPerformance = ({
                       </tr>
                     ))}
                     {topGrowingCats.length === 0 && (
-                      <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>No growing categories</td></tr>
+                      <tr><td colSpan={5} style={{ ...tdStyleR, textAlign: 'center', color: '#999' }}>No growing categories</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -585,21 +590,21 @@ const YoYPerformance = ({
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
                     <tr style={{ backgroundColor: '#f8f9fa' }}>
-                      <th style={thStyle} onClick={() => toggleSort(catDecSort, setCatDecSort, 'name')}>Category<SortIndicator field="name" sortState={catDecSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catDecSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catDecSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'change')}>Change<SortIndicator field="change" sortState={catDecSort} /></th>
-                      <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catDecSort} /></th>
+                      <th style={thStyleR} onClick={() => toggleSort(catDecSort, setCatDecSort, 'name')}>Category<SortIndicator field="name" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'comp')}>{yagoColLabel}<SortIndicator field="comp" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'current')}>{curColLabel}<SortIndicator field="current" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'change')}>Change<SortIndicator field="change" sortState={catDecSort} /></th>
+                      <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(catDecSort, setCatDecSort, 'changePct')}>YoY%<SortIndicator field="changePct" sortState={catDecSort} /></th>
                     </tr>
                   </thead>
                   <tbody>
                     {sortItems(topDecliningCats, catDecSort.field, catDecSort.dir).map((c, idx) => (
                       <tr key={c.name} style={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa', borderBottom: '1px solid #eee' }}>
-                        <td style={{ ...tdStyle, fontWeight: 500 }}>{c.name}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', color: theme.colors.danger }}>{formatValue(c.change, useDollars)}</td>
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: theme.colors.danger }}>
+                        <td style={{ ...tdStyleR, fontWeight: 500 }}>{c.name}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(c.comp, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(c.current, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', color: theme.colors.danger }}>{formatValue(c.change, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: theme.colors.danger }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                             <ArrowDownRight size={14} />
                             {fmtPct(c.changePct)}
@@ -608,7 +613,7 @@ const YoYPerformance = ({
                       </tr>
                     ))}
                     {topDecliningCats.length === 0 && (
-                      <tr><td colSpan={5} style={{ ...tdStyle, textAlign: 'center', color: '#999' }}>No declining categories</td></tr>
+                      <tr><td colSpan={5} style={{ ...tdStyleR, textAlign: 'center', color: '#999' }}>No declining categories</td></tr>
                     )}
                   </tbody>
                 </table>

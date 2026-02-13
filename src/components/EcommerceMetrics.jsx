@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { ShoppingCart, DollarSign, Target, Users, TrendingUp, Package } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -56,6 +57,8 @@ export default function EcommerceMetrics({ ecommerce }) {
 
     return { kpis: kpiData, trendData: trends };
   }, [ecommerce]);
+
+  const { isMobile } = useResponsive();
 
   if (!ecommerce) {
     return (
@@ -145,7 +148,7 @@ export default function EcommerceMetrics({ ecommerce }) {
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -157,7 +160,7 @@ export default function EcommerceMetrics({ ecommerce }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: theme.spacing.md,
           marginBottom: theme.spacing.xl,
         }}
@@ -171,7 +174,7 @@ export default function EcommerceMetrics({ ecommerce }) {
                 background: theme.colors.cardBg,
                 borderRadius: theme.borderRadius.lg,
                 boxShadow: theme.shadows.sm,
-                padding: theme.spacing.xl,
+                padding: isMobile ? theme.spacing.md : theme.spacing.xl,
                 borderTop: `3px solid ${card.color}`,
               }}
             >
@@ -205,7 +208,7 @@ export default function EcommerceMetrics({ ecommerce }) {
               <div
                 style={{
                   fontFamily: theme.fonts.heading,
-                  fontSize: '1.6rem',
+                  fontSize: isMobile ? '1.2rem' : '1.6rem',
                   fontWeight: 700,
                   color: theme.colors.text,
                 }}
@@ -237,7 +240,7 @@ export default function EcommerceMetrics({ ecommerce }) {
           >
             E-commerce Trends
           </h3>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={isMobile ? 250 : 350}>
             <ComposedChart data={trendData} margin={{ top: 10, right: 30, left: 10, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
               <XAxis

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { getSortedPeriods, periodToMonthName, sumPeriod } from '../utils/timePeriodUtils';
 import { Target, AlertCircle } from 'lucide-react';
 import {
@@ -65,6 +66,8 @@ export default function ForecastVsActual({ forecast, posData }) {
     });
   }, [forecast, posData]);
 
+  const { isMobile } = useResponsive();
+
   if (!forecast) {
     return (
       <div
@@ -110,7 +113,7 @@ export default function ForecastVsActual({ forecast, posData }) {
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -148,7 +151,7 @@ export default function ForecastVsActual({ forecast, posData }) {
               background: theme.colors.cardBg,
               borderRadius: theme.borderRadius.md,
               boxShadow: theme.shadows.sm,
-              padding: theme.spacing.lg,
+              padding: isMobile ? theme.spacing.md : theme.spacing.lg,
               borderTop: `3px solid ${item.color}`,
             }}
           >
@@ -183,7 +186,7 @@ export default function ForecastVsActual({ forecast, posData }) {
             Forecast vs Actual by Period
           </h3>
         </div>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={isMobile ? 280 : 400}>
           <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
             <XAxis

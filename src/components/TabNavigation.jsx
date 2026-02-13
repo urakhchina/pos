@@ -1,5 +1,6 @@
 import React from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -31,6 +32,7 @@ const ICON_MAP = {
 };
 
 export default function TabNavigation({ features, activeTab, setActiveTab }) {
+  const { isMobile } = useResponsive();
   if (!features || features.length === 0) return null;
 
   return (
@@ -38,10 +40,11 @@ export default function TabNavigation({ features, activeTab, setActiveTab }) {
       style={{
         background: theme.colors.cardBg,
         borderBottom: `1px solid ${theme.colors.border}`,
-        padding: `0 ${theme.spacing.xl}`,
+        padding: isMobile ? '0 0.5rem' : '0 2rem',
         display: 'flex',
         alignItems: 'stretch',
         overflowX: 'auto',
+        WebkitOverflowScrolling: 'touch',
         gap: '2px',
       }}
     >
@@ -55,14 +58,14 @@ export default function TabNavigation({ features, activeTab, setActiveTab }) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: theme.spacing.xs,
-              padding: `${theme.spacing.sm} ${theme.spacing.md}`,
+              gap: isMobile ? '2px' : theme.spacing.xs,
+              padding: isMobile ? '0.5rem 0.5rem' : '0.5rem 1rem',
               border: 'none',
               borderBottom: isActive ? `3px solid ${theme.colors.primary}` : '3px solid transparent',
               background: isActive ? `${theme.colors.primary}15` : 'transparent',
               color: isActive ? theme.colors.primary : theme.colors.textLight,
               fontFamily: theme.fonts.body,
-              fontSize: '0.82rem',
+              fontSize: isMobile ? '0.72rem' : '0.82rem',
               fontWeight: isActive ? 600 : 400,
               cursor: 'pointer',
               transition: 'all 0.15s ease',
@@ -82,7 +85,7 @@ export default function TabNavigation({ features, activeTab, setActiveTab }) {
               }
             }}
           >
-            <Icon size={15} />
+            {!isMobile && <Icon size={15} />}
             {feature.label}
           </button>
         );

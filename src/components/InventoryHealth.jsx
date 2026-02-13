@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { AlertTriangle, CheckCircle, Package } from 'lucide-react';
 
 export default function InventoryHealth({ inventory }) {
   const [sortOrder, setSortOrder] = useState('asc'); // worst first by default
+  const { isMobile } = useResponsive();
 
   const { overallInStock, products } = useMemo(() => {
     if (!inventory || !inventory.products) {
@@ -125,7 +127,7 @@ export default function InventoryHealth({ inventory }) {
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -139,7 +141,7 @@ export default function InventoryHealth({ inventory }) {
           background: theme.colors.cardBg,
           borderRadius: theme.borderRadius.lg,
           boxShadow: theme.shadows.sm,
-          padding: theme.spacing.xl,
+          padding: isMobile ? theme.spacing.md : theme.spacing.xl,
           marginBottom: theme.spacing.lg,
           display: 'flex',
           flexDirection: 'column',
@@ -216,7 +218,7 @@ export default function InventoryHealth({ inventory }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: theme.spacing.md,
         }}
       >
@@ -227,7 +229,7 @@ export default function InventoryHealth({ inventory }) {
               background: theme.colors.cardBg,
               borderRadius: theme.borderRadius.lg,
               boxShadow: theme.shadows.sm,
-              padding: theme.spacing.lg,
+              padding: isMobile ? theme.spacing.md : theme.spacing.lg,
               borderLeft: `4px solid ${getStatusColor(p.inStockPct)}`,
             }}
           >

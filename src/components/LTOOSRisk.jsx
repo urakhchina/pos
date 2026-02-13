@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { AlertTriangle, Clock, XCircle } from 'lucide-react';
 
 function getSeverity(days) {
@@ -12,6 +13,7 @@ function getSeverity(days) {
 
 export default function LTOOSRisk({ ltoos }) {
   const [statusFilter, setStatusFilter] = useState('all');
+  const { isMobile } = useResponsive();
 
   const items = useMemo(() => {
     if (!ltoos || !ltoos.products) return [];
@@ -96,13 +98,15 @@ export default function LTOOSRisk({ ltoos }) {
     fontFamily: theme.fonts.body,
     fontSize: '0.82rem',
   };
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 6px', fontSize: '0.65rem' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '4px 6px' } : tdStyle;
 
   return (
     <div>
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -134,7 +138,7 @@ export default function LTOOSRisk({ ltoos }) {
                 background: theme.colors.cardBg,
                 borderRadius: theme.borderRadius.md,
                 boxShadow: theme.shadows.sm,
-                padding: theme.spacing.lg,
+                padding: isMobile ? theme.spacing.md : theme.spacing.lg,
                 borderTop: `3px solid ${s.color}`,
                 display: 'flex',
                 alignItems: 'center',
@@ -202,30 +206,30 @@ export default function LTOOSRisk({ ltoos }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={thStyle} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
-                <th style={thStyle} onClick={() => handleSort('status')}>Status{sortIndicator('status')}</th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('days')}>Days LTOOS{sortIndicator('days')}</th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('qtyAvailable')}>Qty Available{sortIndicator('qtyAvailable')}</th>
-                <th style={thStyle} onClick={() => handleSort('days')}>Severity{sortIndicator('days')}</th>
+                <th style={thStyleR} onClick={() => handleSort('name')}>Product{sortIndicator('name')}</th>
+                <th style={thStyleR} onClick={() => handleSort('status')}>Status{sortIndicator('status')}</th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('days')}>Days LTOOS{sortIndicator('days')}</th>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('qtyAvailable')}>Qty Available{sortIndicator('qtyAvailable')}</th>
+                <th style={thStyleR} onClick={() => handleSort('days')}>Severity{sortIndicator('days')}</th>
               </tr>
             </thead>
             <tbody>
               {sorted.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ ...tdStyle, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
+                  <td colSpan={5} style={{ ...tdStyleR, textAlign: 'center', padding: theme.spacing.xl, color: theme.colors.textLight }}>
                     No LTOOS items match the current filter.
                   </td>
                 </tr>
               ) : (
                 sorted.map((item, i) => (
                   <tr key={item.upc + '-' + i} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                    <td style={{ ...tdStyle, maxWidth: 250 }}>
+                    <td style={{ ...tdStyleR, maxWidth: 250 }}>
                       <div style={{ fontWeight: 500 }}>{item.name}</div>
                       {item.brand && (
                         <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>{item.brand}</div>
                       )}
                     </td>
-                    <td style={tdStyle}>
+                    <td style={tdStyleR}>
                       <span
                         style={{
                           display: 'inline-block',
@@ -242,7 +246,7 @@ export default function LTOOSRisk({ ltoos }) {
                     </td>
                     <td
                       style={{
-                        ...tdStyle,
+                        ...tdStyleR,
                         textAlign: 'right',
                         fontWeight: 600,
                         color: item.severity.color,
@@ -250,10 +254,10 @@ export default function LTOOSRisk({ ltoos }) {
                     >
                       {item.days != null ? item.days : '--'}
                     </td>
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                    <td style={{ ...tdStyleR, textAlign: 'right' }}>
                       {item.qtyAvailable != null ? item.qtyAvailable.toLocaleString() : '--'}
                     </td>
-                    <td style={tdStyle}>
+                    <td style={tdStyleR}>
                       <span
                         style={{
                           display: 'inline-flex',

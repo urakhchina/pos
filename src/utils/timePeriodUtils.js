@@ -127,7 +127,7 @@ export function sumPeriod(periodData) {
   Object.values(periodData).forEach(m => {
     dollars += m.dollars || 0;
     units += m.units || 0;
-    count++;
+    if ((m.dollars || 0) > 0 || (m.units || 0) > 0) count++;
   });
   return { dollars, units, productCount: count };
 }

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { getSortedPeriods } from '../utils/timePeriodUtils';
 import { MapPin, ChevronUp, ChevronDown } from 'lucide-react';
 import {
@@ -17,6 +18,7 @@ import {
 export default function DistributionACV({ posData }) {
   const [sortCol, setSortCol] = useState('acv');
   const [sortDir, setSortDir] = useState('desc');
+  const { isMobile } = useResponsive();
 
   const skuData = useMemo(() => {
     if (!posData || !posData.products || !posData.periods) return [];
@@ -116,13 +118,15 @@ export default function DistributionACV({ posData }) {
     fontFamily: theme.fonts.body,
     fontSize: '0.82rem',
   };
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 6px', fontSize: '0.65rem' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '4px 6px' } : tdStyle;
 
   return (
     <div>
       <h2
         style={{
           fontFamily: theme.fonts.heading,
-          fontSize: '1.3rem',
+          fontSize: isMobile ? '1.1rem' : '1.3rem',
           color: theme.colors.secondary,
           marginBottom: theme.spacing.lg,
         }}
@@ -151,7 +155,7 @@ export default function DistributionACV({ posData }) {
               background: theme.colors.cardBg,
               borderRadius: theme.borderRadius.md,
               boxShadow: theme.shadows.sm,
-              padding: theme.spacing.lg,
+              padding: isMobile ? theme.spacing.md : theme.spacing.lg,
               borderTop: `3px solid ${item.color}`,
             }}
           >
@@ -186,7 +190,7 @@ export default function DistributionACV({ posData }) {
             <BarChart
               data={chartData}
               layout="vertical"
-              margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
+              margin={{ top: 5, right: 30, left: isMobile ? 80 : 140, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} horizontal={false} />
               <XAxis
@@ -199,7 +203,7 @@ export default function DistributionACV({ posData }) {
                 type="category"
                 dataKey="name"
                 tick={{ fontFamily: theme.fonts.body, fontSize: 10, fill: theme.colors.textLight }}
-                width={135}
+                width={isMobile ? 75 : 135}
               />
               <Tooltip
                 contentStyle={{
@@ -239,16 +243,16 @@ export default function DistributionACV({ posData }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={thStyle} onClick={() => handleSort('name')}>
+                <th style={thStyleR} onClick={() => handleSort('name')}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }}>Product <SortIcon col="name" /></span>
                 </th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('acv')}>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('acv')}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end' }}>ACV % <SortIcon col="acv" /></span>
                 </th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('storeCount')}>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('storeCount')}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end' }}>Stores <SortIcon col="storeCount" /></span>
                 </th>
-                <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => handleSort('dollars')}>
+                <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => handleSort('dollars')}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end' }}>Revenue <SortIcon col="dollars" /></span>
                 </th>
               </tr>
@@ -256,24 +260,24 @@ export default function DistributionACV({ posData }) {
             <tbody>
               {sortedData.map((p, i) => (
                 <tr key={p.upc} style={{ background: i % 2 === 0 ? 'transparent' : theme.colors.backgroundAlt }}>
-                  <td style={{ ...tdStyle, maxWidth: 280 }}>
+                  <td style={{ ...tdStyleR, maxWidth: 280 }}>
                     <div style={{ fontWeight: 500 }}>{p.name}</div>
                     <div style={{ fontSize: '0.7rem', color: theme.colors.textLight }}>
                       {p.brand && <span>{p.brand} &middot; </span>}
                       <span style={{ fontFamily: 'monospace', fontSize: '0.68rem' }}>{p.upc}</span>
                     </div>
                   </td>
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right' }}>
                     {p.acv != null ? (
                       <span style={{ fontWeight: 600, color: p.acv >= 70 ? theme.colors.success : p.acv >= 40 ? theme.colors.warning : theme.colors.danger }}>
                         {p.acv.toFixed(1)}%
                       </span>
                     ) : '--'}
                   </td>
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right' }}>
                     {p.storeCount != null ? p.storeCount.toLocaleString() : '--'}
                   </td>
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
+                  <td style={{ ...tdStyleR, textAlign: 'right' }}>
                     ${p.dollars.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </td>
                 </tr>

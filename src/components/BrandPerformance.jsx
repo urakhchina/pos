@@ -17,6 +17,7 @@ import {
 import { ArrowLeft } from 'lucide-react';
 import { theme } from '../styles/theme';
 import { formatValue, periodToMonthName } from '../utils/timePeriodUtils';
+import { useResponsive } from '../hooks/useResponsive';
 
 const CHART_COLORS = [
   theme.colors.primary,
@@ -86,6 +87,10 @@ const BrandPerformance = ({
       setter({ field, dir: 'desc' });
     }
   };
+
+  const { isMobile } = useResponsive();
+  const thStyleR = isMobile ? { ...thStyle, padding: '6px 8px', fontSize: '11px' } : thStyle;
+  const tdStyleR = isMobile ? { ...tdStyle, padding: '6px 8px', fontSize: '12px' } : tdStyle;
 
   const useDollars = primaryMetric === 'dollars';
   const metricKey = useDollars ? 'dollars' : 'units';
@@ -533,15 +538,15 @@ const BrandPerformance = ({
           border: '1px solid #e0e0e0',
           padding: '24px'
         }}>
-          <h2 style={{ margin: '0 0 8px', color: theme.colors.secondary, fontSize: '22px' }}>
+          <h2 style={{ margin: '0 0 8px', color: theme.colors.secondary, fontSize: isMobile ? '18px' : '22px' }}>
             {brand.name}
           </h2>
-          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: isMobile ? '16px' : '32px', flexWrap: 'wrap' }}>
             <div>
               <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', fontWeight: 600 }}>
                 {curColLabel}
               </span>
-              <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.primary }}>
+              <p style={{ margin: '4px 0 0', fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: theme.colors.primary }}>
                 {formatValue(brand.primaryVal, useDollars)}
               </p>
             </div>
@@ -549,7 +554,7 @@ const BrandPerformance = ({
               <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', fontWeight: 600 }}>
                 Products
               </span>
-              <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
+              <p style={{ margin: '4px 0 0', fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: theme.colors.secondary }}>
                 {brand.productCount}
               </p>
             </div>
@@ -558,7 +563,7 @@ const BrandPerformance = ({
                 <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', fontWeight: 600 }}>
                   {pyLabel}
                 </span>
-                <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
+                <p style={{ margin: '4px 0 0', fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: theme.colors.secondary }}>
                   {formatValue(brand.pyVal, useDollars)}
                 </p>
               </div>
@@ -567,7 +572,7 @@ const BrandPerformance = ({
               <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', fontWeight: 600 }}>
                 {yepLabel}
               </span>
-              <p style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: 700, color: theme.colors.secondary }}>
+              <p style={{ margin: '4px 0 0', fontSize: isMobile ? '18px' : '24px', fontWeight: 700, color: theme.colors.secondary }}>
                 {formatValue(brand.yepVal, useDollars)}
               </p>
             </div>
@@ -578,7 +583,7 @@ const BrandPerformance = ({
                 </span>
                 <p style={{
                   margin: '4px 0 0',
-                  fontSize: '24px',
+                  fontSize: isMobile ? '18px' : '24px',
                   fontWeight: 700,
                   color: brand.yoyChange >= 0 ? theme.colors.success : theme.colors.danger
                 }}>
@@ -593,7 +598,7 @@ const BrandPerformance = ({
                 </span>
                 <p style={{
                   margin: '4px 0 0',
-                  fontSize: '24px',
+                  fontSize: isMobile ? '18px' : '24px',
                   fontWeight: 700,
                   color: pctColor(brand.pacePct)
                 }}>
@@ -625,16 +630,16 @@ const BrandPerformance = ({
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                 <thead>
                   <tr style={{ backgroundColor: '#f8f9fa' }}>
-                    <th style={thStyle} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'name')}>Category<SortIndicator field="name" sortState={brandCatSort} /></th>
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandCatSort} /></th>
-                    {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandCatSort} /></th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandCatSort} /></th>
-                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandCatSort} /></th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandCatSort} /></th>
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'productCount')}>Products<SortIndicator field="productCount" sortState={brandCatSort} /></th>
-                    {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandCatSort} /></th>}
-                    <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandCatSort} /></th>
-                    {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandCatSort} /></th>}
+                    <th style={thStyleR} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'name')}>Category<SortIndicator field="name" sortState={brandCatSort} /></th>
+                    <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandCatSort} /></th>
+                    {hasSeq && seqColLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandCatSort} /></th>
+                    {hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandCatSort} /></th>
+                    <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'productCount')}>Products<SortIndicator field="productCount" sortState={brandCatSort} /></th>
+                    {hasSeq && seqPctLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandCatSort} /></th>}
+                    <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandCatSort} /></th>
+                    {hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandCatSort, brandCatSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandCatSort} /></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -643,25 +648,25 @@ const BrandPerformance = ({
                       backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f9fa',
                       borderBottom: '1px solid #eee'
                     }}>
-                      <td style={tdStyle}>{cat.name}</td>
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.compVal, useDollars)}</td>
+                      <td style={tdStyleR}>{cat.name}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(cat.compVal, useDollars)}</td>
                       {hasSeq && seqColLabel && (
-                        <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.seqVal, useDollars)}</td>
+                        <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(cat.seqVal, useDollars)}</td>
                       )}
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(cat.curVal, useDollars)}</td>
-                      {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{cat.pyVal > 0 ? formatValue(cat.pyVal, useDollars) : '\u2014'}</td>}
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(cat.yepVal, useDollars)}</td>
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{cat.productCount}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(cat.curVal, useDollars)}</td>
+                      {hasPY && <td style={{ ...tdStyleR, textAlign: 'right' }}>{cat.pyVal > 0 ? formatValue(cat.pyVal, useDollars) : '\u2014'}</td>}
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(cat.yepVal, useDollars)}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{cat.productCount}</td>
                       {hasSeq && seqPctLabel && (
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.seqPct) }}>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(cat.seqPct) }}>
                           {fmtPct(cat.seqPct)}
                         </td>
                       )}
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.yoyPct) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(cat.yoyPct) }}>
                         {fmtPct(cat.yoyPct)}
                       </td>
                       {hasPY && (
-                        <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(cat.pacePct) }}>
+                        <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(cat.pacePct) }}>
                           {fmtPct(cat.pacePct)}
                         </td>
                       )}
@@ -693,16 +698,16 @@ const BrandPerformance = ({
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f8f9fa' }}>
-                  <th style={thStyle} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'name')}>Product<SortIndicator field="name" sortState={brandProdSort} /></th>
-                  <th style={thStyle} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'category')}>Category<SortIndicator field="category" sortState={brandProdSort} /></th>
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandProdSort} /></th>
-                  {hasSeq && seqColLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandProdSort} /></th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandProdSort} /></th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandProdSort} /></th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandProdSort} /></th>
-                  {hasSeq && seqPctLabel && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandProdSort} /></th>}
-                  <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandProdSort} /></th>
-                  {hasPY && <th style={{ ...thStyle, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandProdSort} /></th>}
+                  <th style={thStyleR} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'name')}>Product<SortIndicator field="name" sortState={brandProdSort} /></th>
+                  <th style={thStyleR} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'category')}>Category<SortIndicator field="category" sortState={brandProdSort} /></th>
+                  <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'compVal')}>{yagoColLabel}<SortIndicator field="compVal" sortState={brandProdSort} /></th>
+                  {hasSeq && seqColLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqVal')}>{seqColLabel}<SortIndicator field="seqVal" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'curVal')}>{curColLabel}<SortIndicator field="curVal" sortState={brandProdSort} /></th>
+                  {hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pyVal')}>{pyLabel}<SortIndicator field="pyVal" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yepVal')}>{yepLabel}<SortIndicator field="yepVal" sortState={brandProdSort} /></th>
+                  {hasSeq && seqPctLabel && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'seqPct')}>{seqPctLabel}<SortIndicator field="seqPct" sortState={brandProdSort} /></th>}
+                  <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'yoyPct')}>YoY%<SortIndicator field="yoyPct" sortState={brandProdSort} /></th>
+                  {hasPY && <th style={{ ...thStyleR, textAlign: 'right' }} onClick={() => toggleSort(setBrandProdSort, brandProdSort, 'pacePct')}>Pace%<SortIndicator field="pacePct" sortState={brandProdSort} /></th>}
                 </tr>
               </thead>
               <tbody>
@@ -712,7 +717,7 @@ const BrandPerformance = ({
                     borderBottom: '1px solid #eee'
                   }}>
                     <td style={{
-                      ...tdStyle,
+                      ...tdStyleR,
                       maxWidth: '250px',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -721,7 +726,7 @@ const BrandPerformance = ({
                     }}>
                       {p.name}
                     </td>
-                    <td style={tdStyle}>
+                    <td style={tdStyleR}>
                       <span style={{
                         display: 'inline-block',
                         padding: '2px 8px',
@@ -732,23 +737,23 @@ const BrandPerformance = ({
                         {p.category}
                       </span>
                     </td>
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
+                    <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.compVal, useDollars)}</td>
                     {hasSeq && seqColLabel && (
-                      <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.seqVal, useDollars)}</td>
+                      <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.seqVal, useDollars)}</td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.curVal, useDollars)}</td>
-                    {hasPY && <td style={{ ...tdStyle, textAlign: 'right' }}>{p.pyVal > 0 ? formatValue(p.pyVal, useDollars) : '\u2014'}</td>}
-                    <td style={{ ...tdStyle, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600 }}>{formatValue(p.curVal, useDollars)}</td>
+                    {hasPY && <td style={{ ...tdStyleR, textAlign: 'right' }}>{p.pyVal > 0 ? formatValue(p.pyVal, useDollars) : '\u2014'}</td>}
+                    <td style={{ ...tdStyleR, textAlign: 'right' }}>{formatValue(p.yepVal, useDollars)}</td>
                     {hasSeq && seqPctLabel && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.seqPct) }}>
                         {fmtPct(p.seqPct)}
                       </td>
                     )}
-                    <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.yoyPct) }}>
+                    <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.yoyPct) }}>
                       {fmtPct(p.yoyPct)}
                     </td>
                     {hasPY && (
-                      <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
+                      <td style={{ ...tdStyleR, textAlign: 'right', fontWeight: 600, color: pctColor(p.pacePct) }}>
                         {fmtPct(p.pacePct)}
                       </td>
                     )}
@@ -768,7 +773,7 @@ const BrandPerformance = ({
       {/* Brand Cards Grid */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+        gridTemplateColumns: isMobile ? 'repeat(auto-fill, minmax(150px, 1fr))' : 'repeat(auto-fill, minmax(260px, 1fr))',
         gap: '16px'
       }}>
         {brands.map((brand, idx) => {
@@ -783,7 +788,7 @@ const BrandPerformance = ({
                 backgroundColor: '#fff',
                 borderRadius: '12px',
                 border: '1px solid #e0e0e0',
-                padding: '20px',
+                padding: isMobile ? '12px' : '20px',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
                 borderLeft: `4px solid ${CHART_COLORS[idx % CHART_COLORS.length]}`
@@ -807,7 +812,7 @@ const BrandPerformance = ({
               </h4>
               <p style={{
                 margin: '0 0 8px',
-                fontSize: '24px',
+                fontSize: isMobile ? '18px' : '24px',
                 fontWeight: 700,
                 color: theme.colors.primary
               }}>
@@ -887,7 +892,7 @@ const BrandPerformance = ({
                 dataKey="name"
                 tick={{ fontSize: 12, fill: '#444' }}
                 axisLine={{ stroke: '#ccc' }}
-                width={160}
+                width={isMobile ? 90 : 160}
               />
               <Tooltip content={({ active, payload }) => {
                 if (!active || !payload || payload.length === 0) return null;
@@ -943,7 +948,7 @@ const BrandPerformance = ({
       )}
 
       {/* Charts Row: Pie + YoY Bar */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '24px' }}>
         {/* Pie Chart */}
         <div style={{
           backgroundColor: '#fff',
@@ -955,20 +960,18 @@ const BrandPerformance = ({
             {metricLabel} Share by Brand
           </h3>
           {pieData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={320}>
+            <ResponsiveContainer width="100%" height={isMobile ? 250 : 320}>
               <PieChart>
                 <Pie
                   data={pieData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={110}
+                  outerRadius={isMobile ? 80 : 110}
                   innerRadius={50}
                   dataKey="value"
                   nameKey="name"
                   paddingAngle={2}
-                  label={({ name, percent }) =>
-                    `${name.length > 12 ? name.substring(0, 12) + '...' : name} ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={isMobile ? false : ({name, percent}) => `${name.length > 12 ? name.substring(0, 12) + '...' : name} ${(percent * 100).toFixed(0)}%`}
                   labelLine={{ stroke: '#ccc' }}
                 >
                   {pieData.map((entry, idx) => (
@@ -994,7 +997,7 @@ const BrandPerformance = ({
             Year-over-Year Change by Brand
           </h3>
           {hasComparison && yoyBarData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={320}>
+            <ResponsiveContainer width="100%" height={isMobile ? 250 : 320}>
               <BarChart data={yoyBarData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                 <XAxis
@@ -1041,7 +1044,7 @@ const BrandPerformance = ({
           <h3 style={{ margin: '0 0 20px', color: theme.colors.secondary, fontSize: '16px' }}>
             Brand {metricLabel} Trends Over Time
           </h3>
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={isMobile ? 280 : 400}>
             <AreaChart data={trendChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
               <XAxis
@@ -1053,6 +1056,7 @@ const BrandPerformance = ({
                 tick={{ fontSize: 12, fill: '#666' }}
                 axisLine={{ stroke: '#ccc' }}
                 tickFormatter={(val) => formatValue(val, useDollars)}
+                width={isMobile ? 50 : undefined}
               />
               <Tooltip content={<ChartTooltip />} />
               <Legend />

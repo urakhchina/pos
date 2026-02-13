@@ -1,5 +1,6 @@
 import React from 'react';
 import { theme } from '../styles/theme';
+import { useResponsive } from '../hooks/useResponsive';
 import { Calendar } from 'lucide-react';
 
 const BASE_OPTIONS = [
@@ -11,6 +12,7 @@ const BASE_OPTIONS = [
 const WEEKLY_OPTION = { value: 'weekly', label: 'Weekly' };
 
 export default function TimePeriodSelector({ timePeriod, setTimePeriod, hasWeekly }) {
+  const { isMobile } = useResponsive();
   const OPTIONS = hasWeekly ? [WEEKLY_OPTION, ...BASE_OPTIONS] : BASE_OPTIONS;
   return (
     <div
@@ -31,13 +33,13 @@ export default function TimePeriodSelector({ timePeriod, setTimePeriod, hasWeekl
             key={opt.value}
             onClick={() => setTimePeriod(opt.value)}
             style={{
-              padding: `${theme.spacing.xs} ${theme.spacing.md}`,
+              padding: isMobile ? '0.2rem 0.5rem' : '0.25rem 1rem',
               border: 'none',
               borderRadius: theme.borderRadius.sm,
               background: isActive ? theme.colors.primary : 'transparent',
               color: isActive ? '#ffffff' : theme.colors.textLight,
               fontFamily: theme.fonts.body,
-              fontSize: '0.8rem',
+              fontSize: isMobile ? '0.72rem' : '0.8rem',
               fontWeight: isActive ? 600 : 400,
               cursor: 'pointer',
               transition: 'all 0.15s ease',

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { theme } from '../styles/theme';
 import { formatValue, sumPeriod, MONTH_NAMES } from '../utils/timePeriodUtils';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function YTDOverview({
   trendData, currentData, comparisonData, fullPrevYearData,
@@ -10,6 +11,7 @@ export default function YTDOverview({
   yearA, yearB, periodLabel,
 }) {
   const useDollars = primaryMetric === 'dollars';
+  const { isMobile } = useResponsive();
 
   const { currentTotals, comparisonTotals, fullPrevTotals, monthlyTrend } = useMemo(() => {
     const cur = sumPeriod(currentData);
@@ -93,7 +95,7 @@ export default function YTDOverview({
 
       {/* Summary Cards */}
       <div style={{
-        display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(160px, 1fr))`,
+        display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(160px, 1fr))',
         gap: theme.spacing.md, marginBottom: theme.spacing.lg,
       }}>
         {cards.map((c, i) => (
@@ -120,13 +122,13 @@ export default function YTDOverview({
 
       {/* Trend Charts */}
       {monthlyTrend.length > 1 && yearA !== yearB && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: theme.spacing.md }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(380px, 1fr))', gap: theme.spacing.md }}>
           {/* Value by Month */}
           <div style={chartStyle}>
             <h4 style={{ fontFamily: theme.fonts.heading, fontSize: '0.9rem', fontWeight: 600, marginBottom: theme.spacing.sm }}>
               {useDollars ? 'Revenue' : 'Units'} by Month
             </h4>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={isMobile ? 160 : 200}>
               <LineChart data={monthlyTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />
@@ -144,7 +146,7 @@ export default function YTDOverview({
             <h4 style={{ fontFamily: theme.fonts.heading, fontSize: '0.9rem', fontWeight: 600, marginBottom: theme.spacing.sm }}>
               Active Products by Month
             </h4>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={isMobile ? 160 : 200}>
               <LineChart data={monthlyTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />
@@ -162,7 +164,7 @@ export default function YTDOverview({
             <h4 style={{ fontFamily: theme.fonts.heading, fontSize: '0.9rem', fontWeight: 600, marginBottom: theme.spacing.sm }}>
               Avg {useDollars ? 'Revenue' : 'Units'} per SKU by Month
             </h4>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={isMobile ? 160 : 200}>
               <LineChart data={monthlyTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border} />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { theme } from '../styles/theme';
 import { sumPeriod, formatValue } from '../utils/timePeriodUtils';
 import { DollarSign, ShoppingCart, TrendingUp, Package, Target } from 'lucide-react';
+import { useResponsive } from '../hooks/useResponsive';
 
 function ChangeBadge({ value, suffix = '%' }) {
   if (value == null || isNaN(value)) return null;
@@ -64,6 +65,8 @@ export default function ExecutiveSummary({
   }, [currentData, comparisonData, primaryMetric, timePeriod, isComplete,
       qepDollars, qepUnits, yepDollars, yepUnits, paceDollarsPct, paceUnitsPct, fullPrevYearData]);
 
+  const { isMobile } = useResponsive();
+
   if (!kpis) {
     return (
       <div style={{ padding: theme.spacing.xl, textAlign: 'center', color: theme.colors.textLight }}>
@@ -116,14 +119,14 @@ export default function ExecutiveSummary({
   return (
     <div>
       <h2 style={{
-        fontFamily: theme.fonts.heading, fontSize: '1.3rem',
+        fontFamily: theme.fonts.heading, fontSize: isMobile ? '1.1rem' : '1.3rem',
         color: theme.colors.secondary, marginBottom: theme.spacing.lg,
       }}>
         Executive Summary
       </h2>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gridTemplateColumns: isMobile ? 'repeat(auto-fit, minmax(150px, 1fr))' : 'repeat(auto-fit, minmax(220px, 1fr))',
         gap: theme.spacing.lg,
       }}>
         {cards.map((card, i) => {
@@ -131,7 +134,7 @@ export default function ExecutiveSummary({
           return (
             <div key={i} style={{
               background: theme.colors.cardBg, borderRadius: theme.borderRadius.lg,
-              boxShadow: theme.shadows.sm, padding: theme.spacing.xl,
+              boxShadow: theme.shadows.sm, padding: isMobile ? theme.spacing.md : theme.spacing.xl,
               display: 'flex', flexDirection: 'column', gap: theme.spacing.sm,
               borderTop: `3px solid ${card.color}`,
             }}>
@@ -150,7 +153,7 @@ export default function ExecutiveSummary({
                 </div>
               </div>
               <div style={{
-                fontFamily: theme.fonts.heading, fontSize: '1.8rem',
+                fontFamily: theme.fonts.heading, fontSize: isMobile ? '1.3rem' : '1.8rem',
                 fontWeight: 700, color: theme.colors.text,
               }}>
                 {card.value}
